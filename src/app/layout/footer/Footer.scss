@@ -1,0 +1,14 @@
+@import "../../../assets/variables/colors.scss";
+
+footer{
+    width: 100vw;
+    height: 60px;
+    flex-shrink: 0;
+    background: $dark-grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    bottom: 0px;
+    position: relative;
+}

@@ -1,0 +1,18 @@
+@import "../../../assets/variables/colors.scss";
+
+.departments-holder {
+    min-height: 400px;
+    min-width: 500px;
+    height: 90%;
+    width: 80%;
+    background-color: $main-grey;
+    border-radius: 10px;
+    box-sizing: border-box;
+    border: $main-grey-border 2px solid;
+    padding-bottom: 20px;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}

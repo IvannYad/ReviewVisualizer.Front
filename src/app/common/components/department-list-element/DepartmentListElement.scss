@@ -1,0 +1,58 @@
+@import "../../../../assets/variables/colors.scss";
+
+.departments-list-element {
+    margin: 20px 20px 0 20px;
+    height: 190px;
+    width: 140px;
+    border-radius: 7px;
+    background-color: $white;
+    border: $main-grey-border 2px solid;
+    position: relative;
+
+    .green-circle {
+        border-radius: 50%;
+        background-color: $dark-green;
+        height: 120px;
+        width: 120px;
+        margin: auto;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .department-icon {
+            border-radius: 50%;
+            background-color: $white;
+            height: 110px;
+            width: 110px;
+        }
+    }
+
+    .caption-holder {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        background-color: $dark-green;
+        border-radius: 0 0 5px 5px;
+        color: $white;
+        font-style: italic;
+    }
+}
+
+.departments-list-element:hover {
+    border: $gold 2px solid;
+
+    .green-circle {
+        background-color: $gold;
+    }
+
+    .caption-holder {
+        font-weight: 500;
+        color: $gold;
+    }
+}

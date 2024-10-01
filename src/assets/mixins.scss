@@ -1,0 +1,25 @@
+@import "./variables/colors.scss";
+
+@mixin flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin form-input-font{
+    color: #121212;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+@mixin form-input-label-font{
+    color: #121212 !important;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+}

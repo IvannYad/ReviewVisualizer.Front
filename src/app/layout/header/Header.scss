@@ -1,0 +1,25 @@
+@import "../../../assets/variables/colors.scss";
+
+header{
+    width: 100vw;
+    height: 60px;
+    flex-shrink: 0;
+    background: $dark-grey;
+    display: flex;
+    align-items: center;
+    a {
+        color: $white;
+        font-family: Inter;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: normal;
+        margin: 0 0 0 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+#checklist-header-icon{
+    width: auto;
+    height: 90%;
+}
