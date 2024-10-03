@@ -1,13 +1,13 @@
 import { Button, Form, GetProp, Input, message, Modal, Upload, UploadProps } from "antd";
 import "./AddDepartmentModal.scss"
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { useContext, useState } from "react";
-import { RcFile } from "antd/es/upload";
+import { useContext, useRef, useState } from "react";
 import { DepartmentApiContext } from "../../../layout/app/App";
+import { DepartmentCreate } from "../../../../models/Department";
 
 type AddDepartmentModalProps = {
     isOpen: boolean;
-    closeHandler: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+    closeHandler: () => void;
 }
 
 export default function AddDepartmentModal(props: AddDepartmentModalProps){
@@ -18,6 +18,7 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
     const [deptName, setDeptName] = useState<string>();
     const api = useContext(DepartmentApiContext);
     const [form] = Form.useForm();
+    const inputRef = useRef(null);
 
     if(!props.isOpen) return null;
 
@@ -62,51 +63,95 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
         return false;
     };
 
-    const cancel = async (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        event.preventDefault();
-
+    const cancel = async () => {
         setImageUrl(undefined);
-        if(imageName)
-            await api.unloadIcon(imageName);
         setImageName(undefined);
         setLoading(false);
-        props.closeHandler(event);
+        setDeptName(undefined);
+        form.resetFields();
+        props.closeHandler();
     };
 
+    const createDepartment = async (event: any) => {
+        if (!imageName) {
+            alert("Please upload image");
+            return;
+        }
+
+        const departmentCreate: DepartmentCreate = {
+            logoUrl: imageName,
+            name: deptName!,
+        }
+
+        await api.create(departmentCreate);
+        cancel();
+    }
+
+    console.log(deptName);
     return (
         <Modal
             className="add-department-modal"
             open={props.isOpen}
             centered={true}
             cancelText="Cancel"
-            footer={[
-                <Button className="button create-button" >Add</Button>,
-                <Button className="button cancel-button" onClick={cancel}>Cancel</Button>
-            ]}
+            footer={[]}
             >
             <Form
                 layout="vertical"
                 className="create-departments-form" 
-                onFinish={(event) => {}}
+                onFinish={(event) => createDepartment(event)}
                 form={form}
                 >
-                <Upload
-                    name={uploadName}
-                    listType="picture-card"
-                    className="avatar-uploader"
-                    showUploadList={false}
-                    beforeUpload={beforeUpload}
-                >
-                    {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : 
-                        <button style={{ border: 0, background: 'none' }} type="button">
-                            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                            <div style={{ marginTop: 8 }}>Upload</div>
-                        </button>
-                }
-                </Upload>
-                <Form.Item name="deptName" label={'Department name'}>
-                    <Input value={deptName}/>
-                </Form.Item>
+                <div className="inputs-holder">
+                    <Upload
+                        name={uploadName}
+                        listType="picture-card"
+                        className="avatar-uploader"
+                        showUploadList={false}
+                        beforeUpload={beforeUpload}
+                    >
+                        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : 
+                            <button style={{ border: 0, background: 'none' }} type="button">
+                                {loading ? <LoadingOutlined /> : <PlusOutlined />}
+                                <div style={{ marginTop: 8 }}>Upload</div>
+                            </button>
+                    }
+                    </Upload>
+                    <Form.Item name="deptName" label={'Department name'}
+                        rules={
+                            [
+                                { 
+                                    required: true, message: 'Please input the department name!' 
+                                },
+                                () =>({
+                                    validator(_, value){
+                                        if(value && (value.length < 2 || value.length > 10)){
+                                            return Promise.reject(new Error("Department name must be between 2 and 10"));
+                                        }
+                                        
+                                        const validDeptNameRegexp = /^[A-Z]+$/g;
+                                        if (!validDeptNameRegexp.test(value)) {
+                                            return Promise.reject(new Error("Department name is not of allowed format"));
+                                        }
+
+                                        return Promise.resolve();
+                                    }
+                                })
+                            ]
+                        }>
+                        <Input value={deptName} onChange={(e) => setDeptName(e.target.value)}/>
+                    </Form.Item>
+                </div>
+
+                <div className="buttons-holder">
+                    <Button className="button create-button" type="primary" htmlType="submit">Add</Button>
+                    <Button className="button cancel-button" onClick={async (e) => {
+                        e.preventDefault();
+                        if(imageName)
+                            await api.unloadIcon(imageName);
+                        cancel();
+                    }}>Cancel</Button>
+                </div>
             </Form>
         </Modal>
     )   

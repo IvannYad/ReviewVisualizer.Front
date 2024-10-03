@@ -1,10 +1,10 @@
 export type Department = {
     id: number,
     name: string,
-    iconUrl: string,
+    logoUrl: string,
 }
 
 export type DepartmentCreate = {
     name: string,
-    iconUrl: string,
+    logoUrl: string,
 }
