@@ -10,7 +10,7 @@ type DepartmentListElementProps = {
 export default function DepartmentListElement(props: DepartmentListElementProps){
     const imgFullPath = `${props.logoUrl}`;
     return (
-        <Link to={`${FRONTEND_ROUTES.BASE}/`} className="departments-list-element">
+        <Link to={`${FRONTEND_ROUTES.PAGES.DEPARTMENT_DETAILS}/`} className="departments-list-element">
             <div className="green-circle">
                 <img src={imgFullPath} className="department-icon" alt="IKNI"/>
             </div>

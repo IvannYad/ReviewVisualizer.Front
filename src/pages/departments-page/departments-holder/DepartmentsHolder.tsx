@@ -13,7 +13,7 @@ export default function DepartmentHolder(){
 
     const renderedDepartments = departments
         .map(d => (
-            <DepartmentListElement name={d.name} logoUrl={d.logoUrl}/>
+            <DepartmentListElement key={d.id} name={d.name} logoUrl={d.logoUrl}/>
         ))
     
     useEffect(() => {
@@ -23,7 +23,7 @@ export default function DepartmentHolder(){
                 if (res)
                     setDepartments(res);
             })
-    }, [isAddDepartmentModalOpen]) 
+    }, []) 
 
     return (
         <div className="departments-holder">

@@ -18,14 +18,14 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
     const [deptName, setDeptName] = useState<string>();
     const api = useContext(DepartmentApiContext);
     const [form] = Form.useForm();
-    const inputRef = useRef(null);
-
+    
     if(!props.isOpen) return null;
 
     type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
     const getBase64 = (img: FileType, callback: (url: string) => void) => {
         const reader = new FileReader();
+        console.log("Image");
         console.log(img);
         reader.addEventListener('load', () => callback(reader.result as string));
         reader.readAsDataURL(img);
@@ -43,22 +43,22 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
             return false;
         }
 
-        setLoading(true);
         if (imageName) {
             await api.unloadIcon(imageName);
         }
 
         await api.uploadIcon(uploadName, file)
-        .then(res => {
-            if (!res) return;
+            .then(res => {
+                console.log("Upload: " + res);
+                if (!res) return;
 
-            setImageName(res);
-            // Get this url from response in real world.
-            getBase64(file as FileType, (url) => {
-                setLoading(false);
-                setImageUrl(url);
-            });
-        })
+                setImageName(res);
+                // Get this url from response in real world.
+                getBase64(file as FileType, (url) => {
+                    setLoading(false);
+                    setImageUrl(url);
+                });
+            })
 
         return false;
     };

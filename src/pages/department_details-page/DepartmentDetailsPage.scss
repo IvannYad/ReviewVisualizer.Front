@@ -1,0 +1,63 @@
+@import "../../assets/variables/colors.scss";
+
+.department-details-page {
+    display: flex !important;
+    justify-content: center;
+    padding: 40px;
+    
+    .department-info-holder {
+        height: 70%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .main-info {
+            .dept-icon-holder {
+                height: 190px;
+                width: 190px;
+                background-color: $dark-green;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 5px;
+                border-radius: 5px;
+
+                .dept-icon {
+                    height: 170px;
+                }
+            }
+
+            .text-holder {
+                width: 190px;
+                text-align: center;
+                font-style: italic;
+                color: $dark-grey;
+                font-weight: 500;
+                margin-bottom: 5px;
+            }
+
+            .dept-name {
+                font-size: 25px;
+            }
+        }
+
+        .teachers-list {
+            border: red 2px solid;
+            height: 100% !important;
+            width: 75%;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            padding: 20px;
+            overflow-x: scroll;
+            border: 2px $main-grey-border solid;
+            border-radius: 10px;
+            background-color: $main-grey;
+        }
+
+        .teachers-list::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}

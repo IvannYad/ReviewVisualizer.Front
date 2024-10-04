@@ -1,0 +1,21 @@
+@import "../../../../assets/variables/colors.scss";
+
+.add-teacher-list-element {
+    height: 200px;
+    width: 140px;
+    border-radius: 7px;
+    background-color: $white;
+    border: $main-grey-border 4px solid;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $main-grey-border;
+    font-size: 60px;
+}
+
+.add-teacher-list-element:hover {
+    color: $gold;
+    border-color: $gold;
+}
