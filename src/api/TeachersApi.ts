@@ -1,32 +1,44 @@
 import axios, { AxiosResponse } from "axios";
-import { Department, DepartmentCreate } from "../models/Department";
-import IDepartmentApi from "./IDepartmentsApi";
 import { RcFile } from "antd/es/upload";
+import ITeacherApi from "./ITeachersApi";
+import { Teacher, TeacherCreate } from "../models/Teacher";
 
-export default class DepartmentApi implements IDepartmentApi{
+export default class TeacherApi implements ITeacherApi{
     private url: string;
     constructor(apiUrl: string){
         this.url = apiUrl;
     }
     
-    getAll(filter: ((department: Department) => boolean) | null): Promise<Department[] | void> {
-        let departmentsToReturn: Department[];
+    getAll(filter: ((teacher: Teacher) => boolean) | null): Promise<Teacher[] | void> {
+        let teachersToReturn: Teacher[];
         const promise = axios.get(this.url);
         const dataPromise = promise
             .then(response => {
-                console.log(response);
-                departmentsToReturn = response.data;
+                teachersToReturn = response.data;
                 if (filter){
-                    departmentsToReturn = departmentsToReturn!.filter((department: Department) => filter(department));
+                    teachersToReturn = teachersToReturn!.filter((teacher: Teacher) => filter(teacher));
                 }
-                return departmentsToReturn;
+                return teachersToReturn;
             })
             .catch(error => console.log(error))
 
         return dataPromise;
     }
 
-    get(id: number): Promise<Department | void> {
+    getAllForDepartment(deptId: number): Promise<Teacher[] | void> {
+        let teachersToReturn: Teacher[];
+        const promise = axios.get(`${this.url}/get-for-department/${deptId}`);
+        const dataPromise = promise
+            .then(response => {
+                teachersToReturn = response.data;
+                return teachersToReturn;
+            })
+            .catch(error => console.log(error))
+
+        return dataPromise;
+    }
+
+    get(id: number): Promise<Teacher | void> {
         return axios.get(`${this.url}/${id}`)
                     .then(response => {
                         return response.data;
@@ -34,9 +46,9 @@ export default class DepartmentApi implements IDepartmentApi{
                     .catch(error => console.log(error))
     }
 
-    create(department: DepartmentCreate): Promise<void> {
-        console.log(department);
-        return axios.post(this.url, department)
+    create(teacher: TeacherCreate): Promise<void> {
+        console.log(teacher);
+        return axios.post(this.url, teacher)
                     .then(res => {
                         console.log(res.data);
                     })
@@ -45,13 +57,14 @@ export default class DepartmentApi implements IDepartmentApi{
                     });
     }
 
-    update(id: number, newTeacher: Department): Promise<void> {
+    update(id: number, newTeacher: Teacher): Promise<void> {
         console.log(id, newTeacher);
         return axios.put(`${this.url}/${id}`, newTeacher)
                     .then(res => {
                         console.log("MyRes" + res);
                     });
     }
+
     remove(id: number): Promise<void> {
         return axios.delete(`${this.url}/${id}`)
                     .then(res => {

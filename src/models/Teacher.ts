@@ -1,10 +1,36 @@
 export type Teacher = {
     id: number,
-    name: string,
-    iconUrl: string,
+    firstName: string,
+    lastName: string,
+    academicDegree: AcademicDegree,
+    academicRank: AcademicRank,
+    photoUrl: string,
+    rating: number
+    departmentId: number
 }
 
-export type DepartmentCreate = {
-    name: string,
-    iconUrl: string,
+export type TeacherCreate = {
+    firstName: string,
+    lastName: string,
+    academicDegree: AcademicDegree,
+    academicRank: AcademicRank,
+    photoUrl: string,
+    departmentId: number
+}
+
+export enum AcademicDegree {
+    NotSelected = -1,
+    Associate = 0,
+    Batchelor,
+    Master,
+    Doctoral
+}
+
+export enum AcademicRank {
+    NotSelected = -1,
+    Assistant = 0,
+    Lecturer,
+    SeniorResearcher,
+    AssociateProfessor,
+    FullProfessor
 }

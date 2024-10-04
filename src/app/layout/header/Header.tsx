@@ -5,7 +5,7 @@ import "./Header.scss"
 export default function MainHeader(){
     return (
         <header>
-            <Link to={FRONTEND_ROUTES.BASE} >Review Visualizer</Link>
+            <Link to={FRONTEND_ROUTES.BASE} >ReviewVisualizer</Link>
             <Link to={FRONTEND_ROUTES.PAGES.DEPARTMENTS} >Departments</Link>
         </header>
     )   

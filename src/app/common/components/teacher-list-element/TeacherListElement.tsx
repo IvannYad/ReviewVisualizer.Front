@@ -2,19 +2,20 @@ import { Link } from "react-router-dom"
 import "./TeacherListElement.scss"
 import FRONTEND_ROUTES from "../../constants/frontend-routes.constants"
 
-type DepartmentListElementProps = {
+type TeacherListElementProps = {
+    id: number;
     name: string,
-    logoUrl: string,
+    photoUrl: string,
 }
 
-export default function TeacherListElement(){
+export default function TeacherListElement(props: TeacherListElementProps){
     return (
         <Link to={`${FRONTEND_ROUTES.PAGES.DEPARTMENT_DETAILS}/`} className="teachers-list-element">
             <div className="blue-circle">
-                <img src={`/icons/departments_1c54442b-c16a-4ee1-a8e3-271827ea30b9_ITRE.png`} className="department-icon" alt="IKNI"/>
+                <img src={props.photoUrl} className="teacher-icon" alt={props.name} />
             </div>
             <div className="caption-holder">
-                asdasdasdasd
+                {props.name}
             </div>
         </Link>
     )   

@@ -1,0 +1,166 @@
+@import "../../../../assets/variables/colors.scss";
+
+.add-teacher-modal{
+    width: fit-content !important;
+
+    .ant-modal-content{
+        width: 600px;
+        height: 500px;
+        border-radius: 10px;
+        background-color: $white;
+        border: 2px solid $main-grey-border;
+        position: relative;
+        padding: 10px 20px;
+    
+        .ant-modal-close {
+            display: none;
+        }
+    
+        .ant-modal-body{
+            height: 80%;
+            width: 100%;
+            
+            .create-teacher-form {
+                height: 100%;
+                width: 100%;
+                
+                .inputs-holder {
+                    height: 100%;
+                    display: block;
+                    
+                    .main-info-holder {
+                        height: 80%;
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+
+                        .ant-upload-wrapper {
+                            height: 90%;
+                            width: 40%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            
+                            .ant-upload {
+                                background-color: $input-white;
+                                height: 70%;
+                                width: 80%;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+
+                                button {
+                                    color: $dark-grey !important;
+                                }
+                            }
+
+                            .ant-upload-select:hover {
+                                border: 2px dashed $gold;
+                                button {
+                                    color: $gold !important;
+                                }
+                            }
+        
+                        }
+        
+                        .name-input-holder {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            gap: 25px;
+                            
+                            .ant-form-item {
+                                width: 100%;
+                                margin-bottom: 0;
+                            }
+                        }
+        
+                        label {
+                            font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;;
+                            font-size: 16px;
+                            font-weight: 600;
+                            color: $dark-grey !important;
+                        }
+        
+                        .ant-col {
+                            padding: 0;
+                        }
+        
+                        input {
+                            color: $dark-grey;
+                            font-size: 16px;
+                            background-color: $input-white;
+                            font-weight: 500;
+                            font-style: italic;
+                        }
+        
+                        input:active, input:hover, input:focus {
+                            border: $gold 2px solid;
+                        }
+                    }
+
+                    .academic-input-holder {
+                        height: 20%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+
+                        .ant-select {
+                            width: 40%;
+
+                            .ant-select-selector {
+                                background-color: $main-grey;
+                                font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;;
+                                font-size: 14px;
+                                font-weight: 600;
+                                color: $dark-grey !important;
+                            }
+                        }
+                    }
+                }
+
+                .buttons-holder{
+                    display: none;
+                    margin-top: 0;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    height: 20%;
+        
+                    .button {
+                        color: $white;
+                        font-size: 15px;
+                        width: 40%;
+                    }
+        
+                    .create-button {
+                        font-weight: bold;
+                        
+                        background-color: $blue;
+                    }
+        
+                    .create-button:hover {
+                        border: 3px solid $gold !important;
+                        color: $gold;
+                    }
+        
+                    .cancel-button {
+                        font-weight: bold;
+                        background-color: $red;
+                    }
+        
+                    .cancel-button:hover {
+                        font-weight: bold;
+                        border: 3px solid $gold !important;
+                        color: $gold;
+                    }
+                }
+            }
+            
+        }
+    
+        
+    }
+}

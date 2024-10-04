@@ -6,7 +6,7 @@
     width: 140px !important;
     border-radius: 7px;
     background-color: $white;
-    border: $main-grey-border 2px solid;
+    border: $dark-blue 2px solid;
     position: relative;
     margin-right: 30px;
     padding: 0 10px 0 10px;
@@ -22,7 +22,7 @@
         justify-content: center;
         align-items: center;
 
-        .department-icon {
+        .teacher-icon {
             border-radius: 50%;
             background-color: $white;
             height: 110px;

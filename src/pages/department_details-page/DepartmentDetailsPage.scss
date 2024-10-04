@@ -11,12 +11,18 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        background-color: $dark-green;
+        padding: 0 20px;
+        border-radius: 5px;
 
         .main-info {
+            margin-right: 50px;
+            background-color: $gold;
+            padding: 10px 0;
+
             .dept-icon-holder {
                 height: 190px;
                 width: 190px;
-                background-color: $dark-green;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -25,6 +31,7 @@
 
                 .dept-icon {
                     height: 170px;
+                    border-radius: 10px;
                 }
             }
 
