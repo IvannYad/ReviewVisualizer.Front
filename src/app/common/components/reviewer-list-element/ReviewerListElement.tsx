@@ -1,6 +1,8 @@
 import "./ReviewerListElement.scss"
 import { Teacher } from "../../../../models/Teacher";
 import { Slider } from "antd";
+import { CaretRightOutlined, DeleteOutlined, EditOutlined, PauseOutlined } from "@ant-design/icons";
+import SmallTeacherListElement from "../small-teacher-list-element/SmallTeacherListElement";
 
 type ReviewerListElementProps = {
     id: number;
@@ -33,6 +35,7 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
     const teachingQualityRange = [props.teachingQualityMinGrage, props.teachingQualityMaxGrage];
     const studentSupportRange = [props.studentsSupportMinGrage, props.studentsSupportMaxGrage];
     const communicationRange = [props.communicationMinGrage, props.communicationMaxGrage];
+    const stopResumeButtonClass = props.isStopped ? "stopped-button" : "running-button";
 
     console.log(teachingQualityRange);
     console.log(studentSupportRange);
@@ -104,18 +107,22 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
             </div>
             <div className="teachers-list-container">
                 <div className="teachers-list-holder">
-
+                    <SmallTeacherListElement id={1} name="ASDSDS" photoUrl="/"/>
+                    <SmallTeacherListElement id={1} name="ASDSDS" photoUrl="/"/>
+                    <SmallTeacherListElement id={1} name="ASDSDS" photoUrl="/"/>
+                    <SmallTeacherListElement id={1} name="ASDSDS" photoUrl="/"/>
+                    
                 </div>
             </div>
             <div className="buttons-container">
-                <div className="stop-resume-button">
-
+                <div className={`${stopResumeButtonClass} button`}>
+                    {props.isStopped ? <CaretRightOutlined /> : <PauseOutlined />}
                 </div>
-                <div className="edit-button">
-
+                <div className="edit-button button">
+                    <EditOutlined />
                 </div>
-                <div className="delete-button">
-
+                <div className="delete-button button">
+                    <DeleteOutlined />
                 </div>
             </div>
         </div>

@@ -14,6 +14,12 @@ export default function GeneratorPage(){
                     teachingQualityMinGrage={10} teachingQualityMaxGrage={40}
                     isStopped={false}
                     teachers={[]}/>
+                <ReviewerListElement id={1} name="sdfsd" reviewGenerationFrequensyMiliseconds={10}
+                    studentsSupportMinGrage={20} studentsSupportMaxGrage={30}
+                    communicationMinGrage={78} communicationMaxGrage={100}
+                    teachingQualityMinGrage={10} teachingQualityMaxGrage={40}
+                    isStopped={true}
+                    teachers={[]}/>
            </div>
         </main>
     )   
