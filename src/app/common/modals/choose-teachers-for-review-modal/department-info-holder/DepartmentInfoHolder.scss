@@ -1,0 +1,75 @@
+@import "../../../../../assets/variables/colors.scss";
+
+.department-info-element {
+    width: 95%;
+    background-color: $main-grey;
+    margin-bottom: 10px;
+    border: 2px solid $main-grey-border;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    
+    .element {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        .department-info-holder {
+            width: 90%;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 20%;
+            
+            .department-icon {
+                height: 100px;
+                margin: 0;
+            }
+    
+            .department-name {
+                text-align: center;
+                font-style: italic;
+                color: $dark-grey;
+                font-weight: 500;
+                margin-bottom: 5px;
+                font-size: 20px;
+            }
+        }
+    
+        .expander {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            height: 100%;
+            width: 10%;
+            background-color: $dark-green;
+            border-radius: 0 8px 8px 0;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+    
+            .arrow {
+                color: $gold;
+                font-size: 24px;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .teachers-holder {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 20px 0;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .teacher-small-item {
+            height: 50px;
+        }
+    }
+}

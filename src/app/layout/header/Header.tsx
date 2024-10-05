@@ -7,6 +7,7 @@ export default function MainHeader(){
         <header>
             <Link to={FRONTEND_ROUTES.BASE} >ReviewVisualizer</Link>
             <Link to={FRONTEND_ROUTES.PAGES.DEPARTMENTS} >Departments</Link>
+            <Link to={FRONTEND_ROUTES.PAGES.GENERATOR} >Generator</Link>
         </header>
     )   
 }

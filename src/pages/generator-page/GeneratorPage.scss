@@ -1,0 +1,18 @@
+@import "../../assets/variables/colors.scss";
+
+.generator-page {
+    padding: 30px 60px 40px 60px;
+
+    .title {
+        margin: 0;
+        font-size: 30px;
+        color: $dark-grey;
+    }
+
+    .reviewers-holder {
+        margin-top: 20px;
+        border: 2px solid $main-grey-border;
+        border-radius: 10px;
+        padding: 10px 20px;
+    }
+}

@@ -1,0 +1,76 @@
+@import "../../../../assets/variables/colors.scss";
+
+.choose-teachers-for-review-modal {
+    height: fit-content;
+    width: fit-content !important;
+
+    >div {
+        height: fit-content;
+        width: fit-content;
+    }
+
+    .ant-modal-content {
+        width: 650px;
+        height: 450px;
+        border-radius: 10px;
+        background-color: $white;
+        border: 2px solid $main-grey-border;
+        position: relative;
+        padding: 30px 20px 10px 20px;
+
+        .ant-modal-close {
+            display: none;
+        }
+
+        .ant-modal-body {
+            height: 85%;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            overflow-y: scroll;
+        }
+
+        .ant-modal-footer {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 0;
+            height: 15%;
+
+            .button {
+                color: $white;
+                font-size: 15px;
+                width: 45%;
+            }
+
+            .create-button {
+                font-weight: bold;
+                
+                background-color: $blue;
+            }
+
+            .create-button:hover {
+                border: 3px solid $gold !important;
+                color: $gold;
+            }
+
+            .create-button:disabled {
+                background-color: $disabled-dark-blue;
+                border: 0 !important;
+                color: $white !important;
+            }
+
+            .cancel-button {
+                font-weight: bold;
+                background-color: $red;
+            }
+
+            .cancel-button:hover {
+                font-weight: bold;
+                border: 3px solid $gold !important;
+                color: $gold;
+            }
+        }
+    }
+}

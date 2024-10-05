@@ -1,0 +1,98 @@
+@import "../../../../assets/variables/colors.scss";
+
+.reviewer-list-element {
+    height: 140px;
+    width: 100%;
+    border: 2px solid $reviewer-list-element-border;
+    background-color: $reviewer-list-element;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    
+    .info-holder-container {
+        height: 100%;
+        width: 35%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .name-period-holder {
+            height: 100%;
+            width: 40%;
+
+           .reviewer-name {
+                height: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                font-weight: 600;
+                font-style: italic;
+                color: $dark-grey;
+            }
+
+            .generation-period {
+                height: 40%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                font-weight: 600;
+                font-style: italic;
+                color: $dark-grey;
+            } 
+        }
+
+        .grades-holder {
+            height: 100%;
+            width: 60%;
+            padding: 5px 10px;
+            box-sizing: border-box;
+
+            >div {
+                font-size: 14px;
+                font-weight: 600;
+                font-style: italic;
+                color: $dark-grey;
+            }
+            
+            .ant-slider-disabled{
+                cursor: pointer !important;
+                margin-left: 0;
+                margin-right: 0;
+                margin-top: 2px;
+            }
+            
+            .ant-slider-handle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .ant-slider-handle::after {
+                position: relative;
+                cursor: pointer !important;
+                height: 3px;
+                width: 3px;
+            }
+        }
+        
+    }
+
+    .teachers-list-container {
+        height: 100%;
+        flex-grow: 1;
+        border: 2px solid $main-grey-border;
+        margin: 0 15px;
+        box-sizing: border-box;
+    }
+
+    .buttons-container {
+        height: 100%;
+        width: 10%;
+        max-width: 60px;
+    }
+}
+

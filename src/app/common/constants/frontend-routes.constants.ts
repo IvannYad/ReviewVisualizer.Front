@@ -4,6 +4,7 @@ const FRONTEND_ROUTES = {
         DEPARTMENTS: '/departments',
         DEPARTMENT_DETAILS: '/department_details',
         TEACHER_DETAILS: '/teacher_details',
+        GENERATOR: '/generator'
     },
 };
 
