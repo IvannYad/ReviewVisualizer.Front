@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Reviewer, ReviewerCreate } from "../models/Reviewer";
 import IReviewerApi from "./IReviewerApi";
+import { Teacher } from "../models/Teacher";
 
 export default class ReviewerApi implements IReviewerApi{
     private url: string;
@@ -64,30 +65,20 @@ export default class ReviewerApi implements IReviewerApi{
                     });
     }
 
-    addTeachers(teacherIds: number[]): Promise<void> {
-        return axios.post(`${this.url}/add-teachers`, {
-                data:{
-                    teacherIds: teacherIds
-                }
-            }).then(res => {
-                console.log(res.data);
+    addTeachers(reviewerId: number, teacherIds: number[]): Promise<void | Teacher[]> {
+        return axios.post(`${this.url}/add-teachers?reviewerId=${reviewerId}`, teacherIds)
+            .then(res => {
+                return res.data;
             })
-            .catch(error => {
-                console.log(error);
-            });
+            .catch(error => console.log(error));
     }
 
-    removeTeachers(teacherIds: number[]): Promise<void> {
-        return axios.post(`${this.url}/remove-teachers`, {
-                data:{
-                    teacherIds: teacherIds
-                }
-            }).then(res => {
-                console.log(res.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+    removeTeachers(reviewerId: number, teacherIds: number[]): Promise<void | number[]> {
+        return axios.post(`${this.url}/remove-teachers?reviewerId=${reviewerId}`, teacherIds)
+        .then(res => {
+            return res.data;
+        })
+        .catch(error => console.log(error));
     }
 
 }

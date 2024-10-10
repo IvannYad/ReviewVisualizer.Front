@@ -3,22 +3,23 @@ import "./ChooseTeachersForReviewModal.scss"
 import DepartmentInfoHolder from "./department-info-holder/DepartmentInfoHolder"
 import { useContext, useEffect, useState } from "react"
 import { Department } from "../../../../models/Department";
-import { DepartmentApiContext, TeacherApiContext } from "../../../layout/app/App";
+import { DepartmentApiContext, ReviewerApiContext } from "../../../layout/app/App";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Teacher } from "../../../../models/Teacher";
 
 type ChooseTeachersForReviewModalProps = {
     isOpen: boolean;
     closeHandler: () => void;
-    setTeachers: React.Dispatch<React.SetStateAction<Teacher[]>>,
-    teachersAlreadyUnderReview: Teacher[]
+    setTeachers: React.Dispatch<React.SetStateAction<Teacher[]>>;
+    teachersAlreadyUnderReview: Teacher[];
+    reviewerId: number;
 }
 
 export default function ChooseTeachersForReviewModal(props: ChooseTeachersForReviewModalProps){
     const [selectedTeacherIds, setSelectedTeachersIds] = useState<number[]>([]);
     const [departments, setDepartments] = useState<Department[]>([]);
-    const teacherApi = useContext(TeacherApiContext);
     const departmentApi = useContext(DepartmentApiContext);
+    const reviewerApi = useContext(ReviewerApiContext);
 
     useEffect(() => {
         departmentApi.getAll(null)
@@ -33,12 +34,26 @@ export default function ChooseTeachersForReviewModal(props: ChooseTeachersForRev
             <DepartmentInfoHolder key={d.id} 
                 department={d} 
                 setSelectedTeachersIds={setSelectedTeachersIds}
-                teacherIds={selectedTeacherIds}/>
+                teacherIds={selectedTeacherIds}
+                alreadyExistingTeachersIds={props.teachersAlreadyUnderReview.map(t => t.id)}/>
         )
     })
 
-    console.log(departments);
-    console.log(departments.length);
+    const addTeachersToReviewer: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void = (e) => {
+        e.preventDefault();
+        reviewerApi.addTeachers(props.reviewerId, selectedTeacherIds)
+            .then(res => {
+                if (res)
+                    props.setTeachers([ ...props.teachersAlreadyUnderReview, ...res ]);
+                close();
+            });
+    }
+
+    const close = () => {
+        setSelectedTeachersIds([]);
+        props.closeHandler();
+    }
+
     return (
         <Modal
             className="choose-teachers-for-review-modal"
@@ -46,8 +61,12 @@ export default function ChooseTeachersForReviewModal(props: ChooseTeachersForRev
             centered={true}
             cancelText="Cancel"
             footer={[
-                <Button className="button create-button" type="primary" htmlType="submit" disabled={selectedTeacherIds.length <= 0}>Select</Button>,
-                <Button className="button cancel-button" onClick={async (e) => props.closeHandler()}>Cancel</Button>
+                <Button className="button create-button" 
+                    type="primary" 
+                    htmlType="submit" 
+                    disabled={selectedTeacherIds.length <= 0}
+                    onClick={addTeachersToReviewer}>Select</Button>,
+                <Button className="button cancel-button" onClick={close}>Cancel</Button>
             ]}
             >
                 {departments && departments.length > 0 ? renderedDepartments() : <LoadingOutlined /> }

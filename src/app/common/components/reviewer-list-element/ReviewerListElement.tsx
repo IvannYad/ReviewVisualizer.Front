@@ -8,6 +8,7 @@ import { useContext, useState } from "react";
 import { Teacher } from "../../../../models/Teacher";
 import ChooseTeachersForReviewModal from "../../modals/choose-teachers-for-review-modal/ChooseTeachersForReviewModal";
 import AddTeacherButton from "./add-teacher-button/AddTeacherButton";
+import TeacherListElementWrapper from "./teacher-list-element-wrapper/TeacherListElementWrapper";
 
 type ReviewerListElementProps = {
     reviewer: Reviewer
@@ -47,6 +48,18 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
             .then(res => {
                 if (typeof res == "boolean" && res) setIsStopped(true);
             })
+    }
+
+    const deleteFunc = (id: number) => {
+        reviewerApi.removeTeachers(props.reviewer.id, [id])
+            .then((res) => {
+                if (res) {
+                    const teachersWithoutDeleted = teachers.filter(t => !res.includes(t.id));
+    
+                    setTeachers([ ...teachersWithoutDeleted ]);
+                }
+            })
+            .catch((error) => console.log(error));
     }
 
     const stopResumeButtonClass = teachers.length < 1 ? "disabled-button" : isStopped ? "stopped-button" : "running-button";
@@ -117,9 +130,10 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
             </div>
             <div className="teachers-list-container">
                 <div className="teachers-list-holder">
-                    <SmallTeacherListElement id={1} name="ASDSDS" photoUrl="/"/>
-                    <SmallTeacherListElement id={1} name="ASDSDS" photoUrl="/"/>
-                    <SmallTeacherListElement id={1} name="ASDSDS" photoUrl="/"/>
+                    {teachers && teachers.map(t => (
+                        <TeacherListElementWrapper id={t.id} name={`${t.firstName} ${t.lastName}`} 
+                            photoUrl={`${process.env.REACT_APP_IMAGE_SERVER_URL!}/${t.photoUrl}`} deleteFunc={deleteFunc}/>
+                    ))}
                     <AddTeacherButton setAddTeacherModalVisibility={setChooseTeacherModalOpen}/>
                 </div>
             </div>
@@ -145,7 +159,8 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
             <ChooseTeachersForReviewModal isOpen={isChooseTeacherModalOpen}
                 closeHandler={() => setChooseTeacherModalOpen(false)}
                 setTeachers={setTeachers}
-                teachersAlreadyUnderReview={[]}/>
+                teachersAlreadyUnderReview={teachers}
+                reviewerId={props.reviewer.id}/>
         </div>
     )   
 }

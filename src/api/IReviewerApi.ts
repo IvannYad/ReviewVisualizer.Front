@@ -1,4 +1,5 @@
 import { Reviewer, ReviewerCreate } from "../models/Reviewer";
+import { Teacher } from "../models/Teacher";
 
 export default interface IReviewerApi{
     getAll(): Promise<Reviewer[] | void>;
@@ -9,6 +10,6 @@ export default interface IReviewerApi{
     startReviewer(reviewerId: number): Promise<boolean | void>;
     stopReviewer(reviewerId: number): Promise<boolean | void>;
     
-    addTeachers(teacherIds: number[]): Promise<void>;
-    removeTeachers(teacheIds: number[]): Promise<void>;
+    addTeachers(reviewerId: number, teacherIds: number[]): Promise<void | Teacher[]>;
+    removeTeachers(reviewerId: number, teacheIds: number[]): Promise<void | number[]>;
 }

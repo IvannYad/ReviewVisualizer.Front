@@ -1,0 +1,35 @@
+@import "../../../../../../assets/variables/colors.scss";
+
+.list-element-holder {
+    height: 140px !important;
+    width: fit-content;
+    position: relative;
+    margin-right: 20px;
+}
+
+.selected-curtain {
+    position: absolute;
+    top: 0;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    background-color: $selected-teachet-curtain;
+    border-radius: 7px;
+    cursor: not-allowed;
+}
+
+.active-selected {
+    position: absolute;
+    top: 0;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    background-color: $light-green;
+    border: 2px solid $light-green-font;
+    border-radius: 7px;
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+}
