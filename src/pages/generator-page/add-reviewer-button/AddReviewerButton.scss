@@ -1,0 +1,22 @@
+@import "../../../assets/variables/colors.scss";
+
+.add-reviewer-button {
+    height: 40px;
+    width: 100%;
+    border-radius: 7px;
+    background-color: $white;
+    border: $main-grey-border 2px solid;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $main-grey-border;
+    font-size: 35px;
+    background-color: $main-grey;
+}
+
+.add-reviewer-button:hover {
+    color: $gold;
+    border-color: $gold;
+}

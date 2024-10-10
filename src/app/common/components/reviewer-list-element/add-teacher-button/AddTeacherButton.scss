@@ -1,0 +1,23 @@
+@import "../../../../../assets/variables/colors.scss";
+
+.add-teacher-button {
+    height: 140px !important;
+    width: 90px !important;
+    border-radius: 5px;
+    background-color: $white;
+    border: $main-grey-border 2px solid;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $main-grey-border;
+    font-size: 40px;
+    padding: 0 10px 0 10px;
+    cursor: pointer;
+}
+
+.add-teacher-button:hover {
+    color: $gold;
+    border-color: $gold;
+}

@@ -12,7 +12,7 @@ type AddDepartmentModalProps = {
 
 const defaultTeacher: TeacherCreate = { firstName: "", lastName: "", academicRank: -1, academicDegree: -1, photoUrl: "", departmentId: -1 };
 
-export default function AddDepartmentModal(props: AddDepartmentModalProps){
+export default function AddTeacherModal(props: AddDepartmentModalProps){
     const uploadName = 'deptIcon';
     const academicDegreeKeys = Object.keys(AcademicDegree).filter(item => !isNaN(Number(item))).filter(k => +k !== -1);
     const academicRankKeys = Object.keys(AcademicRank).filter(item => !isNaN(Number(item))).filter(k => +k !== -1);

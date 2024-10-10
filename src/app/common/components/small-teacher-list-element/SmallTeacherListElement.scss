@@ -1,15 +1,20 @@
 @import "../../../../assets/variables/colors.scss";
 
+.list-element-holder {
+    height: 140px !important;
+    width: fit-content;
+    position: relative;
+    margin-right: 20px;
+}
 .small-teacher-list-element {
     display: block;
-    height: 140px !important;
-    width: 90px !important;
+    height: 100% !important;
+    width: 110px !important;
     border-radius: 7px;
     background-color: $white;
     border: $dark-blue 2px solid;
     position: relative;
-    margin-right: 30px;
-    padding: 0 10px 0 10px;
+    
     
     .teacher-icon {
         position: absolute;
@@ -32,21 +37,28 @@
         align-items: center;
         height: 30px;
         background-color: $dark-blue;
-        border-radius: 0 0 5px 5px;
+        border-radius: 0 0 4px 4px;
         color: $white;
         font-style: italic;
     }
 }
 
-.teachers-list-element:hover {
+.small-teacher-list-element:hover {
     border: $gold 2px solid;
-
-    .blue-circle {
-        background-color: $gold;
-    }
 
     .caption-holder {
         font-weight: 500;
         color: $gold;
     }
+}
+
+.selected-curtain {
+    position: absolute;
+    top: 0;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    background-color: $selected-teachet-curtain;
+    border-radius: 7px;
+    cursor: not-allowed;
 }

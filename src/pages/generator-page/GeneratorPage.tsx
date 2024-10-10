@@ -1,26 +1,47 @@
+import { useContext, useEffect, useState } from "react";
 import ReviewerListElement from "../../app/common/components/reviewer-list-element/ReviewerListElement"
-import ChooseTeachersForReviewModal from "../../app/common/modals/choose-teachers-for-review-modal/ChooseTeachersForReviewModal"
+import AddReviewerModal from "../../app/common/modals/add-reviewer-modal/AddReviewerModal"
 import "./GeneratorPage.scss"
+import AddReviewerButton from "./add-reviewer-button/AddReviewerButton";
+import { ReviewerApiContext } from "../../app/layout/app/App";
+import { Reviewer } from "../../models/Reviewer";
+import { LoadingOutlined } from "@ant-design/icons";
+import ChooseTeachersForReviewModal from "../../app/common/modals/choose-teachers-for-review-modal/ChooseTeachersForReviewModal";
 
 
 export default function GeneratorPage(){
+    const [isAddReviewerModalOpen, setAddReviewerModalOpen] = useState(false);
+    const [reviewers, setReviewers] = useState<Reviewer[] | null>(null);
+    const reviewerApi = useContext(ReviewerApiContext);
+
+    useEffect(() => {
+        if (!isAddReviewerModalOpen){
+            reviewerApi.getAll()
+            .then(res => {
+                if(res){
+                    setReviewers([ ...res ])
+                } else {
+                    setReviewers(null)
+                };
+            })
+        }
+         
+    }, [isAddReviewerModalOpen])
+
     return (
         <main className="page generator-page">
            <h1 className="title">Generator</h1>
            <div className="reviewers-holder">
-                <ReviewerListElement id={1} name="sdfsd" reviewGenerationFrequensyMiliseconds={10}
-                    studentsSupportMinGrage={20} studentsSupportMaxGrage={30}
-                    communicationMinGrage={89} communicationMaxGrage={93}
-                    teachingQualityMinGrage={10} teachingQualityMaxGrage={40}
-                    isStopped={false}
-                    teachers={[]}/>
-                <ReviewerListElement id={1} name="sdfsd" reviewGenerationFrequensyMiliseconds={10}
-                    studentsSupportMinGrage={20} studentsSupportMaxGrage={30}
-                    communicationMinGrage={78} communicationMaxGrage={100}
-                    teachingQualityMinGrage={10} teachingQualityMaxGrage={40}
-                    isStopped={true}
-                    teachers={[]}/>
+                {reviewers == null ? <LoadingOutlined /> : reviewers
+                                                                .map(t => {
+                                                                    return (
+                                                                        <ReviewerListElement key={t.id} reviewer={t}/>
+                                                                    )
+                                                                })
+                }
+                <AddReviewerButton setAddReviewerModalOpen={setAddReviewerModalOpen}/>
            </div>
+           <AddReviewerModal isOpen={isAddReviewerModalOpen} closeHandler={() => setAddReviewerModalOpen(false)}/>
         </main>
     )   
 }

@@ -1,21 +1,16 @@
 import "./ReviewerListElement.scss"
-import { Teacher } from "../../../../models/Teacher";
-import { Slider } from "antd";
+import { Button, Slider } from "antd";
 import { CaretRightOutlined, DeleteOutlined, EditOutlined, PauseOutlined } from "@ant-design/icons";
 import SmallTeacherListElement from "../small-teacher-list-element/SmallTeacherListElement";
+import { Reviewer } from "../../../../models/Reviewer";
+import { ReviewerApiContext } from "../../../layout/app/App";
+import { useContext, useState } from "react";
+import { Teacher } from "../../../../models/Teacher";
+import ChooseTeachersForReviewModal from "../../modals/choose-teachers-for-review-modal/ChooseTeachersForReviewModal";
+import AddTeacherButton from "./add-teacher-button/AddTeacherButton";
 
 type ReviewerListElementProps = {
-    id: number;
-    name: string;
-    reviewGenerationFrequensyMiliseconds: number;
-    teachingQualityMinGrage: number;
-    teachingQualityMaxGrage: number;
-    studentsSupportMinGrage: number;
-    studentsSupportMaxGrage: number;
-    communicationMinGrage: number;
-    communicationMaxGrage: number;
-    isStopped: boolean;
-    teachers: Teacher[];
+    reviewer: Reviewer
 }
 
 function getGradientColor(percentage: number) {
@@ -29,24 +24,39 @@ function getGradientColor(percentage: number) {
     });
   
     return `rgb(${midColor.join(',')})`;
-  }
+}
 
 export default function ReviewerListElement(props: ReviewerListElementProps){
-    const teachingQualityRange = [props.teachingQualityMinGrage, props.teachingQualityMaxGrage];
-    const studentSupportRange = [props.studentsSupportMinGrage, props.studentsSupportMaxGrage];
-    const communicationRange = [props.communicationMinGrage, props.communicationMaxGrage];
-    const stopResumeButtonClass = props.isStopped ? "stopped-button" : "running-button";
+    const [teachers, setTeachers] = useState<Teacher[]>(props.reviewer.teachers);
+    const [isStopped, setIsStopped] = useState(props.reviewer.isStopped);
+    const [isChooseTeacherModalOpen, setChooseTeacherModalOpen] = useState(false);
+    const teachingQualityRange = [props.reviewer.teachingQualityMinGrage, props.reviewer.teachingQualityMaxGrage];
+    const studentSupportRange = [props.reviewer.studentsSupportMinGrage, props.reviewer.studentsSupportMaxGrage];
+    const communicationRange = [props.reviewer.communicationMinGrage, props.reviewer.communicationMaxGrage];
+    const reviewerApi = useContext(ReviewerApiContext);
 
-    console.log(teachingQualityRange);
-    console.log(studentSupportRange);
-    console.log(communicationRange);
+    const startReviewer = () => {
+        reviewerApi.startReviewer(props.reviewer.id)
+            .then(res => {
+                if (typeof res == "boolean" && res) setIsStopped(false);
+            })
+    }
+
+    const stopReviewer = () => {
+        reviewerApi.stopReviewer(props.reviewer.id)
+            .then(res => {
+                if (typeof res == "boolean" && res) setIsStopped(true);
+            })
+    }
+
+    const stopResumeButtonClass = teachers.length < 1 ? "disabled-button" : isStopped ? "stopped-button" : "running-button";
     
     return (
         <div className="reviewer-list-element">
             <div className="info-holder-container">
                 <div className="name-period-holder">
-                    <div className="reviewer-name">{props.name}</div>
-                    <div className="generation-period">Period: {props.reviewGenerationFrequensyMiliseconds} ms</div>
+                    <div className="reviewer-name">{props.reviewer.name}</div>
+                    <div className="generation-period">Period: {props.reviewer.reviewGenerationFrequensyMiliseconds} ms</div>
                 </div>
                 <div className="grades-holder">
                     <div>
@@ -110,21 +120,32 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
                     <SmallTeacherListElement id={1} name="ASDSDS" photoUrl="/"/>
                     <SmallTeacherListElement id={1} name="ASDSDS" photoUrl="/"/>
                     <SmallTeacherListElement id={1} name="ASDSDS" photoUrl="/"/>
-                    <SmallTeacherListElement id={1} name="ASDSDS" photoUrl="/"/>
-                    
+                    <AddTeacherButton setAddTeacherModalVisibility={setChooseTeacherModalOpen}/>
                 </div>
             </div>
             <div className="buttons-container">
-                <div className={`${stopResumeButtonClass} button`}>
-                    {props.isStopped ? <CaretRightOutlined /> : <PauseOutlined />}
-                </div>
-                <div className="edit-button button">
+                <Button disabled={teachers.length < 1}
+                    className={`${stopResumeButtonClass} button`} onClick={(e) => {
+                    e.preventDefault();
+                    if (isStopped){
+                        startReviewer();
+                    } else{
+                        stopReviewer();
+                    }
+                }}>
+                    {isStopped ? <CaretRightOutlined /> : <PauseOutlined />}
+                </Button>
+                <Button className="edit-button button">
                     <EditOutlined />
-                </div>
-                <div className="delete-button button">
+                </Button>
+                <Button className="delete-button button">
                     <DeleteOutlined />
-                </div>
+                </Button>
             </div>
+            <ChooseTeachersForReviewModal isOpen={isChooseTeacherModalOpen}
+                closeHandler={() => setChooseTeacherModalOpen(false)}
+                setTeachers={setTeachers}
+                teachersAlreadyUnderReview={[]}/>
         </div>
     )   
 }

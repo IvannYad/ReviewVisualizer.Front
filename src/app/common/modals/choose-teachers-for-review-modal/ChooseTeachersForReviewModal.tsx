@@ -5,9 +5,16 @@ import { useContext, useEffect, useState } from "react"
 import { Department } from "../../../../models/Department";
 import { DepartmentApiContext, TeacherApiContext } from "../../../layout/app/App";
 import { LoadingOutlined } from "@ant-design/icons";
+import { Teacher } from "../../../../models/Teacher";
 
+type ChooseTeachersForReviewModalProps = {
+    isOpen: boolean;
+    closeHandler: () => void;
+    setTeachers: React.Dispatch<React.SetStateAction<Teacher[]>>,
+    teachersAlreadyUnderReview: Teacher[]
+}
 
-export default function ChooseTeachersForReviewModal(){
+export default function ChooseTeachersForReviewModal(props: ChooseTeachersForReviewModalProps){
     const [selectedTeacherIds, setSelectedTeachersIds] = useState<number[]>([]);
     const [departments, setDepartments] = useState<Department[]>([]);
     const teacherApi = useContext(TeacherApiContext);
@@ -23,7 +30,10 @@ export default function ChooseTeachersForReviewModal(){
     
     const renderedDepartments = () => departments.map(d => {
         return (
-            <DepartmentInfoHolder key={d.id} department={d} teachers={[]}/>
+            <DepartmentInfoHolder key={d.id} 
+                department={d} 
+                setSelectedTeachersIds={setSelectedTeachersIds}
+                teacherIds={selectedTeacherIds}/>
         )
     })
 
@@ -32,12 +42,12 @@ export default function ChooseTeachersForReviewModal(){
     return (
         <Modal
             className="choose-teachers-for-review-modal"
-            open={true}
+            open={props.isOpen}
             centered={true}
             cancelText="Cancel"
             footer={[
                 <Button className="button create-button" type="primary" htmlType="submit" disabled={selectedTeacherIds.length <= 0}>Select</Button>,
-                <Button className="button cancel-button" onClick={async (e) => {}}>Cancel</Button>
+                <Button className="button cancel-button" onClick={async (e) => props.closeHandler()}>Cancel</Button>
             ]}
             >
                 {departments && departments.length > 0 ? renderedDepartments() : <LoadingOutlined /> }

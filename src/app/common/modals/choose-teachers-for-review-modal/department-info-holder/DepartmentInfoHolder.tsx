@@ -1,4 +1,4 @@
-import { ApiFilled, DownOutlined, LoadingOutlined, UpOutlined } from "@ant-design/icons"
+import { DownOutlined, LoadingOutlined, UpOutlined } from "@ant-design/icons"
 import "./DepartmentInfoHolder.scss"
 import { useContext, useEffect, useState } from "react";
 import { Department } from "../../../../../models/Department";
@@ -8,7 +8,8 @@ import { TeacherApiContext } from "../../../../layout/app/App";
 
 type DepartmentInfoHolderProps = {
     department: Department;
-    teachers: Teacher[];
+    setSelectedTeachersIds: React.Dispatch<React.SetStateAction<number[]>>;
+    teacherIds: number[];
 }
 
 export default function DepartmentInfoHolder(props: DepartmentInfoHolderProps){
@@ -24,6 +25,12 @@ export default function DepartmentInfoHolder(props: DepartmentInfoHolderProps){
             });
     }, [])
 
+    const renderedTeachers = !teachers ? <LoadingOutlined /> : teachers.map(t => (
+        <SmallTeacherListElement id={t.id} 
+            name={`${t.firstName} ${t.lastName}`} 
+            photoUrl={`${process.env.REACT_APP_IMAGE_SERVER_URL}/${t.photoUrl}`}
+            isAlreadySelected={props.teacherIds.includes(t.id)}/>
+    ))
     return (
         <div className="department-info-element">
             <div className="element">
@@ -41,9 +48,7 @@ export default function DepartmentInfoHolder(props: DepartmentInfoHolderProps){
             </div>
             {!isExpanded ? null : (
                 <div className="teachers-holder">
-                    {!teachers ? <LoadingOutlined /> : teachers.map(t => (
-                        <SmallTeacherListElement id={t.id} name={`${t.firstName} ${t.lastName}`} photoUrl={`${process.env.REACT_APP_IMAGE_SERVER_URL}/${t.photoUrl}`}/>
-                    ))}
+                    {renderedTeachers}
                 </div>
             )}
         </div>
