@@ -3,7 +3,7 @@ import { Teacher } from "../models/Teacher";
 
 export default interface IReviewerApi{
     getAll(): Promise<Reviewer[] | void>;
-    create(reviewer: ReviewerCreate): Promise<void>;
+    create(reviewer: ReviewerCreate): Promise<void |boolean>;
     //update(id: number, newTask: Department): Promise<void>;
     //remove(id: number): Promise<void>;
 

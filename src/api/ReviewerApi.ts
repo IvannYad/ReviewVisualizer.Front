@@ -20,10 +20,10 @@ export default class ReviewerApi implements IReviewerApi{
         return dataPromise;
     }
 
-    create(reviewer: ReviewerCreate): Promise<void> {
+    create(reviewer: ReviewerCreate): Promise<void | boolean> {
         return axios.post(this.url, reviewer)
                     .then(res => {
-                        console.log(res.data);
+                        return res.data;
                     })
                     .catch(error => {
                         console.log(error);

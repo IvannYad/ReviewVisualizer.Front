@@ -56,6 +56,10 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
                 if (res) {
                     const teachersWithoutDeleted = teachers.filter(t => !res.includes(t.id));
     
+                    if (teachersWithoutDeleted.length < 1) {
+                        setIsStopped(true);
+                    }
+                    
                     setTeachers([ ...teachersWithoutDeleted ]);
                 }
             })

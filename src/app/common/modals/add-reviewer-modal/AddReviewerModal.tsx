@@ -47,8 +47,13 @@ export default function AddReviewerModal(props: AddReviewerModalProps){
 
     const createReviewer = async (event: any) => {
         console.log(reviewer);
-        await api.create(reviewer);
-        cancel();
+        await api.create(reviewer)
+            .then(res => {
+                if (res)
+                    cancel();
+
+                return;
+            });
     }
 
     return (
