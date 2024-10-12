@@ -1,0 +1,30 @@
+@import "../../assets/variables/colors.scss";
+
+.teacher-details-page {
+    display: flex !important;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10%;
+    padding: 40px;
+    
+    .teacher-main-info-section {
+        height: 270px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 2px black solid;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px 30px 10px 30px;
+    }
+
+    .grades-realtime-charts-section {
+        flex-grow: 0.7;
+        border: 2px red solid;
+    }
+
+    .adjustable-chart-section {
+        flex-grow: 1;
+        border: 2px green solid;
+    }
+}

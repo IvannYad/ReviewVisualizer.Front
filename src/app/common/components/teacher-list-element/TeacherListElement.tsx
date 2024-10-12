@@ -11,7 +11,7 @@ type TeacherListElementProps = {
 
 export default function TeacherListElement(props: TeacherListElementProps){
     return (
-        <Link to={`${FRONTEND_ROUTES.PAGES.DEPARTMENT_DETAILS}/`} className={`teachers-list-element ${props.className}`}>
+        <Link to={`${FRONTEND_ROUTES.PAGES.TEACHER_DETAILS}?id=${props.id}`} className={`teachers-list-element ${props.className}`}>
             <div className="blue-circle">
                 <img src={props.photoUrl} className="teacher-icon" alt={props.name} />
             </div>

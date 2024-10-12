@@ -1,4 +1,4 @@
-import { LoadingOutlined, TrophyOutlined } from "@ant-design/icons"
+import { LoadingOutlined, StarOutlined, TrophyOutlined } from "@ant-design/icons"
 import "./DepartmentDetailsPage.scss"
 import TeacherListElement from "../../app/common/components/teacher-list-element/TeacherListElement"
 import AddTeacherListItem from "../../app/common/components/add-teacher-list-item/AddTeacherListItem"
@@ -52,7 +52,7 @@ export default function DepartmentDetailsPage(){
                             : <LoadingOutlined />}
                     </div>
                     <div className="text-holder dept-name">{dept?.name ?? <LoadingOutlined/>}</div>
-                    <div className="text-holder"><TrophyOutlined /> RATING : {dept?.rating ?? <LoadingOutlined/>} <TrophyOutlined /></div>
+                    <div className="text-holder"><StarOutlined /> RATING : {dept?.rating ?? <LoadingOutlined/>} <StarOutlined /></div>
                 </div>
                 <div className="teachers-list">
                     {teachers ? renderedTeachers : <LoadingOutlined />}

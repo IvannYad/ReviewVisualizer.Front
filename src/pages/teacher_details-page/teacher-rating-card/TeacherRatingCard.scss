@@ -1,0 +1,37 @@
+@import "../../../assets/variables/colors.scss";
+
+.teacher-rating-card {
+    height: 100%;
+    width: 30%;
+    background-color: $dark-blue;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20%;
+
+    .label {
+        color: $white;
+        margin-bottom: 5px;
+
+        .rank-number {
+            font-style: italic;
+            color: $gold;
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-size: 20px;
+
+            .highlight {
+                color: $light-green-font;
+                transition: background-color 0.2s ease-in-out;
+            }
+        }
+    }
+
+    .global-rank-text {
+        font-weight: 500;
+        font-size: 22px;
+    }
+}

@@ -135,7 +135,7 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
             <div className="teachers-list-container">
                 <div className="teachers-list-holder">
                     {teachers && teachers.map(t => (
-                        <TeacherListElementWrapper id={t.id} name={`${t.firstName} ${t.lastName}`} 
+                        <TeacherListElementWrapper key={t.id} id={t.id} name={`${t.firstName} ${t.lastName}`} 
                             photoUrl={`${process.env.REACT_APP_IMAGE_SERVER_URL!}/${t.photoUrl}`} deleteFunc={deleteFunc}/>
                     ))}
                     <AddTeacherButton setAddTeacherModalVisibility={setChooseTeacherModalOpen}/>

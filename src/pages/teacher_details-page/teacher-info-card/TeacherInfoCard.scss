@@ -1,0 +1,81 @@
+@import "../../../assets/variables/colors.scss";
+
+.teacher-info-card {
+    position: relative;
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $dark-blue;
+    padding: 0 20px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    line-height: 1.625;
+
+    .photo-rating-info {
+        margin-right: 50px;
+        background-color: $gold;
+        padding: 10px 0;
+        border: $gold solid;
+        border-top: 2px;
+        border-bottom: 2px;
+
+        .teacher-icon-holder {
+            height: 190px;
+            width: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            border-radius: 5px;
+
+            .teacher-icon {
+                height: 170px;
+                border-radius: 10px;
+            }
+        }
+
+        .text-holder {
+            width: 190px;
+            text-align: center;
+            font-style: italic;
+            color: $dark-grey;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .highlight {
+            color: $light-green-font;
+            transition: background-color 0.2s ease-in-out;
+        }
+    }
+
+    .other-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10%;
+        box-sizing: border-box;
+        width: 60%;
+        height: 100%;
+
+        .text-holder {
+            text-align: center;
+            font-style: italic;
+            color: $white;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .name {
+            font-size: 26px;
+        }
+
+        .label {
+            color: $selected-teachet-curtain;
+            margin-bottom: 5px;
+        }
+    }
+}

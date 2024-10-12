@@ -100,4 +100,22 @@ export default class TeacherApi implements ITeacherApi{
             })
     }
 
+    getDepartmentRank(id: number): Promise<number | void> {
+        return axios.get(`${this.url}/get-department-rank/${id}`)
+                    .then(response => {
+                        return response.data;
+                    })
+                    .catch(error => console.log(error))
+    }
+
+
+    getGlobalRank(id: number): Promise<number | void> {
+        return axios.get(`${this.url}/get-global-rank/${id}`)
+                    .then(response => {
+                        return response.data;
+                    })
+                    .catch(error => console.log(error))
+    }
+
+
 }

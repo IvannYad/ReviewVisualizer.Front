@@ -5,6 +5,7 @@ import MainPage from "../../pages/main-page/MainPage";
 import DepartmentsPage from "../../pages/departments-page/DepartmentsPage";
 import DepartmentDetailsPage from "../../pages/department_details-page/DepartmentDetailsPage";
 import GeneratorPage from "../../pages/generator-page/GeneratorPage";
+import TeacherDetailsPage from "../../pages/teacher_details-page/TeacherDetailsPage";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path={FRONTEND_ROUTES.BASE} element={<App />}>
@@ -23,6 +24,10 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route
             path={FRONTEND_ROUTES.PAGES.GENERATOR}
             element={<GeneratorPage />}
+        />
+        <Route
+            path={FRONTEND_ROUTES.PAGES.TEACHER_DETAILS}
+            element={<TeacherDetailsPage />}
         />
     </Route>,
 ));

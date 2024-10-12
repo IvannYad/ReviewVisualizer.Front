@@ -12,4 +12,7 @@ export default interface ITeacherApi{
 
     uploadIcon(name: string, file: RcFile): Promise<string | void>;
     unloadIcon(name: string): Promise<AxiosResponse<any, any> | void>;
+
+    getDepartmentRank(id: number): Promise<void | number>;
+    getGlobalRank(id: number): Promise<void | number>;
 }
