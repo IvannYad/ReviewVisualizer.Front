@@ -15,4 +15,12 @@ export default interface ITeacherApi{
 
     getDepartmentRank(id: number): Promise<void | number>;
     getGlobalRank(id: number): Promise<void | number>;
+
+    getGrade(teacherId: number, category: GradeCatetory): Promise<void | (null | number)>;
+}
+
+export enum GradeCatetory{
+    TeachingQuality,
+    StudentsSupport,
+    Communication,
 }

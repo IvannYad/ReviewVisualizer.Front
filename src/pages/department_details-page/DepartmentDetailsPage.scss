@@ -3,51 +3,19 @@
 .department-details-page {
     display: flex !important;
     justify-content: center;
+    flex-direction: column;
+    gap: 10%;
     padding: 40px;
     
     .department-info-holder {
         height: 70%;
-        width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
         background-color: $dark-green;
         padding: 0 20px;
         border-radius: 5px;
-
-        .main-info {
-            margin-right: 50px;
-            background-color: $gold;
-            padding: 10px 0;
-
-            .dept-icon-holder {
-                height: 190px;
-                width: 190px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-bottom: 5px;
-                border-radius: 5px;
-
-                .dept-icon {
-                    height: 170px;
-                    border-radius: 10px;
-                }
-            }
-
-            .text-holder {
-                width: 190px;
-                text-align: center;
-                font-style: italic;
-                color: $dark-grey;
-                font-weight: 500;
-                margin-bottom: 5px;
-            }
-
-            .dept-name {
-                font-size: 25px;
-            }
-        }
+        margin-bottom: 20px;
 
         .teachers-list {
             border: red 2px solid;
@@ -66,5 +34,16 @@
         .teachers-list::-webkit-scrollbar {
             display: none;
         }
+    }
+
+    .grades-realtime-charts-section {
+        min-height: 300px;
+        height: fit-content;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
     }
 }

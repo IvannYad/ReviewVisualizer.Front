@@ -1,0 +1,24 @@
+@import "../../../../assets/variables/colors.scss";
+
+.chart-holder {
+    padding: 0px 10px;
+    height: 90%;
+    min-width: 300px;
+    width: 30%;
+    border-radius: 10px;
+    border: 2px solid $main-grey-border;
+    margin-bottom: 20px;
+
+    h2 {
+        width: 100%;
+        text-align: center;
+        color: $dark-grey;
+        font-style: italic;
+        font-weight: 500;
+
+        .rating {
+            margin-left: 5px;
+            font-weight: 700;
+        }
+    }
+}

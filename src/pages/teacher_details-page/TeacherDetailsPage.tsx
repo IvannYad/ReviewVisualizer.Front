@@ -5,10 +5,9 @@ import { useSearchParams } from "react-router-dom";
 import { TeacherApiContext } from "../../app/layout/app/App";
 import TeacherInfoCard from "./teacher-info-card/TeacherInfoCard";
 import TeacherRatingCard from "./teacher-rating-card/TeacherRatingCard";
-
-type TeacherDetailsPageProps = {
-    teacher: Teacher
-}
+import GradesChart from "../../app/common/components/grades-chart/GradesChart";
+import { GradeCatetory } from "../../api/ITeachersApi";
+import { LoadingOutlined } from "@ant-design/icons";
 
 export default function TeacherDetailsPage(){
     const [searchParams, _] = useSearchParams();
@@ -31,7 +30,13 @@ export default function TeacherDetailsPage(){
                 <TeacherRatingCard id={teacher?.id}/>
            </div>
            <div className="grades-realtime-charts-section">
-                
+                {teacher ? (
+                    <>
+                        <GradesChart entityId={teacher.id} entity="teacher" gradeCategory={GradeCatetory.TeachingQuality}/>
+                        <GradesChart entityId={teacher.id} entity="teacher" gradeCategory={GradeCatetory.StudentsSupport}/>
+                        <GradesChart entityId={teacher.id} entity="teacher" gradeCategory={GradeCatetory.Communication}/>
+                    </>
+                ) : <LoadingOutlined />}
            </div>
            <div className="adjustable-chart-section">
 

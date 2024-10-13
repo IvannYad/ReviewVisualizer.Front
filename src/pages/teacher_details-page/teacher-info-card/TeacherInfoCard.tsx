@@ -49,7 +49,11 @@ export default function TeacherInfoCard(props: TeacherInfoCardProps){
                     {props.teacherId ? <img className="teacher-icon" src={`${process.env.REACT_APP_IMAGE_SERVER_URL}/${teacher?.photoUrl}`} alt={fullName}/>
                         : <LoadingOutlined />}
                 </div>
-                <div className="text-holder"><StarOutlined />RATING : {teacher?.rating ? <text className={`${highlight ? "highlight": ""}`}>{teacher.rating}</text>: <LoadingOutlined/>} <StarOutlined /></div>
+                <div className="text-holder">
+                    <StarOutlined />
+                        RATING : {teacher ? <text className={`${highlight ? "highlight": ""}`}>{teacher.rating ?? "N/A"}</text>: <LoadingOutlined/>}
+                    <StarOutlined />
+                </div>
             </div>
             <div className="other-info">
                 {!teacher ? <LoadingOutlined /> : (

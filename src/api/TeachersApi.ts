@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { RcFile } from "antd/es/upload";
-import ITeacherApi from "./ITeachersApi";
+import ITeacherApi, { GradeCatetory } from "./ITeachersApi";
 import { Teacher, TeacherCreate } from "../models/Teacher";
 
 export default class TeacherApi implements ITeacherApi{
@@ -102,20 +102,26 @@ export default class TeacherApi implements ITeacherApi{
 
     getDepartmentRank(id: number): Promise<number | void> {
         return axios.get(`${this.url}/get-department-rank/${id}`)
-                    .then(response => {
-                        return response.data;
-                    })
-                    .catch(error => console.log(error))
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => console.log(error))
     }
 
 
     getGlobalRank(id: number): Promise<number | void> {
         return axios.get(`${this.url}/get-global-rank/${id}`)
-                    .then(response => {
-                        return response.data;
-                    })
-                    .catch(error => console.log(error))
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => console.log(error))
     }
 
-
+    getGrade(teacherId: number, category: GradeCatetory): Promise<void | (null | number)> {
+        return axios.get(`${this.url}/get-grade/${teacherId}?category=${category}`)
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => console.log(error))
+    }
 }

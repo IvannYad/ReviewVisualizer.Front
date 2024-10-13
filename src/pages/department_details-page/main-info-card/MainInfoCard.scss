@@ -1,0 +1,40 @@
+@import "../../../assets/variables/colors.scss";
+
+.main-info {
+    margin-right: 50px;
+    background-color: $gold;
+    padding: 10px 0;
+
+    .dept-icon-holder {
+        height: 190px;
+        width: 190px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 5px;
+        border-radius: 5px;
+
+        .dept-icon {
+            height: 170px;
+            border-radius: 10px;
+        }
+    }
+
+    .text-holder {
+        width: 190px;
+        text-align: center;
+        font-style: italic;
+        color: $dark-grey;
+        font-weight: 500;
+        margin-bottom: 5px;
+
+        .highlight {
+            color: $light-green-font;
+            transition: background-color 0.2s ease-in-out;
+        }
+    }
+
+    .dept-name {
+        font-size: 25px;
+    }
+}

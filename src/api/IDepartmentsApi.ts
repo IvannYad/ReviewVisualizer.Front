@@ -1,6 +1,7 @@
 import { RcFile } from "antd/es/upload";
 import { Department, DepartmentCreate } from "../models/Department";
 import { AxiosResponse } from "axios";
+import { GradeCatetory } from "./ITeachersApi";
 
 export default interface IDepartmentApi{
     getAll(filter: ((task: Department) => boolean) | null): Promise<Department[] | void>;
@@ -11,4 +12,6 @@ export default interface IDepartmentApi{
 
     uploadIcon(name: string, file: RcFile): Promise<string | void>;
     unloadIcon(name: string): Promise<AxiosResponse<any, any> | void>;
+
+    getGrade(departmentId: number, category: GradeCatetory): Promise<void | (null | number)>;
 }

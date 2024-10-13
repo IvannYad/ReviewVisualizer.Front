@@ -1,7 +1,6 @@
 import "./ReviewerListElement.scss"
 import { Button, Slider } from "antd";
 import { CaretRightOutlined, DeleteOutlined, EditOutlined, PauseOutlined } from "@ant-design/icons";
-import SmallTeacherListElement from "../small-teacher-list-element/SmallTeacherListElement";
 import { Reviewer } from "../../../../models/Reviewer";
 import { ReviewerApiContext } from "../../../layout/app/App";
 import { useContext, useState } from "react";

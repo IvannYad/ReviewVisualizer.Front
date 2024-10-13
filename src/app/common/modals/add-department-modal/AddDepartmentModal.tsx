@@ -1,7 +1,7 @@
 import { Button, Form, GetProp, Input, message, Modal, Upload, UploadProps } from "antd";
 import "./AddDepartmentModal.scss"
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { DepartmentApiContext } from "../../../layout/app/App";
 import { DepartmentCreate } from "../../../../models/Department";
 
@@ -53,7 +53,7 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
                 if (!res) return;
 
                 setImageName(res);
-                // Get this url from response in real world.
+                
                 getBase64(file as FileType, (url) => {
                     setLoading(false);
                     setImageUrl(url);

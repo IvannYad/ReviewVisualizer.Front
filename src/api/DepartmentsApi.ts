@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { Department, DepartmentCreate } from "../models/Department";
 import IDepartmentApi from "./IDepartmentsApi";
 import { RcFile } from "antd/es/upload";
+import { GradeCatetory } from "./ITeachersApi";
 
 export default class DepartmentApi implements IDepartmentApi{
     private url: string;
@@ -87,4 +88,11 @@ export default class DepartmentApi implements IDepartmentApi{
             })
     }
 
+    getGrade(departmentId: number, category: GradeCatetory): Promise<void | (null | number)> {
+        return axios.get(`${this.url}/get-grade/${departmentId}?category=${category}`)
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => console.log(error))
+    }
 }
