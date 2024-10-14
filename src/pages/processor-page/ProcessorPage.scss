@@ -1,0 +1,29 @@
+@import "../../assets/variables/colors.scss";
+
+.processor-page {
+    padding: 30px 80px 40px 80px;
+    display: flex !important;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+
+    .title {
+        margin: 0;
+        font-size: 30px;
+        color: $dark-grey;
+        margin-bottom: 20px;
+    }
+
+    .analysts-holder {
+        width: 100%;
+        border: 2px $main-grey-border solid;
+        border-radius: 8px;
+        padding: 20px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 10%;
+        flex-wrap: wrap; 
+    }
+}

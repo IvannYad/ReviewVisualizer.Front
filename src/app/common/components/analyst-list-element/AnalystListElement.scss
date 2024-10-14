@@ -1,0 +1,117 @@
+@import "../../../../assets/variables/colors.scss";
+
+.analyst-list-element {
+    position: relative;
+    height: 200px;
+    width:25%;
+    max-width: 100%;
+    border: 2px solid $reviewer-list-element-border;
+    background-color: $reviewer-list-element;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    
+    .info-holder {
+        height: 100%;
+        width: 80%;
+        min-width: 40%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20%;
+
+        .analyst-name {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 600;
+            font-style: italic;
+            color: $dark-grey;
+        }
+
+        .processing-interval {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            font-style: italic;
+            color: $dark-grey;
+        }
+    }
+
+    .buttons-container {
+        height: 100%;
+        flex-grow: 1;
+        border-radius: 0 3px 3px 0;
+        
+        .disabled-button {
+            border-radius: 0 3px 0 0;
+            height: 40%;
+            background-color: $main-grey;
+            color: $main-grey-border;
+            border: 0;
+        }
+
+        .running-button {
+            border-radius: 0 3px 0 0;
+            height: 40%;
+            background-color: $light-green;
+            color: $light-green-font;
+            border: 0;
+        }
+
+        .edit-button {
+            height: 30%;
+            background-color: $light-blue;
+            color: $light-blue-font;
+            border-radius: 0;
+            border: 0;
+        }
+
+        .delete-button, .stopped-button{
+            background-color: $light-red;
+            color: $light-red-font;
+            height: 30%;
+            border-radius: 0 0 3px 0;
+            border: 0;
+        }
+
+        .stopped-button {
+            border-radius: 0 3px 0 0;
+            height: 40%;
+        }
+
+        .running-button:hover {
+            background-color: $light-green;
+            color: $white;
+            border: 0;
+        }
+
+        .edit-button:hover {
+            background-color: $light-blue;
+            color: $white;
+            border: 0;
+        }
+
+        .delete-button:hover, .stopped-button:hover {
+            background-color: $light-red;
+            color: $white;
+            border: 0;
+        }
+
+        .button {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            padding: 0;
+        }
+    }
+}
+
