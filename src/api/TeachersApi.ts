@@ -65,14 +65,15 @@ export default class TeacherApi implements ITeacherApi{
                     });
     }
 
-    remove(id: number): Promise<void> {
-        return axios.delete(`${this.url}/${id}`)
+    remove(id: number): Promise<boolean> {
+        return axios.delete(`${this.url}?teacherId=${id}`)
                     .then(res => {
-                        console.log(res);
-                        console.log(res.data);
+                        return true;
                     })
                     .catch(error =>{
                         console.log(error);
+                        alert(error.response?.data ?? "Error while deleting the teacher");
+                        return false;
                     })
     }
 
@@ -90,6 +91,7 @@ export default class TeacherApi implements ITeacherApi{
             })
             .catch(error =>{
                 console.log(error);
+                alert(error.response?.data ?? "Error uploading an image for the teacher");
             })
     }
 
@@ -97,6 +99,7 @@ export default class TeacherApi implements ITeacherApi{
         return axios.post(`${this.url}/delete-image?imgName=${name}`)
             .catch(error =>{
                 console.log(error);
+                alert(error.response?.data ?? "Error deleting an image for the teacher");
             })
     }
 

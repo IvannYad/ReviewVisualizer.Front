@@ -1,0 +1,16 @@
+@import "../../../../assets/variables/colors.scss";
+
+.big-delete-btn {
+    color: $light-red-font;
+    background-color: $light-red;
+    border: $light-red-font 2px solid;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+}
+
+.big-delete-btn:hover {
+    color: $white;
+}

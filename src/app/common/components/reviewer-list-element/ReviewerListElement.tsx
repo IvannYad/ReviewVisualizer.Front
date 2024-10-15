@@ -11,6 +11,7 @@ import TeacherListElementWrapper from "./teacher-list-element-wrapper/TeacherLis
 
 type ReviewerListElementProps = {
     reviewer: Reviewer
+    onDelete: (reviewerId: number) => void,
 }
 
 function getGradientColor(percentage: number) {
@@ -49,21 +50,25 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
             })
     }
 
-    const deleteFunc = (id: number) => {
+    const deleteTeacher = (id: number) => {
         reviewerApi.removeTeachers(props.reviewer.id, [id])
             .then((res) => {
                 if (res) {
+                    // If there is no teachers assigned to the reviewer, stop the reviewer.
                     const teachersWithoutDeleted = teachers.filter(t => !res.includes(t.id));
-    
                     if (teachersWithoutDeleted.length < 1) {
                         setIsStopped(true);
                     }
-                    
                     setTeachers([ ...teachersWithoutDeleted ]);
                 }
             })
             .catch((error) => console.log(error));
     }
+
+    const deleteReviewer = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        event.preventDefault();
+        props.onDelete(props.reviewer.id);
+    };
 
     const stopResumeButtonClass = teachers.length < 1 ? "disabled-button" : isStopped ? "stopped-button" : "running-button";
     
@@ -135,7 +140,7 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
                 <div className="teachers-list-holder">
                     {teachers && teachers.map(t => (
                         <TeacherListElementWrapper key={t.id} id={t.id} name={`${t.firstName} ${t.lastName}`} 
-                            photoUrl={`${process.env.REACT_APP_IMAGE_SERVER_URL!}/${t.photoUrl}`} deleteFunc={deleteFunc}/>
+                            photoUrl={`${process.env.REACT_APP_IMAGE_SERVER_URL!}/${t.photoUrl}`} deleteFunc={deleteTeacher}/>
                     ))}
                     <AddTeacherButton setAddTeacherModalVisibility={setChooseTeacherModalOpen}/>
                 </div>
@@ -152,10 +157,7 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
                 }}>
                     {isStopped ? <CaretRightOutlined /> : <PauseOutlined />}
                 </Button>
-                <Button className="edit-button button">
-                    <EditOutlined />
-                </Button>
-                <Button className="delete-button button">
+                <Button className="delete-button button" onClick={deleteReviewer}>
                     <DeleteOutlined />
                 </Button>
             </div>

@@ -38,16 +38,17 @@ export default class ReviewerApi implements IReviewerApi{
     //                 });
     // }
 
-    // remove(id: number): Promise<void> {
-    //     return axios.delete(`${this.url}/${id}`)
-    //                 .then(res => {
-    //                     console.log(res);
-    //                     console.log(res.data);
-    //                 })
-    //                 .catch(error =>{
-    //                     console.log(error);
-    //                 })
-    // }
+    remove(id: number): Promise<boolean> {
+        return axios.delete(`${this.url}?reviewerId=${id}`)
+                    .then(_ => {
+                        return true;
+                    })
+                    .catch(error =>{
+                        console.log(error);
+                        alert(error.response?.data ?? "Error while deleting the reviewer");
+                        return false;
+                    })
+    }
 
     startReviewer(reviewerId: number): Promise<void | boolean> {
         return axios.post(`${this.url}/start-reviewer/${reviewerId}`)

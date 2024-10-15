@@ -23,7 +23,7 @@ function App() {
   const departmentApi: IDepartmentApi = new DepartmentApi(`${process.env.REACT_APP_API_URL}/departments`);
   const teacherApi: ITeacherApi = new TeacherApi(`${process.env.REACT_APP_API_URL}/teachers`);
   const reviewerApi: IReviewerApi = new ReviewerApi(`${process.env.REACT_APP_GENERATOR_URL}/reviewers`);
-  const analystApi: IAnalystApi = new AnalystApi(`${process.env.REACT_APP_GENERATOR_URL}/analysts`);
+  const analystApi: IAnalystApi = new AnalystApi(`${process.env.REACT_APP_API_URL}/analysts`);
   const { pathname } = useLocation();
 
   return (

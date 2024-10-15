@@ -28,6 +28,23 @@ export default function GeneratorPage(){
          
     }, [isAddReviewerModalOpen])
 
+    const deleteReviewer = (reviewerId: number) => {
+        reviewerApi
+            .remove(reviewerId)
+            .then(success => {
+                if(success){
+                    reviewerApi.getAll()
+                    .then(res => {
+                        if(res){
+                            setReviewers([ ...res ])
+                        } else {
+                            setReviewers(null)
+                        };
+                    }) 
+                }
+            })
+    }
+
     return (
         <main className="page generator-page">
            <h1 className="title">Generator</h1>
@@ -35,7 +52,7 @@ export default function GeneratorPage(){
                 {reviewers == null ? <LoadingOutlined /> : reviewers
                                                                 .map(t => {
                                                                     return (
-                                                                        <ReviewerListElement key={t.id} reviewer={t}/>
+                                                                        <ReviewerListElement key={t.id} reviewer={t} onDelete={deleteReviewer}/>
                                                                     )
                                                                 })
                 }

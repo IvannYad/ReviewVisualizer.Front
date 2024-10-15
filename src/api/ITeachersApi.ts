@@ -8,7 +8,7 @@ export default interface ITeacherApi{
     get(id: number): Promise<Teacher | void>;
     create(task: TeacherCreate): Promise<void>;
     update(id: number, newTask: Teacher): Promise<void>;
-    remove(id: number): Promise<void>;
+    remove(id: number): Promise<boolean>;
 
     uploadIcon(name: string, file: RcFile): Promise<string | void>;
     unloadIcon(name: string): Promise<AxiosResponse<any, any> | void>;

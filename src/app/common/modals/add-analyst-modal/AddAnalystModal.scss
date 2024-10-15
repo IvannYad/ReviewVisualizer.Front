@@ -1,0 +1,119 @@
+@import "../../../../assets/variables/colors.scss";
+
+.add-analyst-modal{
+    width: fit-content !important;
+
+    .ant-modal-content{
+        width: 300px;
+        height: 300px;
+        border-radius: 10px;
+        background-color: $white;
+        border: 2px solid $main-grey-border;
+        position: relative;
+        padding: 10px 20px;
+    
+        .ant-modal-close {
+            display: none;
+        }
+    
+        .ant-modal-body{
+            height: 100%;
+            width: 100%;
+            
+            .create-analyst-form {
+                height: 100%;
+                width: 100%;
+                
+                .main-info-holder {
+                    height: 80%;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    
+                    .ant-form-item {
+                        width: 80%;
+                        max-width: 80%;
+                        margin-bottom: 10%;
+                    }
+
+                    .name-input-holder {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 25px;
+                        width: 100%;
+                    }
+    
+                    label {
+                        font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;;
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: $dark-grey !important;
+                        pointer-events: none;
+                    }
+    
+                    .ant-col {
+                        padding: 0;
+                    }
+    
+                    input {
+                        color: $dark-grey;
+                        font-size: 16px;
+                        background-color: $input-white;
+                        font-weight: 500;
+                        font-style: italic;
+                    }
+    
+                    input:active, input:hover, input:focus {
+                        border: $gold 2px solid;
+                    }
+
+                    .ant-input-number {
+                        width: 100%;
+                    }
+                }
+
+                .buttons-holder{
+                    display: none;
+                    margin-top: 0;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 20%;
+        
+                    .button {
+                        color: $white;
+                        font-size: 15px;
+                        width: 45%;
+                    }
+        
+                    .create-button {
+                        font-weight: bold;
+                        
+                        background-color: $blue;
+                    }
+        
+                    .create-button:hover {
+                        border: 3px solid $gold !important;
+                        color: $gold;
+                    }
+        
+                    .cancel-button {
+                        font-weight: bold;
+                        background-color: $red;
+                    }
+        
+                    .cancel-button:hover {
+                        font-weight: bold;
+                        border: 3px solid $gold !important;
+                        color: $gold;
+                    }
+                }
+            }
+            
+        }
+    }
+}

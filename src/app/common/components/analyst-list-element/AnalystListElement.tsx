@@ -1,8 +1,9 @@
 import { Button } from "antd";
 import "./AnalystListElement.scss"
 import { Analyst } from "../../../../models/Analyst";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { CaretRightOutlined, DeleteOutlined, EditOutlined, PauseOutlined } from "@ant-design/icons";
+import { AnalystApiContext } from "../../../layout/app/App";
 
 type AnalystListElementProps = {
     analyst: Analyst;
@@ -10,19 +11,20 @@ type AnalystListElementProps = {
 
 export default function AnalystListElement(props: AnalystListElementProps){
     const [isStopped, setIsStopped] = useState(props.analyst.isStopped);
+    const analystApi = useContext(AnalystApiContext);
 
     const startReviewer = () => {
-        // reviewerApi.startReviewer(props.reviewer.id)
-        //     .then(res => {
-        //         if (typeof res == "boolean" && res) setIsStopped(false);
-        //     })
+        analystApi.startAnalyst(props.analyst.id)
+            .then(res => {
+                if (typeof res == "boolean" && res) setIsStopped(false);
+            })
     }
 
     const stopReviewer = () => {
-        // reviewerApi.stopReviewer(props.reviewer.id)
-        //     .then(res => {
-        //         if (typeof res == "boolean" && res) setIsStopped(true);
-        //     })
+        analystApi.stopAnalyst(props.analyst.id)
+            .then(res => {
+                if (typeof res == "boolean" && res) setIsStopped(true);
+            })
     }
 
     const stopResumeButtonClass = isStopped ? "stopped-button" : "running-button";
@@ -30,7 +32,7 @@ export default function AnalystListElement(props: AnalystListElementProps){
         <div className="analyst-list-element">
             <div className="info-holder">
                 <div className="analyst-name">{props.analyst.name}</div>
-                <div className="processing-interval">{props.analyst.processingInterval} ms</div>
+                <div className="processing-interval">{props.analyst.processingDurationMiliseconds} ms</div>
             </div>
             <div className="buttons-container">
                 <Button className={`${stopResumeButtonClass} button`} onClick={(e) => {

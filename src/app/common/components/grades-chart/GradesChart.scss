@@ -8,6 +8,7 @@
     border-radius: 10px;
     border: 2px solid $main-grey-border;
     margin-bottom: 20px;
+    background-color: $white;
 
     h2 {
         width: 100%;
@@ -19,6 +20,10 @@
         .rating {
             margin-left: 5px;
             font-weight: 700;
+
+            .title-rating-text {
+                margin: 0px 5px;
+            }
         }
     }
 }

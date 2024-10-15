@@ -92,7 +92,7 @@ export default function AddReviewerModal(props: AddReviewerModalProps){
                                     })
                                 ]
                         }>
-                            <Input value={"asd"} onChange={(e) => {
+                            <Input value={reviewer.name} onChange={(e) => {
                                 e.preventDefault();
                                 setReviewer({ ...reviewer, name: e.target.value });
                             }}/>

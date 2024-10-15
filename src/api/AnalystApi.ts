@@ -37,16 +37,14 @@ export default class AnalystApi implements IAnalystApi{
     //                 });
     // }
 
-    // remove(id: number): Promise<void> {
-    //     return axios.delete(`${this.url}/${id}`)
-    //                 .then(res => {
-    //                     console.log(res);
-    //                     console.log(res.data);
-    //                 })
-    //                 .catch(error =>{
-    //                     console.log(error);
-    //                 })
-    // }
+    remove(id: number): Promise<boolean> {
+        return axios.delete(`${this.url}/${id}`)
+                    .then(_ => true)
+                    .catch(error =>{
+                        console.log(error);
+                        return false;
+                    })
+    }
 
     startAnalyst(analystId: number): Promise<void | boolean> {
         return axios.post(`${this.url}/start-analyst/${analystId}`)
@@ -62,5 +60,16 @@ export default class AnalystApi implements IAnalystApi{
                     .catch(error => {
                         console.log(error);
                     });
+    }
+
+    getQueueSize(): Promise<number | void> {
+        const promise = axios.get(`${this.url}/get-queue-size`);
+        const dataPromise = promise
+            .then(response => {
+                return response.data ?? 0;
+            })
+            .catch(error => console.log(error))
+
+        return dataPromise;
     }
 }

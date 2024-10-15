@@ -4,7 +4,7 @@ import { Chart, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement
 import { DepartmentApiContext, TeacherApiContext } from "../../../layout/app/App";
 import { Line } from "react-chartjs-2";
 import { GradeCatetory } from "../../../../api/ITeachersApi";
-import { StarOutlined } from "@ant-design/icons";
+import { LoadingOutlined, StarOutlined } from "@ant-design/icons";
 
 type GradesChartProps = {
     entityId: number; 
@@ -37,7 +37,7 @@ export default function GradesChart(props: GradesChartProps){
         datasets: [
             {
                 label: 'Values',
-                data: [50], // Initial random value
+                data: [-1], // Initial random value
                 backgroundColor: 'rgba(0, 0, 255, 0.2)', // Optional fill color
                 fill: false,
                 tension: 0.4, // Adds smooth curves between points
@@ -52,9 +52,7 @@ export default function GradesChart(props: GradesChartProps){
         const newLabels = [...prevData.labels, ``];
 
         const lineColor = newValue == previousValue ? 'blue' : ( newValue > previousValue ? 'green' : 'red');
-        console.log(previousValue);
-        console.log(newValue);
-        console.log(lineColor)
+        
         const newData = [...prevData.datasets[0].data, newValue].map((value, index, array) => {
             if (index === array.length - 1) {
               // The newest value remains unchanged
@@ -64,6 +62,10 @@ export default function GradesChart(props: GradesChartProps){
             const decayFactor = 0.1; // Change this to control the speed of decay
             return value + (newValue - value) * decayFactor;
         });
+
+        if (prevData.datasets[0].data[0] === -1){
+            newData[0] = newData[1];
+        }
 
         // If the number of points exceeds maxPoints, shift data and labels to simulate scrolling
         if (newData.length > maxPoints) {
@@ -111,13 +113,14 @@ export default function GradesChart(props: GradesChartProps){
     const getMaxY = () => Math.max(...data.datasets[0].data) + 10;
     const getMinY = () => Math.min(...data.datasets[0].data) - 10;
 
+    const last = data.datasets[0].data[data.datasets[0].data.length - 1];
     return (
         <div className="chart-holder">
             <h2>
                 {GradeCatetory[props.gradeCategory]}:
                 <text className="rating">
                     <StarOutlined />
-                        {data.datasets[0].data[data.datasets[0].data.length - 1]}
+                        <text className="title-rating-text">{last === -1 ? "N/A" : last}</text>
                     <StarOutlined />
                 </text>
             </h2>

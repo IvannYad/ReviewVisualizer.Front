@@ -1,12 +1,12 @@
 export type Analyst = {
     id: number,
     name: string,
-    processingInterval: number,
+    processingDurationMiliseconds: number,
     isStopped: boolean,
 }
 
 export type AnalystCreate = {
     name: string,
-    processingInterval: number,
+    processingDurationMiliseconds: number,
     isStopped: boolean,
 }

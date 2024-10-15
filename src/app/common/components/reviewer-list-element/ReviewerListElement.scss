@@ -91,7 +91,7 @@
     .teachers-list-container {
         height: 100%;
         flex-grow: 1;
-        max-width: 56%;
+        max-width: 60%;
         box-sizing: border-box;
         padding: 10px 15px;
 
@@ -143,12 +143,13 @@
     .buttons-container {
         height: 100%;
         width: 10%;
+        min-width: 45px;
         max-width: 50px;
         border-radius: 0 3px 3px 0;
-
+        
         .disabled-button {
             border-radius: 0 3px 0 0;
-            height: 40%;
+            height: 60%;
             background-color: $main-grey;
             color: $main-grey-border;
             border: 0;
@@ -156,7 +157,7 @@
 
         .running-button {
             border-radius: 0 3px 0 0;
-            height: 40%;
+            height: 60%;
             background-color: $light-green;
             color: $light-green-font;
             border: 0;
@@ -173,7 +174,7 @@
         .delete-button, .stopped-button{
             background-color: $light-red;
             color: $light-red-font;
-            height: 30%;
+            height: 40%;
             border-radius: 0 0 3px 0;
             border: 0;
         }
