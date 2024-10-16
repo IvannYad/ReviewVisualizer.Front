@@ -14,4 +14,6 @@ export default interface IDepartmentApi{
     unloadIcon(name: string): Promise<AxiosResponse<any, any> | void>;
 
     getGrade(departmentId: number, category: GradeCatetory): Promise<void | (null | number)>;
+
+    getTop10(): Promise<Department[] | void>;
 }

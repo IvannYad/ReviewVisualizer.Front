@@ -51,7 +51,7 @@
         
         .disabled-button {
             border-radius: 0 3px 0 0;
-            height: 40%;
+            height: 60%;
             background-color: $main-grey;
             color: $main-grey-border;
             border: 0;
@@ -59,31 +59,24 @@
 
         .running-button {
             border-radius: 0 3px 0 0;
-            height: 40%;
+            height: 60%;
             background-color: $light-green;
             color: $light-green-font;
-            border: 0;
-        }
-
-        .edit-button {
-            height: 30%;
-            background-color: $light-blue;
-            color: $light-blue-font;
-            border-radius: 0;
             border: 0;
         }
 
         .delete-button, .stopped-button{
             background-color: $light-red;
             color: $light-red-font;
-            height: 30%;
+            height: 40%;
             border-radius: 0 0 3px 0;
             border: 0;
         }
 
         .stopped-button {
+            border-bottom: 2px white solid;
             border-radius: 0 3px 0 0;
-            height: 40%;
+            height: 60%;
         }
 
         .running-button:hover {
@@ -102,6 +95,10 @@
             background-color: $light-red;
             color: $white;
             border: 0;
+        }
+
+        .stopped-button:hover {
+            border-bottom: 2px white solid;
         }
 
         .button {

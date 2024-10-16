@@ -1,0 +1,18 @@
+@import "../../assets/variables/colors.scss";
+
+.main-page {
+    padding: 30px 50px 40px 50px;
+
+    .rating-charts-holder {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3%;
+        border-radius: 10px;
+        border: $main-grey-border 2px solid;
+        padding: 20px 0px;
+        box-sizing: border-box;
+        background-color: $main-grey;
+    }  
+}

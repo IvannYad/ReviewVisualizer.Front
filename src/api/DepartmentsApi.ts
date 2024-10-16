@@ -95,4 +95,17 @@ export default class DepartmentApi implements IDepartmentApi{
             })
             .catch(error => console.log(error))
     }
+
+    getTop10(): Promise<Department[] | void> {
+        let departmentsToReturn: Department[];
+        const promise = axios.get(`${this.url}/get-top`);
+        const dataPromise = promise
+            .then(response => {
+                departmentsToReturn = response.data;
+                return departmentsToReturn;
+            })
+            .catch(error => console.log(error))
+
+        return dataPromise;
+    }
 }

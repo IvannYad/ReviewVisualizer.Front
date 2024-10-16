@@ -9,15 +9,12 @@ export default class TeacherApi implements ITeacherApi{
         this.url = apiUrl;
     }
     
-    getAll(filter: ((teacher: Teacher) => boolean) | null): Promise<Teacher[] | void> {
+    getAll(): Promise<Teacher[] | void> {
         let teachersToReturn: Teacher[];
         const promise = axios.get(this.url);
         const dataPromise = promise
             .then(response => {
                 teachersToReturn = response.data;
-                if (filter){
-                    teachersToReturn = teachersToReturn!.filter((teacher: Teacher) => filter(teacher));
-                }
                 return teachersToReturn;
             })
             .catch(error => console.log(error))
@@ -126,5 +123,31 @@ export default class TeacherApi implements ITeacherApi{
                 return response.data;
             })
             .catch(error => console.log(error))
+    }
+
+    getTop10(): Promise<Teacher[] | void> {
+        let teachersToReturn: Teacher[];
+        const promise = axios.get(`${this.url}/get-top`);
+        const dataPromise = promise
+            .then(response => {
+                teachersToReturn = response.data;
+                return teachersToReturn;
+            })
+            .catch(error => console.log(error))
+
+        return dataPromise;
+    }
+
+    getTop10InDepartment(deptId: number): Promise<Teacher[] | void> {
+        let teachersToReturn: Teacher[];
+        const promise = axios.get(`${this.url}/get-top-in-department/${deptId}`);
+        const dataPromise = promise
+            .then(response => {
+                teachersToReturn = response.data;
+                return teachersToReturn;
+            })
+            .catch(error => console.log(error))
+
+        return dataPromise;
     }
 }

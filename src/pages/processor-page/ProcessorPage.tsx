@@ -27,6 +27,23 @@ export default function ProcessorPage(){
          
     }, [isAddAnalystModalOpen])
 
+    const deleteAnalyst = (analystId: number) => {
+        analystApi
+            .remove(analystId)
+            .then(success => {
+                if(success){
+                    analystApi.getAll()
+                    .then(res => {
+                        if(res){
+                            setAnalysts([ ...res ])
+                        } else {
+                            setAnalysts(null)
+                        };
+                    }) 
+                }
+            })
+    }
+
     return (
         <main className="page processor-page">
             <h1 className="title">Processor</h1>
@@ -35,7 +52,7 @@ export default function ProcessorPage(){
                 {analysts == null ? <LoadingOutlined /> : analysts
                                                                 .map(a => {
                                                                     return (
-                                                                        <AnalystListElement key={a.id} analyst={a}/>
+                                                                        <AnalystListElement key={a.id} analyst={a} onDelete={deleteAnalyst}/>
                                                                     )
                                                                 })
                 }

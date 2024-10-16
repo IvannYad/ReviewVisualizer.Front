@@ -38,10 +38,13 @@ export default class AnalystApi implements IAnalystApi{
     // }
 
     remove(id: number): Promise<boolean> {
-        return axios.delete(`${this.url}/${id}`)
-                    .then(_ => true)
+        return axios.delete(`${this.url}?analystId=${id}`)
+                    .then(_ => {
+                        return true;
+                    })
                     .catch(error =>{
                         console.log(error);
+                        alert(error.response?.data ?? "Error while deleting the analyst");
                         return false;
                     })
     }

@@ -163,14 +163,6 @@
             border: 0;
         }
 
-        .edit-button {
-            height: 30%;
-            background-color: $light-blue;
-            color: $light-blue-font;
-            border-radius: 0;
-            border: 0;
-        }
-
         .delete-button, .stopped-button{
             background-color: $light-red;
             color: $light-red-font;
@@ -181,7 +173,8 @@
 
         .stopped-button {
             border-radius: 0 3px 0 0;
-            height: 40%;
+            height: 60%;
+            border-bottom: 2px white solid;
         }
 
         .running-button:hover {
@@ -190,16 +183,14 @@
             border: 0;
         }
 
-        .edit-button:hover {
-            background-color: $light-blue;
-            color: $white;
-            border: 0;
-        }
-
         .delete-button:hover, .stopped-button:hover {
             background-color: $light-red;
             color: $white;
             border: 0;
+        }
+
+        .stopped-button:hover {
+            border-bottom: 2px white solid;
         }
 
         .button {

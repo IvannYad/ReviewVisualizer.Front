@@ -37,6 +37,7 @@
     }
 
     .grades-realtime-charts-section {
+        margin-top: 20px;
         min-height: 300px;
         height: fit-content;
         width: 100%;
@@ -45,5 +46,9 @@
         justify-content: space-around;
         align-items: center;
         flex-wrap: wrap;
+        border: 2px $main-grey-border solid;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: $main-grey;
     }
 }

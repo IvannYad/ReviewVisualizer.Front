@@ -7,6 +7,7 @@ import { AnalystApiContext } from "../../../layout/app/App";
 
 type AnalystListElementProps = {
     analyst: Analyst;
+    onDelete: (reviewerId: number) => void;
 }
 
 export default function AnalystListElement(props: AnalystListElementProps){
@@ -27,6 +28,11 @@ export default function AnalystListElement(props: AnalystListElementProps){
             })
     }
 
+    const deleteAnalyst = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        event.preventDefault();
+        props.onDelete(props.analyst.id);
+    };
+
     const stopResumeButtonClass = isStopped ? "stopped-button" : "running-button";
     return (
         <div className="analyst-list-element">
@@ -45,10 +51,7 @@ export default function AnalystListElement(props: AnalystListElementProps){
                 }}>
                     {isStopped ? <CaretRightOutlined /> : <PauseOutlined />}
                 </Button>
-                <Button className="edit-button button">
-                    <EditOutlined />
-                </Button>
-                <Button className="delete-button button">
+                <Button className="delete-button button" onClick={deleteAnalyst}>
                     <DeleteOutlined />
                 </Button>
             </div>

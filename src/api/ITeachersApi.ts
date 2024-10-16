@@ -3,10 +3,10 @@ import { AxiosResponse } from "axios";
 import { Teacher, TeacherCreate } from "../models/Teacher";
 
 export default interface ITeacherApi{
-    getAll(filter: ((task: Teacher) => boolean) | null): Promise<Teacher[] | void>;
+    getAll(): Promise<Teacher[] | void>;
     getAllForDepartment(deptId: number): Promise<Teacher[] | void>;
     get(id: number): Promise<Teacher | void>;
-    create(task: TeacherCreate): Promise<void>;
+    create(teacher: TeacherCreate): Promise<void>;
     update(id: number, newTask: Teacher): Promise<void>;
     remove(id: number): Promise<boolean>;
 
@@ -17,6 +17,9 @@ export default interface ITeacherApi{
     getGlobalRank(id: number): Promise<void | number>;
 
     getGrade(teacherId: number, category: GradeCatetory): Promise<void | (null | number)>;
+
+    getTop10(): Promise<Teacher[] | void>;
+    getTop10InDepartment(deptId: number): Promise<Teacher[] | void>;
 }
 
 export enum GradeCatetory{
