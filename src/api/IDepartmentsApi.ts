@@ -16,4 +16,5 @@ export default interface IDepartmentApi{
     getGrade(departmentId: number, category: GradeCatetory): Promise<void | (null | number)>;
 
     getTop10(): Promise<Department[] | void>;
+    getBest(): Promise<Department | void>;
 }

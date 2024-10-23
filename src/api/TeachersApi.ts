@@ -150,4 +150,12 @@ export default class TeacherApi implements ITeacherApi{
 
         return dataPromise;
     }
+
+    getBest(): Promise<Teacher | void> {
+        return axios.get(`${this.url}/get-best`)
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => console.log(error))
+    }
 }

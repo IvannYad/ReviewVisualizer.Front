@@ -108,4 +108,12 @@ export default class DepartmentApi implements IDepartmentApi{
 
         return dataPromise;
     }
+
+    getBest(): Promise<Department | void> {
+        return axios.get(`${this.url}/get-best`)
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => console.log(error))
+    }
 }

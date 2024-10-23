@@ -1,0 +1,88 @@
+@import "../../../../assets/variables/colors.scss";
+
+.board-of-fame-card {
+    display: block;
+    height: 300px;
+    width: 270px;
+    border-radius: 7px;
+    position: relative;
+    
+    .teacher-icon-holder {
+        height: 70%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .circle-border {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90%;
+            background-color: $chart-gold;
+            width: 70%;
+            border-radius: 50%;
+
+            .teacher-icon {
+                background-color: $white;
+                border-radius: 5px 5px 0 0;
+                height: 90%;
+                width: 90%;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .name-holder {
+        height: 10%;
+        text-align: center;
+        color: $dark-grey;
+        font-style: italic;
+        font-weight: 700;
+        font-size: 20px;
+        padding: 7px 0;
+        color: $chart-gold;
+    }
+
+    .rating-holder {
+        height: 20%;
+        text-align: center;
+        color: $dark-grey;
+        font-style: italic;
+        font-weight: 700;
+        font-size: 18px;
+        padding: 7px 0;
+        color: $chart-gold;
+    }
+    
+    .caption-holder {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+        background-color: $dark-blue;
+        border-radius: 0 0 4px 4px;
+        color: $white;
+        font-style: italic;
+    }
+
+    .highlight {
+        color: $light-green-font;
+        transition: background-color 0.2s ease-in-out;
+    }
+}
+
+.department-card {
+    background-color: $light-green;
+    border: 2px solid $dark-green;
+}
+
+.teacher-card {
+    background-color: $light-blue;
+    border: 2px solid $dark-blue;
+}
+

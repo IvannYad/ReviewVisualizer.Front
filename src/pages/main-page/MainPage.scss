@@ -14,5 +14,34 @@
         padding: 20px 0px;
         box-sizing: border-box;
         background-color: $main-grey;
-    }  
+    }
+
+    .board-of-fame {
+        width: 100%;
+        border-radius: 10px;
+        border: $main-grey-border 2px solid;
+        box-sizing: border-box;
+        background-color: $main-grey;
+        margin-bottom: 20px;
+
+        .board-of-fame-header {
+            background-color: $chart-gold;
+            border-bottom: 2px solid $gold;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            color: $dark-grey;
+            font-style: italic;
+            font-weight: 700;
+            font-size: 24px;
+            padding: 7px 0;
+        }
+
+        .board-of-fame-body {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 20px 0;
+        }
+    }
 }

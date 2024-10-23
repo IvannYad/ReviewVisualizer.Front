@@ -20,6 +20,7 @@ export default interface ITeacherApi{
 
     getTop10(): Promise<Teacher[] | void>;
     getTop10InDepartment(deptId: number): Promise<Teacher[] | void>;
+    getBest(): Promise<Teacher | void>;
 }
 
 export enum GradeCatetory{
