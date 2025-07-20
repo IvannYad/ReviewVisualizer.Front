@@ -24,9 +24,24 @@
         .name-period-holder {
             height: 100%;
             width: 40%;
+            padding-top: 10px;
+            box-sizing: border-box;
 
-           .reviewer-name {
-                height: 50%;
+            .reviewer-type {
+                display: flex;
+                height: 20%;
+                justify-content: center;
+                align-items: center;
+                box-sizing: border-box !important;
+                border: 2px solid #2c909469;
+                color: #2c9094c9;
+                border-radius: 10px;
+                margin: 0 10px;
+                background-color: #ffffff52;
+            }
+
+            .reviewer-name {
+                height: 40%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -34,6 +49,27 @@
                 font-weight: 600;
                 font-style: italic;
                 color: $dark-grey;
+            }
+
+            .time-holder {
+                display: block;
+                box-sizing: border-box;
+                padding: 0 10px;
+                height: 40%;
+                color: #2c9094c9;
+
+                .ant-picker {
+                    width: 100%;
+                    border: 2px solid #2c909469;
+                    box-sizing: border-box;
+                    color: #2c9094c9;
+                    background-color: #ffffff52 !important;
+                    font-size: 16px;
+
+                    .ant-picker-input input {
+                        font-size: 16px;
+                    }
+                }
             }
 
             .generation-period {
@@ -147,15 +183,15 @@
         max-width: 50px;
         border-radius: 0 3px 3px 0;
         
-        .disabled-button {
+        .send-button:disabled {
             border-radius: 0 3px 0 0;
             height: 60%;
-            background-color: $main-grey;
+            background-color: $main-grey !important;
             color: $main-grey-border;
             border: 0;
         }
 
-        .running-button {
+        .send-button {
             border-radius: 0 3px 0 0;
             height: 60%;
             background-color: $light-green;
@@ -177,7 +213,7 @@
             border-bottom: 2px white solid;
         }
 
-        .running-button:hover {
+        .send-button:hover {
             background-color: $light-green;
             color: $white;
             border: 0;

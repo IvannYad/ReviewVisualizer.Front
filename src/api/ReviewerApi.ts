@@ -2,11 +2,36 @@ import axios from "axios";
 import { Reviewer, ReviewerCreate } from "../models/Reviewer";
 import IReviewerApi from "./IReviewerApi";
 import { Teacher } from "../models/Teacher";
+import { Dayjs } from "dayjs";
 
 export default class ReviewerApi implements IReviewerApi{
     private url: string;
     constructor(apiUrl: string){
         this.url = apiUrl;
+    }
+
+    generateFireAndForget(reviewerId: number): Promise<void> {
+        return axios.post(`${this.url}/generate-fire-and-forget?reviewerId=${reviewerId}`)
+            .then(res => res.data)
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    generateDelayed(reviewerId: number, delay: Dayjs): Promise<void> {
+        return axios.post(`${this.url}/generate-delayed?reviewerId=${reviewerId}&delay=${delay}`)
+            .then(res => res.data)
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    generateRecurring(reviewerId: number, interval: Dayjs): Promise<void> {
+        return axios.post(`${this.url}/generate-fire-and-forget?reviewerId=${reviewerId}&interval=${interval}`)
+            .then(res => res.data)
+            .catch(error => {
+                console.log(error);
+            });
     }
     
     getAll(): Promise<Reviewer[] | void> {
@@ -30,14 +55,6 @@ export default class ReviewerApi implements IReviewerApi{
                     });
     }
 
-    // update(id: number, newTeacher: Teacher): Promise<void> {
-    //     console.log(id, newTeacher);
-    //     return axios.put(`${this.url}/${id}`, newTeacher)
-    //                 .then(res => {
-    //                     console.log("MyRes" + res);
-    //                 });
-    // }
-
     remove(id: number): Promise<boolean> {
         return axios.delete(`${this.url}?reviewerId=${id}`)
                     .then(_ => {
@@ -48,22 +65,6 @@ export default class ReviewerApi implements IReviewerApi{
                         alert(error.response?.data ?? "Error while deleting the reviewer");
                         return false;
                     })
-    }
-
-    startReviewer(reviewerId: number): Promise<void | boolean> {
-        return axios.post(`${this.url}/start-reviewer/${reviewerId}`)
-                    .then(res => res.data)
-                    .catch(error => {
-                        console.log(error);
-                    });
-    }
-
-    stopReviewer(reviewerId: number): Promise<boolean | void> {
-        return axios.post(`${this.url}/stop-reviewer/${reviewerId}`)
-                    .then(res => res.data)
-                    .catch(error => {
-                        console.log(error);
-                    });
     }
 
     addTeachers(reviewerId: number, teacherIds: number[]): Promise<void | Teacher[]> {

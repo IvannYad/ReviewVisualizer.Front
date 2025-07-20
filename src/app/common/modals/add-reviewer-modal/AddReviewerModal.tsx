@@ -1,8 +1,10 @@
 import "./AddReviewerModal.scss";
 import { useContext, useState } from "react";
 import { ReviewerCreate } from "../../../../models/Reviewer";
-import { Button, Form, Input, InputNumber, Modal, Slider } from "antd";
+import { Button, Form, Input, InputNumber, Modal, Radio, Slider } from "antd";
 import { ReviewerApiContext } from "../../../layout/app/App";
+import { GeneratorType, generatorTypeLabels } from "../../../../models/GeneratorType";
+import FormItem from "antd/es/form/FormItem";
 
 type AddReviewerModalProps = {
     isOpen: boolean;
@@ -18,7 +20,7 @@ const defaultReviewer: ReviewerCreate = {
     studentsSupportMaxGrage: 100,
     communicationMinGrage: 0,
     communicationMaxGrage: 100,
-    isStopped: true,
+    type: GeneratorType.FIRE_AND_FORGET
 };
 
 function getGradientColor(percentage: number) {
@@ -102,25 +104,39 @@ export default function AddReviewerModal(props: AddReviewerModalProps){
                                 setReviewer({ ...reviewer, reviewGenerationFrequensyMiliseconds: value! });
                             }}/>
                         </Form.Item>
+                        <Form.Item name="type" initialValue={GeneratorType.FIRE_AND_FORGET}>
+                            <Radio.Group
+                                className="generator-type-options"
+                                options={[
+                                    { value: GeneratorType.FIRE_AND_FORGET, label: generatorTypeLabels[GeneratorType.FIRE_AND_FORGET] },
+                                    { value: GeneratorType.DELAYED, label: generatorTypeLabels[GeneratorType.DELAYED] },
+                                    { value: GeneratorType.RECURRING, label: generatorTypeLabels[GeneratorType.RECURRING] },
+                                ]}
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    setReviewer({ ...reviewer, type: e.target.value });
+                                }}
+                                />
+                        </Form.Item>
                     </div>
                     <div className="grades-input-holder">
                     <div>
                         Teaching Quality range
                         <Slider
-                        range
-                        defaultValue={[reviewer.teachingQualityMinGrage, reviewer.teachingQualityMaxGrage]}
-                        onChange={(value) => setReviewer({ ...reviewer, teachingQualityMinGrage: value[0], teachingQualityMaxGrage: value[1] })}
-                        styles={{
-                            track: {
-                            background: 'transparent',
-                            },
-                            tracks: {
-                            background: `linear-gradient(to right, ${getGradientColor(reviewer.teachingQualityMinGrage  / 100)} 0%, ${getGradientColor(
-                                (reviewer.teachingQualityMaxGrage === -1 ? 100 : reviewer.teachingQualityMaxGrage) / 100,
-                            )} 100%)`,
-                            },
-                        }}
-                    />
+                            range
+                            defaultValue={[reviewer.teachingQualityMinGrage, reviewer.teachingQualityMaxGrage]}
+                            onChange={(value) => setReviewer({ ...reviewer, teachingQualityMinGrage: value[0], teachingQualityMaxGrage: value[1] })}
+                            styles={{
+                                track: {
+                                background: 'transparent',
+                                },
+                                tracks: {
+                                background: `linear-gradient(to right, ${getGradientColor(reviewer.teachingQualityMinGrage  / 100)} 0%, ${getGradientColor(
+                                    (reviewer.teachingQualityMaxGrage === -1 ? 100 : reviewer.teachingQualityMaxGrage) / 100,
+                                )} 100%)`,
+                                },
+                            }}
+                        />
                     </div>
                     <div>
                         Student Support range

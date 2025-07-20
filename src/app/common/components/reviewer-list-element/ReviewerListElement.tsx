@@ -1,13 +1,15 @@
 import "./ReviewerListElement.scss"
-import { Button, Slider } from "antd";
-import { CaretRightOutlined, DeleteOutlined, EditOutlined, PauseOutlined } from "@ant-design/icons";
+import { Button, Input, Slider, TimePicker } from "antd";
+import { DeleteOutlined, EditOutlined, SendOutlined } from "@ant-design/icons";
 import { Reviewer } from "../../../../models/Reviewer";
 import { ReviewerApiContext } from "../../../layout/app/App";
-import { useContext, useState } from "react";
+import { MouseEventHandler, useContext, useState } from "react";
 import { Teacher } from "../../../../models/Teacher";
 import ChooseTeachersForReviewModal from "../../modals/choose-teachers-for-review-modal/ChooseTeachersForReviewModal";
 import AddTeacherButton from "./add-teacher-button/AddTeacherButton";
 import TeacherListElementWrapper from "./teacher-list-element-wrapper/TeacherListElementWrapper";
+import { GeneratorType, generatorTypeLabels } from "../../../../models/GeneratorType";
+import dayjs from "dayjs";
 
 type ReviewerListElementProps = {
     reviewer: Reviewer
@@ -29,26 +31,12 @@ function getGradientColor(percentage: number) {
 
 export default function ReviewerListElement(props: ReviewerListElementProps){
     const [teachers, setTeachers] = useState<Teacher[]>(props.reviewer.teachers);
-    const [isStopped, setIsStopped] = useState(props.reviewer.isStopped);
     const [isChooseTeacherModalOpen, setChooseTeacherModalOpen] = useState(false);
+    const [timeState, setTime] = useState<dayjs.Dayjs | null>(null);
     const teachingQualityRange = [props.reviewer.teachingQualityMinGrage, props.reviewer.teachingQualityMaxGrage];
     const studentSupportRange = [props.reviewer.studentsSupportMinGrage, props.reviewer.studentsSupportMaxGrage];
     const communicationRange = [props.reviewer.communicationMinGrage, props.reviewer.communicationMaxGrage];
     const reviewerApi = useContext(ReviewerApiContext);
-
-    const startReviewer = () => {
-        reviewerApi.startReviewer(props.reviewer.id)
-            .then(res => {
-                if (typeof res == "boolean" && res) setIsStopped(false);
-            })
-    }
-
-    const stopReviewer = () => {
-        reviewerApi.stopReviewer(props.reviewer.id)
-            .then(res => {
-                if (typeof res == "boolean" && res) setIsStopped(true);
-            })
-    }
 
     const deleteTeacher = (id: number) => {
         reviewerApi.removeTeachers(props.reviewer.id, [id])
@@ -56,9 +44,6 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
                 if (res) {
                     // If there is no teachers assigned to the reviewer, stop the reviewer.
                     const teachersWithoutDeleted = teachers.filter(t => !res.includes(t.id));
-                    if (teachersWithoutDeleted.length < 1) {
-                        setIsStopped(true);
-                    }
                     setTeachers([ ...teachersWithoutDeleted ]);
                 }
             })
@@ -70,14 +55,45 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
         props.onDelete(props.reviewer.id);
     };
 
-    const stopResumeButtonClass = teachers.length < 1 ? "disabled-button" : isStopped ? "stopped-button" : "running-button";
-    
+    const onTimeChange = (time: dayjs.Dayjs, timeString: string | string[]) => {
+        setTime(time);
+    }
+
+    const sendReviewGeneration: MouseEventHandler<HTMLElement> = async (e) => {
+        e.preventDefault();
+
+        if (props.reviewer.type === GeneratorType.FIRE_AND_FORGET){
+            await reviewerApi.generateFireAndForget(props.reviewer.id);
+            return;
+        }
+
+        if (timeState === null){
+            console.log("Cannot send review generation request because time is not specified");
+            return;
+        }
+
+        if (props.reviewer.type === GeneratorType.DELAYED){
+            await reviewerApi.generateDelayed(props.reviewer.id, timeState);
+            return;
+        }
+
+        await reviewerApi.generateRecurring(props.reviewer.id, timeState);
+    }
+
     return (
         <div className="reviewer-list-element">
             <div className="info-holder-container">
                 <div className="name-period-holder">
+                    <div className="reviewer-type">{generatorTypeLabels[props.reviewer.type]}</div>
                     <div className="reviewer-name">{props.reviewer.name}</div>
-                    <div className="generation-period">Period: {props.reviewer.reviewGenerationFrequensyMiliseconds} ms</div>
+                    {
+                        props.reviewer.type !== GeneratorType.FIRE_AND_FORGET ?
+                        <div className="time-holder">
+                            {props.reviewer.type === GeneratorType.DELAYED ? "Delay" : "Inteval"}
+                            <TimePicker onChange={onTimeChange} defaultOpenValue={dayjs('00:00:00', 'HH:mm:ss')} required={true}/>
+                        </div> :
+                        <></>
+                    }
                 </div>
                 <div className="grades-holder">
                     <div>
@@ -147,15 +163,8 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
             </div>
             <div className="buttons-container">
                 <Button disabled={teachers.length < 1}
-                    className={`${stopResumeButtonClass} button`} onClick={(e) => {
-                    e.preventDefault();
-                    if (isStopped){
-                        startReviewer();
-                    } else{
-                        stopReviewer();
-                    }
-                }}>
-                    {isStopped ? <CaretRightOutlined /> : <PauseOutlined />}
+                    className="send-button button" onClick={sendReviewGeneration}>
+                    {props.reviewer.type === GeneratorType.RECURRING ? <EditOutlined /> : <SendOutlined />}
                 </Button>
                 <Button className="delete-button button" onClick={deleteReviewer}>
                     <DeleteOutlined />

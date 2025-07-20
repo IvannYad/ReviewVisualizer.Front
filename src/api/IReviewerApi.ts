@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { Reviewer, ReviewerCreate } from "../models/Reviewer";
 import { Teacher } from "../models/Teacher";
 
@@ -7,8 +8,9 @@ export default interface IReviewerApi{
     //update(id: number, newTask: Department): Promise<void>;
     remove(id: number): Promise<boolean>;
 
-    startReviewer(reviewerId: number): Promise<boolean | void>;
-    stopReviewer(reviewerId: number): Promise<boolean | void>;
+    generateFireAndForget(reviewerId: number): Promise<void>;
+    generateDelayed(reviewerId: number, delay: dayjs.Dayjs): Promise<void>;
+    generateRecurring(reviewerId: number, interval: dayjs.Dayjs): Promise<void>;
     
     addTeachers(reviewerId: number, teacherIds: number[]): Promise<void | Teacher[]>;
     removeTeachers(reviewerId: number, teacheIds: number[]): Promise<void | number[]>;

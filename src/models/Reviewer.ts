@@ -1,3 +1,4 @@
+import { GeneratorType } from "./GeneratorType";
 import { Teacher } from "./Teacher";
 
 export type Reviewer = {
@@ -10,8 +11,8 @@ export type Reviewer = {
     studentsSupportMaxGrage: number,
     communicationMinGrage: number,
     communicationMaxGrage: number,
-    isStopped: boolean,
     teachers: Teacher[],
+    type: GeneratorType
 }
 
 export type ReviewerCreate = {
@@ -23,5 +24,5 @@ export type ReviewerCreate = {
     studentsSupportMaxGrage: number,
     communicationMinGrage: number,
     communicationMaxGrage: number,
-    isStopped: boolean,
+    type: GeneratorType
 }
