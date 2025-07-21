@@ -99,11 +99,6 @@ export default function AddReviewerModal(props: AddReviewerModalProps){
                                 setReviewer({ ...reviewer, name: e.target.value });
                             }}/>
                         </Form.Item>
-                        <Form.Item name="interval" label={'Interval(ms)'} initialValue={1_000}>
-                            <InputNumber min={100} max={100_000} step={100} onChange={(value) => {
-                                setReviewer({ ...reviewer, reviewGenerationFrequensyMiliseconds: value! });
-                            }}/>
-                        </Form.Item>
                         <Form.Item name="type" initialValue={GeneratorType.FIRE_AND_FORGET}>
                             <Radio.Group
                                 className="generator-type-options"

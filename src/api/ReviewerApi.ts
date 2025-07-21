@@ -26,8 +26,8 @@ export default class ReviewerApi implements IReviewerApi{
             });
     }
 
-    generateRecurring(reviewerId: number, interval: Dayjs): Promise<void> {
-        return axios.post(`${this.url}/generate-fire-and-forget?reviewerId=${reviewerId}&interval=${interval}`)
+    generateRecurring(reviewerId: number, cron: string): Promise<void> {
+        return axios.post(`${this.url}/generate-recurring?reviewerId=${reviewerId}&cron=${cron}`)
             .then(res => res.data)
             .catch(error => {
                 console.log(error);

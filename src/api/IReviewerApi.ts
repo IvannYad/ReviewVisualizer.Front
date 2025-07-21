@@ -10,7 +10,7 @@ export default interface IReviewerApi{
 
     generateFireAndForget(reviewerId: number): Promise<void>;
     generateDelayed(reviewerId: number, delay: dayjs.Dayjs): Promise<void>;
-    generateRecurring(reviewerId: number, interval: dayjs.Dayjs): Promise<void>;
+    generateRecurring(reviewerId: number, cron: string): Promise<void>;
     
     addTeachers(reviewerId: number, teacherIds: number[]): Promise<void | Teacher[]>;
     removeTeachers(reviewerId: number, teacheIds: number[]): Promise<void | number[]>;

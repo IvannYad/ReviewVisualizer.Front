@@ -2,7 +2,7 @@
 
 .reviewer-list-element {
     position: relative;
-    height: 200px;
+    height: 230px;
     width: 100%;
     max-width: 100%;
     border: 2px solid $reviewer-list-element-border;
@@ -15,7 +15,7 @@
     
     .info-holder-container {
         height: 100%;
-        width: 40%;
+        width: 50%;
         min-width: 40%;
         display: flex;
         align-items: center;
@@ -23,8 +23,9 @@
 
         .name-period-holder {
             height: 100%;
-            width: 40%;
+            width: 45%;
             padding-top: 10px;
+            padding-bottom: 5px;
             box-sizing: border-box;
 
             .reviewer-type {
@@ -55,7 +56,7 @@
                 display: block;
                 box-sizing: border-box;
                 padding: 0 10px;
-                height: 40%;
+                height: fit-content;
                 color: #2c9094c9;
 
                 .ant-picker {
@@ -69,6 +70,10 @@
                     .ant-picker-input input {
                         font-size: 16px;
                     }
+                }
+
+                .error-message {
+                    color: #ff1414;
                 }
             }
 
@@ -86,7 +91,7 @@
 
         .grades-holder {
             height: 100%;
-            width: 60%;
+            width: 55%;
             padding: 5px 10px;
             box-sizing: border-box;
             display: flex;
@@ -127,7 +132,7 @@
     .teachers-list-container {
         height: 100%;
         flex-grow: 1;
-        max-width: 60%;
+        max-width: 50%;
         box-sizing: border-box;
         padding: 10px 15px;
 

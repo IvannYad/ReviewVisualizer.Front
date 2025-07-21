@@ -10,6 +10,7 @@ import AddTeacherButton from "./add-teacher-button/AddTeacherButton";
 import TeacherListElementWrapper from "./teacher-list-element-wrapper/TeacherListElementWrapper";
 import { GeneratorType, generatorTypeLabels } from "../../../../models/GeneratorType";
 import dayjs from "dayjs";
+import cronValidate from "cron-validate"
 
 type ReviewerListElementProps = {
     reviewer: Reviewer
@@ -29,10 +30,23 @@ function getGradientColor(percentage: number) {
     return `rgb(${midColor.join(',')})`;
 }
 
+function isValidHangfireCron(expression: string): boolean {
+    const result = cronValidate(expression, {
+        preset: 'default', // for 5-field: minute hour day month day-of-week
+        override: {
+            useSeconds: true, // Hangfire supports 6-field (with seconds)
+        },
+    });
+
+    return result.isValid();
+}
+
 export default function ReviewerListElement(props: ReviewerListElementProps){
     const [teachers, setTeachers] = useState<Teacher[]>(props.reviewer.teachers);
     const [isChooseTeacherModalOpen, setChooseTeacherModalOpen] = useState(false);
-    const [timeState, setTime] = useState<dayjs.Dayjs | null>(null);
+    const [delay, setDelay] = useState<dayjs.Dayjs | null>(null);
+    const [cronExpression, setCronExpression] = useState<string>();
+    const [timeCronErrorMessage, setTimeCronErrorMessage] = useState<string | undefined>();
     const teachingQualityRange = [props.reviewer.teachingQualityMinGrage, props.reviewer.teachingQualityMaxGrage];
     const studentSupportRange = [props.reviewer.studentsSupportMinGrage, props.reviewer.studentsSupportMaxGrage];
     const communicationRange = [props.reviewer.communicationMinGrage, props.reviewer.communicationMaxGrage];
@@ -56,7 +70,12 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
     };
 
     const onTimeChange = (time: dayjs.Dayjs, timeString: string | string[]) => {
-        setTime(time);
+        setDelay(time);
+    }
+
+    const onCronExpressionChange: React.ChangeEventHandler<HTMLInputElement> | undefined = (e) => {
+        e.preventDefault();
+        setCronExpression(e.target.value);
     }
 
     const sendReviewGeneration: MouseEventHandler<HTMLElement> = async (e) => {
@@ -67,17 +86,30 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
             return;
         }
 
-        if (timeState === null){
-            console.log("Cannot send review generation request because time is not specified");
-            return;
-        }
-
         if (props.reviewer.type === GeneratorType.DELAYED){
-            await reviewerApi.generateDelayed(props.reviewer.id, timeState);
+            if (delay === null){
+                console.log("Cannot send review generation request because delay time is not specified");
+                setTimeCronErrorMessage("Please specify delay time");
+                return;
+            }
+
+            await reviewerApi.generateDelayed(props.reviewer.id, delay);
             return;
         }
 
-        await reviewerApi.generateRecurring(props.reviewer.id, timeState);
+        if (!cronExpression){
+            console.log("Cannot send recurring review generation request because cron expression is not specified");
+            setTimeCronErrorMessage("Please specify cron expression");
+            return;
+        }
+
+        if (!isValidHangfireCron(cronExpression!)){
+            console.log("Cannot send recurring review generation request because cron expression is not in correct format");
+            setTimeCronErrorMessage("Cron expression is not in correct format");
+            return;
+        }
+
+        await reviewerApi.generateRecurring(props.reviewer.id, cronExpression);
     }
 
     return (
@@ -87,12 +119,19 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
                     <div className="reviewer-type">{generatorTypeLabels[props.reviewer.type]}</div>
                     <div className="reviewer-name">{props.reviewer.name}</div>
                     {
-                        props.reviewer.type !== GeneratorType.FIRE_AND_FORGET ?
+                        props.reviewer.type === GeneratorType.DELAYED ?
                         <div className="time-holder">
-                            {props.reviewer.type === GeneratorType.DELAYED ? "Delay" : "Inteval"}
+                            Delay
                             <TimePicker onChange={onTimeChange} defaultOpenValue={dayjs('00:00:00', 'HH:mm:ss')} required={true}/>
-                        </div> :
-                        <></>
+                            <span className="error-message">{timeCronErrorMessage}</span>
+                        </div> : (
+                            props.reviewer.type === GeneratorType.RECURRING ?
+                            <div className="time-holder">
+                                Cron expression
+                                <Input onChange={onCronExpressionChange} required={true}/>
+                                <span className="error-message">{timeCronErrorMessage}</span>
+                            </div> : <></>
+                        )
                     }
                 </div>
                 <div className="grades-holder">
