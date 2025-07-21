@@ -8,7 +8,7 @@ export default function MainHeader(){
             <Link to={FRONTEND_ROUTES.BASE} >ReviewVisualizer</Link>
             <Link to={FRONTEND_ROUTES.PAGES.DEPARTMENTS} >Departments</Link>
             <Link to={FRONTEND_ROUTES.PAGES.GENERATOR} >Generator</Link>
-            <Link to={FRONTEND_ROUTES.PAGES.PROCESSOR} >Processor</Link>
+            <Link to={"https://localhost:5002/hangfire"} >Processor</Link>
         </header>
     )   
 }

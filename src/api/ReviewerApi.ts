@@ -18,8 +18,8 @@ export default class ReviewerApi implements IReviewerApi{
             });
     }
 
-    generateDelayed(reviewerId: number, delay: Dayjs): Promise<void> {
-        return axios.post(`${this.url}/generate-delayed?reviewerId=${reviewerId}&delay=${delay}`)
+    generateDelayed(reviewerId: number, delay: string): Promise<void> {
+        return axios.post(`${this.url}/generate-delayed?reviewerId=${reviewerId}&delay=${encodeURIComponent(delay)}`)
             .then(res => res.data)
             .catch(error => {
                 console.log(error);

@@ -1,5 +1,5 @@
 import "./ReviewerListElement.scss"
-import { Button, Input, Slider, TimePicker } from "antd";
+import { Button, Input, notification, Slider, TimePicker } from "antd";
 import { DeleteOutlined, EditOutlined, SendOutlined } from "@ant-design/icons";
 import { Reviewer } from "../../../../models/Reviewer";
 import { ReviewerApiContext } from "../../../layout/app/App";
@@ -44,13 +44,14 @@ function isValidHangfireCron(expression: string): boolean {
 export default function ReviewerListElement(props: ReviewerListElementProps){
     const [teachers, setTeachers] = useState<Teacher[]>(props.reviewer.teachers);
     const [isChooseTeacherModalOpen, setChooseTeacherModalOpen] = useState(false);
-    const [delay, setDelay] = useState<dayjs.Dayjs | null>(null);
+    const [delay, setDelay] = useState<string | null>(null);
     const [cronExpression, setCronExpression] = useState<string>();
     const [timeCronErrorMessage, setTimeCronErrorMessage] = useState<string | undefined>();
     const teachingQualityRange = [props.reviewer.teachingQualityMinGrage, props.reviewer.teachingQualityMaxGrage];
     const studentSupportRange = [props.reviewer.studentsSupportMinGrage, props.reviewer.studentsSupportMaxGrage];
     const communicationRange = [props.reviewer.communicationMinGrage, props.reviewer.communicationMaxGrage];
     const reviewerApi = useContext(ReviewerApiContext);
+     const [api, contextHolder] = notification.useNotification();
 
     const deleteTeacher = (id: number) => {
         reviewerApi.removeTeachers(props.reviewer.id, [id])
@@ -69,8 +70,10 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
         props.onDelete(props.reviewer.id);
     };
 
-    const onTimeChange = (time: dayjs.Dayjs, timeString: string | string[]) => {
-        setDelay(time);
+    const onTimeChange = (_: dayjs.Dayjs, timeString: string | string[]) => {
+        if (typeof timeString !== 'string') return;
+        console.log(timeString);
+        setDelay(timeString);
     }
 
     const onCronExpressionChange: React.ChangeEventHandler<HTMLInputElement> | undefined = (e) => {
@@ -83,6 +86,11 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
 
         if (props.reviewer.type === GeneratorType.FIRE_AND_FORGET){
             await reviewerApi.generateFireAndForget(props.reviewer.id);
+            api.info({
+                message: "\"Fire And Forget\" job is sent for registration",
+                description: "",
+                placement: "topLeft"
+            });
             return;
         }
 
@@ -93,7 +101,13 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
                 return;
             }
 
+            setTimeCronErrorMessage(undefined);
             await reviewerApi.generateDelayed(props.reviewer.id, delay);
+            api.info({
+                message: `"Delayed" job is sent for registration. Delay: ${delay}`,
+                description: "",
+                placement: "topLeft"
+            });
             return;
         }
 
@@ -109,11 +123,18 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
             return;
         }
 
+        setTimeCronErrorMessage(undefined);
         await reviewerApi.generateRecurring(props.reviewer.id, cronExpression);
+        api.info({
+            message: `"Recurring" job is sent for registration. Cron expression: ${cronExpression}`,
+            description: "",
+            placement: "topLeft"
+        });
     }
 
     return (
         <div className="reviewer-list-element">
+            {contextHolder}
             <div className="info-holder-container">
                 <div className="name-period-holder">
                     <div className="reviewer-type">{generatorTypeLabels[props.reviewer.type]}</div>
