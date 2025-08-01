@@ -29,3 +29,7 @@ export type LogoffResponse = {
   success: boolean;
   error?: string;
 };
+
+export type User = {
+  userName: string;
+}

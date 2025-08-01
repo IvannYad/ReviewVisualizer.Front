@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { Reviewer, ReviewerCreate } from "../models/Reviewer";
 import { Teacher } from "../models/Teacher";
 
@@ -14,4 +13,6 @@ export default interface IReviewerApi{
     
     addTeachers(reviewerId: number, teacherIds: number[]): Promise<void | Teacher[]>;
     removeTeachers(reviewerId: number, teacheIds: number[]): Promise<void | number[]>;
+
+    tryAccess(): Promise<void>;
 }

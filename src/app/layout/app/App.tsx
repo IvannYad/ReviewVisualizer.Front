@@ -6,7 +6,7 @@ import Header from '../header/Header';
 import Footer from '../footer/Footer';
 import DepartmentApi from '../../../api/DepartmentsApi';
 import IDepartmentApi from '../../../api/IDepartmentsApi';
-import React from 'react';
+import React, { useState } from 'react';
 import TeacherApi from '../../../api/TeachersApi';
 import ITeacherApi from '../../../api/ITeachersApi';
 import ReviewerApi from '../../../api/ReviewerApi';
@@ -15,14 +15,22 @@ import IAnalystApi from '../../../api/IAnalystApi';
 import AnalystApi from '../../../api/AnalystApi';
 import IAuthApi from '../../../api/IAuthApi';
 import AuthApi from '../../../api/AuthApi';
+import { User } from '../../../models/AuthModels';
+
+export type AuthContextType = {
+  user: User | null;
+  setUser: (user: User | null) => void;
+}
 
 export const DepartmentApiContext = React.createContext<IDepartmentApi>(new DepartmentApi(""));
 export const TeacherApiContext = React.createContext<ITeacherApi>(new TeacherApi(""));
 export const ReviewerApiContext = React.createContext<IReviewerApi>(new ReviewerApi(""));
 export const AnalystApiContext = React.createContext<IAnalystApi>(new AnalystApi(""));
 export const AuthApiContext = React.createContext<IAuthApi>(new AuthApi(""));
+export const UserContext = React.createContext<AuthContextType | undefined>(undefined);
 
 function App() {
+  const [user, setUser] = useState<User | null>(null);
   const departmentApi: IDepartmentApi = new DepartmentApi(`${process.env.REACT_APP_API_URL}/departments`);
   const teacherApi: ITeacherApi = new TeacherApi(`${process.env.REACT_APP_API_URL}/teachers`);
   const reviewerApi: IReviewerApi = new ReviewerApi(`${process.env.REACT_APP_GENERATOR_URL}/reviewers`);
@@ -31,22 +39,25 @@ function App() {
   const { pathname } = useLocation();
 
   return (
-    <AuthApiContext.Provider value={authApi}>
-        <DepartmentApiContext.Provider value={departmentApi}>
-            <TeacherApiContext.Provider value={teacherApi}>
-                <ReviewerApiContext.Provider value={reviewerApi}>
-                    <AnalystApiContext.Provider value={analystApi}>
-                        <div>
-                            <Header />
-                            {(pathname !== FRONTEND_ROUTES.BASE) && (<Outlet />)}
-                            {(pathname === FRONTEND_ROUTES.BASE) && (<MainPage />)}
-                            <Footer />
-                        </div>
-                    </AnalystApiContext.Provider>
-                </ReviewerApiContext.Provider>
-            </TeacherApiContext.Provider>
-        </DepartmentApiContext.Provider>
-    </AuthApiContext.Provider>
+    <UserContext.Provider value={{user, setUser}}>
+        <AuthApiContext.Provider value={authApi}>
+            <DepartmentApiContext.Provider value={departmentApi}>
+                <TeacherApiContext.Provider value={teacherApi}>
+                    <ReviewerApiContext.Provider value={reviewerApi}>
+                        <AnalystApiContext.Provider value={analystApi}>
+                            <div>
+                                <Header />
+                                {(pathname !== FRONTEND_ROUTES.BASE) && (<Outlet />)}
+                                {(pathname === FRONTEND_ROUTES.BASE) && (<MainPage />)}
+                                <Footer />
+                            </div>
+                        </AnalystApiContext.Provider>
+                    </ReviewerApiContext.Provider>
+                </TeacherApiContext.Provider>
+            </DepartmentApiContext.Provider>
+        </AuthApiContext.Provider>
+    </UserContext.Provider>
+    
   )
 }
 

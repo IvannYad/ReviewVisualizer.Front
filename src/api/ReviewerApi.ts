@@ -2,16 +2,25 @@ import axios from "axios";
 import { Reviewer, ReviewerCreate } from "../models/Reviewer";
 import IReviewerApi from "./IReviewerApi";
 import { Teacher } from "../models/Teacher";
-import { Dayjs } from "dayjs";
-
 export default class ReviewerApi implements IReviewerApi{
     private url: string;
     constructor(apiUrl: string){
         this.url = apiUrl;
     }
+    
+    tryAccess(): Promise<void> {
+        const promise = axios.get(`${this.url}/try-access`, {
+            withCredentials: true
+        })
+        .then(() => {});
+
+        return promise;
+    }
 
     generateFireAndForget(reviewerId: number): Promise<void> {
-        return axios.post(`${this.url}/generate-fire-and-forget?reviewerId=${reviewerId}`)
+        return axios.post(`${this.url}/generate-fire-and-forget?reviewerId=${reviewerId}`, {
+            withCredentials: true
+        })
             .then(res => res.data)
             .catch(error => {
                 console.log(error);
@@ -19,7 +28,9 @@ export default class ReviewerApi implements IReviewerApi{
     }
 
     generateDelayed(reviewerId: number, delay: string): Promise<void> {
-        return axios.post(`${this.url}/generate-delayed?reviewerId=${reviewerId}&delay=${encodeURIComponent(delay)}`)
+        return axios.post(`${this.url}/generate-delayed?reviewerId=${reviewerId}&delay=${encodeURIComponent(delay)}`, {
+            withCredentials: true
+        })
             .then(res => res.data)
             .catch(error => {
                 console.log(error);
@@ -27,7 +38,9 @@ export default class ReviewerApi implements IReviewerApi{
     }
 
     generateRecurring(reviewerId: number, cron: string): Promise<void> {
-        return axios.post(`${this.url}/generate-recurring?reviewerId=${reviewerId}&cron=${cron}`)
+        return axios.post(`${this.url}/generate-recurring?reviewerId=${reviewerId}&cron=${cron}`, {
+            withCredentials: true
+        })
             .then(res => res.data)
             .catch(error => {
                 console.log(error);
@@ -35,7 +48,9 @@ export default class ReviewerApi implements IReviewerApi{
     }
     
     getAll(): Promise<Reviewer[] | void> {
-        const promise = axios.get(this.url);
+        const promise = axios.get(this.url, {
+            withCredentials: true
+        });
         const dataPromise = promise
             .then(response => {
                 return response.data;
@@ -46,7 +61,9 @@ export default class ReviewerApi implements IReviewerApi{
     }
 
     create(reviewer: ReviewerCreate): Promise<void | boolean> {
-        return axios.post(this.url, reviewer)
+        return axios.post(this.url, reviewer, {
+            withCredentials: true
+        })
                     .then(res => {
                         return res.data;
                     })
@@ -56,7 +73,9 @@ export default class ReviewerApi implements IReviewerApi{
     }
 
     remove(id: number): Promise<boolean> {
-        return axios.delete(`${this.url}?reviewerId=${id}`)
+        return axios.delete(`${this.url}?reviewerId=${id}`, {
+            withCredentials: true
+        })
                     .then(_ => {
                         return true;
                     })
@@ -68,7 +87,9 @@ export default class ReviewerApi implements IReviewerApi{
     }
 
     addTeachers(reviewerId: number, teacherIds: number[]): Promise<void | Teacher[]> {
-        return axios.post(`${this.url}/add-teachers?reviewerId=${reviewerId}`, teacherIds)
+        return axios.post(`${this.url}/add-teachers?reviewerId=${reviewerId}`, teacherIds, {
+            withCredentials: true
+        })
             .then(res => {
                 return res.data;
             })
@@ -76,7 +97,9 @@ export default class ReviewerApi implements IReviewerApi{
     }
 
     removeTeachers(reviewerId: number, teacherIds: number[]): Promise<void | number[]> {
-        return axios.post(`${this.url}/remove-teachers?reviewerId=${reviewerId}`, teacherIds)
+        return axios.post(`${this.url}/remove-teachers?reviewerId=${reviewerId}`, teacherIds, {
+            withCredentials: true
+        })
         .then(res => {
             return res.data;
         })

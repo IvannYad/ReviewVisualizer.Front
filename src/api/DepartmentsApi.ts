@@ -9,7 +9,7 @@ export default class DepartmentApi implements IDepartmentApi{
     constructor(apiUrl: string){
         this.url = apiUrl;
     }
-    
+
     getAll(filter: ((department: Department) => boolean) | null): Promise<Department[] | void> {
         let departmentsToReturn: Department[];
         const promise = axios.get(this.url, {

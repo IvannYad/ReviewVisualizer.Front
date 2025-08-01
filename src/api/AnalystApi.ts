@@ -7,72 +7,31 @@ export default class AnalystApi implements IAnalystApi{
     constructor(apiUrl: string){
         this.url = apiUrl;
     }
-    
     getAll(): Promise<Analyst[] | void> {
-        const promise = axios.get(this.url);
-        const dataPromise = promise
-            .then(response => {
-                return response.data;
-            })
-            .catch(error => console.log(error))
-
-        return dataPromise;
+        throw new Error("Method not implemented.");
     }
-
     create(analyst: AnalystCreate): Promise<void | boolean> {
-        return axios.post(this.url, analyst)
-                    .then(res => {
-                        return res.data;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
+        throw new Error("Method not implemented.");
     }
-
-    // update(id: number, newTeacher: Teacher): Promise<void> {
-    //     console.log(id, newTeacher);
-    //     return axios.put(`${this.url}/${id}`, newTeacher)
-    //                 .then(res => {
-    //                     console.log("MyRes" + res);
-    //                 });
-    // }
-
     remove(id: number): Promise<boolean> {
-        return axios.delete(`${this.url}?analystId=${id}`)
-                    .then(_ => {
-                        return true;
-                    })
-                    .catch(error =>{
-                        console.log(error);
-                        alert(error.response?.data ?? "Error while deleting the analyst");
-                        return false;
-                    })
+        throw new Error("Method not implemented.");
     }
-
-    startAnalyst(analystId: number): Promise<void | boolean> {
-        return axios.post(`${this.url}/start-analyst/${analystId}`)
-                    .then(res => res.data)
-                    .catch(error => {
-                        console.log(error);
-                    });
+    startAnalyst(analystId: number): Promise<boolean | void> {
+        throw new Error("Method not implemented.");
     }
-
     stopAnalyst(analystId: number): Promise<boolean | void> {
-        return axios.post(`${this.url}/stop-analyst/${analystId}`)
-                    .then(res => res.data)
-                    .catch(error => {
-                        console.log(error);
-                    });
+        throw new Error("Method not implemented.");
+    }
+    getQueueSize(): Promise<number | void> {
+        throw new Error("Method not implemented.");
     }
 
-    getQueueSize(): Promise<number | void> {
-        const promise = axios.get(`${this.url}/get-queue-size`);
-        const dataPromise = promise
-            .then(response => {
-                return response.data ?? 0;
-            })
-            .catch(error => console.log(error))
+    tryAccess(): Promise<void> {
+        const promise = axios.get(`${this.url}/try-access`, {
+            withCredentials: true
+        })
+        .then(() => {});
 
-        return dataPromise;
+        return promise;
     }
 }

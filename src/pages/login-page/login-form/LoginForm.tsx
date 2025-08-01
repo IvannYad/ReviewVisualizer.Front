@@ -5,12 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import FRONTEND_ROUTES from "../../../app/common/constants/frontend-routes.constants";
 import { LoginRequest } from "../../../models/AuthModels";
 import { useContext } from "react";
-import { AuthApiContext } from "../../../app/layout/app/App";
+import { AuthApiContext, UserContext } from "../../../app/layout/app/App";
 
 export default function LoginForm(){
     const navigate = useNavigate();
     const [api, contextHolder] = notification.useNotification();
     const authApi = useContext(AuthApiContext);
+    const userCtx = useContext(UserContext);
     
     const openErrorNotification = (title:string, description: string) => {
         api["error"]({
@@ -23,7 +24,11 @@ export default function LoginForm(){
     const onFinish: FormProps<LoginRequest>['onFinish'] = async (values) => {
         try {
             await authApi.loginAsync(values)
-                        .then(() => {navigate('/')})
+                        .then(() => {
+                            if (!userCtx) return;
+                            userCtx.setUser({ userName: values.username! });
+                            navigate('/');
+                        })
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 const notificationTitle = `Log in request returned ${error.response.status}`;

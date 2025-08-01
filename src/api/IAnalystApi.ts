@@ -10,4 +10,6 @@ export default interface IAnalystApi{
     stopAnalyst(analystId: number): Promise<boolean | void>;
 
     getQueueSize(): Promise<number | void>;
+
+    tryAccess(): Promise<void>;
 }

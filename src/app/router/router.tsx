@@ -6,7 +6,6 @@ import DepartmentsPage from "../../pages/departments-page/DepartmentsPage";
 import DepartmentDetailsPage from "../../pages/department_details-page/DepartmentDetailsPage";
 import GeneratorPage from "../../pages/generator-page/GeneratorPage";
 import TeacherDetailsPage from "../../pages/teacher_details-page/TeacherDetailsPage";
-import ProcessorPage from "../../pages/processor-page/ProcessorPage";
 import LoginPage from "../../pages/login-page/LoginPage";
 import RegisterPage from "../../pages/register-page/RegisterPage";
 
@@ -31,10 +30,6 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route
             path={FRONTEND_ROUTES.PAGES.TEACHER_DETAILS}
             element={<TeacherDetailsPage />}
-        />
-        <Route
-            path={FRONTEND_ROUTES.PAGES.PROCESSOR}
-            element={<ProcessorPage />}
         />
         <Route
             path={FRONTEND_ROUTES.PAGES.LOGIN}
