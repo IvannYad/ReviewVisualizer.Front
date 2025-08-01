@@ -12,7 +12,9 @@ export default class DepartmentApi implements IDepartmentApi{
     
     getAll(filter: ((department: Department) => boolean) | null): Promise<Department[] | void> {
         let departmentsToReturn: Department[];
-        const promise = axios.get(this.url);
+        const promise = axios.get(this.url, {
+            withCredentials: true
+        });
         const dataPromise = promise
             .then(response => {
                 console.log(response);

@@ -1,13 +1,12 @@
 import { Button, Form, FormProps, Input, notification } from "antd";
-import "./LoginForm.scss";
+import "./RegisterForm.scss";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import FRONTEND_ROUTES from "../../../app/common/constants/frontend-routes.constants";
-import { LoginRequest } from "../../../models/AuthModels";
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthApiContext } from "../../../app/layout/app/App";
+import { LoginRequest, RegisterRequest, RegisterResponse } from "../../../models/AuthModels";
 
-export default function LoginForm(){
+export default function RegisterForm(){
     const navigate = useNavigate();
     const [api, contextHolder] = notification.useNotification();
     const authApi = useContext(AuthApiContext);
@@ -20,18 +19,29 @@ export default function LoginForm(){
         });
     };
 
-    const onFinish: FormProps<LoginRequest>['onFinish'] = async (values) => {
+    const onFinish: FormProps<RegisterRequest>['onFinish'] = async (values) => {
         try {
-            await authApi.loginAsync(values)
+            const request: RegisterRequest = values;
+            await authApi.registerAync(request)
+                .then(async (data: RegisterResponse | void) => {
+                    console.log(data);
+                    if (!data) throw "Login returned with an error";
+
+                    const loginRequest: LoginRequest = {
+                        username: data.userName ?? undefined,
+                        password: data.password,
+                    }
+
+                    await authApi.loginAsync(loginRequest)
                         .then(() => {navigate('/')})
+                });
+
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                const notificationTitle = `Log in request returned ${error.response.status}`;
-                let notificationMessage = error.response.data.error;
-                if (error.response.status == 403) {
-                    notificationMessage = "You have no access to products!";
-                }
-
+                console.log(error.response.data.errors);
+                const notificationTitle = `Register request returned ${error.response.status}`;
+                let notificationMessage = error.response.data.title;
+                
                 openErrorNotification(notificationTitle, notificationMessage)
                 return;
             }
@@ -40,12 +50,12 @@ export default function LoginForm(){
         }
     };
       
-    const onFinishFailed: FormProps<LoginRequest>['onFinishFailed'] = (errorInfo) => {
+    const onFinishFailed: FormProps<RegisterRequest>['onFinishFailed'] = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
     return (
-        <div className="login-form-holder">
+        <div className="register-form-holder">
             {contextHolder}
             <Form
                 name="basic"
@@ -54,9 +64,9 @@ export default function LoginForm(){
                 onFinishFailed={onFinishFailed}
                 autoComplete="on"
                 layout="vertical"
-                className="login-form"
+                className="register-form"
             >
-                <Form.Item<LoginRequest>
+                <Form.Item<RegisterRequest>
                     label={"Username"}
                     name="username"
                     rules={[{ required: true, message: "Please Input Your Username" }]}
@@ -64,7 +74,7 @@ export default function LoginForm(){
                     <Input />
                 </Form.Item>
 
-                <Form.Item<LoginRequest>
+                <Form.Item<RegisterRequest>
                     label={"Password"}
                     name="password"
                     rules={[{ required: true, message: "Please Inout Password" }]}
@@ -72,12 +82,17 @@ export default function LoginForm(){
                     <Input.Password />
                 </Form.Item>
 
-                <div>
-                    Have no account? <Link to={FRONTEND_ROUTES.PAGES.REGISTER} className="register-suggestion">Register</Link>
-                </div>
+                <Form.Item<RegisterRequest>
+                    label={"Password Confirmation"}
+                    name="passwordConfirmation"
+                    rules={[{ required: true, message: "Please Input Password Confirmation" }]}
+                >
+                    <Input.Password />
+                </Form.Item>
+
                 <Form.Item label={null}>
                     <Button type="primary" htmlType="submit">
-                        Log In
+                        Register
                     </Button>
                 </Form.Item>
             </Form>

@@ -1,0 +1,8 @@
+@use "../../assets/variables/colors.scss" as *;
+
+.register-page {
+    background-color: $white;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}

@@ -6,7 +6,8 @@ const FRONTEND_ROUTES = {
         TEACHER_DETAILS: '/teacher_details',
         GENERATOR: '/generator',
         PROCESSOR: '/processor',
-        LOGIN: '/login'
+        LOGIN: '/login',
+        REGISTER: '/register'
     },
 };
 

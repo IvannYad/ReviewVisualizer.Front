@@ -1,0 +1,109 @@
+@use "../../../assets/variables/colors.scss" as *;
+@use "../../../assets/variables/different.scss" as *;
+
+.register-form-holder {
+    background-color: $auth-form-background-color;
+    border: $auth-form-border;
+    width: 400px;
+    height: fit-content;
+    padding: 20px;
+    border-radius: 10px;
+    box-sizing: border-box;
+
+    .register-form {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+
+        .ant-form-item {
+            margin: 0;
+        }
+
+        .register-suggestion:hover {
+            text-decoration: underline;
+        }
+
+        .ant-form-item-label {
+            padding: 0 !important;
+            
+            label {
+                font-size: 16px !important;
+                color: $text-main-grey !important;
+                font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+            }
+        }
+
+        .ant-input {
+            height: $auth-form-input-height;
+            background-color: $white;
+            color: $text-main-grey;
+            border-radius: 5px;
+            border: 1px solid $main-grey-border;
+        }
+
+        .ant-input:hover {
+            text-shadow: 0 0 5px $active-section-color;
+        }
+
+        .ant-input:focus {
+            text-shadow: 0 0 5px $active-section-color !important;
+        }
+
+        .ant-input-affix-wrapper {
+            height: $auth-form-input-height;
+            background-color: $white;
+            color: $text-main-grey;
+            border-radius: 5px;
+            font-style: italic;
+            border: 1px solid $main-grey-border;
+
+            .ant-input {
+                height: 100%;
+                border: 0;
+            }
+        }
+
+        .ant-btn {
+            color: $white;
+            background-color: $text-main-grey;
+            font-size: $auth-form-font-size;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .ant-btn:hover {
+            background-color: $login-form-button-hover-color;
+        }
+
+        .ant-checkbox-inner {
+            border: 1px solid $text-main-grey;
+        }
+
+        .ant-checkbox-checked {
+            .ant-checkbox-inner {
+                background-color: $active-section-color;
+                color: $text-main-grey;
+            }
+
+            .ant-checkbox-inner::after {
+                border-color: $text-main-grey;
+            }
+        }
+
+        .ant-checkbox-wrapper:hover {
+            .ant-checkbox-inner {
+                border: 1px solid $text-main-grey;
+            }
+
+            .ant-checkbox-checked {
+                .ant-checkbox-inner {
+                    background-color: $active-section-color;
+                    border: 1px solid $main-grey-border;
+                }
+            }
+        }
+    }
+}

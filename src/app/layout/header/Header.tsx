@@ -13,7 +13,7 @@ export default function MainHeader(){
             </div>
             <div className="secondary-links">
                 <Link to={FRONTEND_ROUTES.PAGES.LOGIN} >Log In</Link>
-                <Link to={FRONTEND_ROUTES.PAGES.LOGIN} >Register</Link>
+                <Link to={FRONTEND_ROUTES.PAGES.REGISTER} >Register</Link>
             </div>
         </header>
     )   

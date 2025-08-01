@@ -8,6 +8,7 @@ import GeneratorPage from "../../pages/generator-page/GeneratorPage";
 import TeacherDetailsPage from "../../pages/teacher_details-page/TeacherDetailsPage";
 import ProcessorPage from "../../pages/processor-page/ProcessorPage";
 import LoginPage from "../../pages/login-page/LoginPage";
+import RegisterPage from "../../pages/register-page/RegisterPage";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path={FRONTEND_ROUTES.BASE} element={<App />}>
@@ -38,6 +39,10 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route
             path={FRONTEND_ROUTES.PAGES.LOGIN}
             element={<LoginPage />}
+        />
+        <Route
+            path={FRONTEND_ROUTES.PAGES.REGISTER}
+            element={<RegisterPage />}
         />
     </Route>,
 ));
