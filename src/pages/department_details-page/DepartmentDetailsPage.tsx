@@ -3,19 +3,19 @@ import "./DepartmentDetailsPage.scss"
 import TeacherListElement from "../../app/common/components/teacher-list-element/TeacherListElement"
 import AddTeacherListItem from "../../app/common/components/add-teacher-list-item/AddTeacherListItem"
 import { useContext, useEffect, useState } from "react";
-import { TeacherApiContext } from "../../app/layout/app/App";
 import { useSearchParams } from "react-router-dom";
 import AddTeacherModal from "../../app/common/modals/add-teacher-modal/AddTeacherModal";
 import { Teacher } from "../../models/Teacher";
 import MainInfoCard from "./main-info-card/MainInfoCard";
 import GradesChart from "../../app/common/components/grades-chart/GradesChart";
 import { GradeCatetory } from "../../api/ITeachersApi";
+import { ApisContext } from "../../app/layout/app/App";
 
 export default function DepartmentDetailsPage(){
     const [searchParams, _] = useSearchParams();
     const [isAddTeacherModalOpen, setAddTeacherModalOpen] = useState(false);
     const [teachers, setTeachers] = useState<Teacher[]>([]);
-    const teacherApi = useContext(TeacherApiContext);
+    const { teacherApi } = useContext(ApisContext);
     const deptId = +(searchParams.get("id") ?? 0);
 
     const renderedTeachers = teachers

@@ -1,7 +1,7 @@
 import { LoadingOutlined, TrophyOutlined } from "@ant-design/icons"
 import "./TeacherRatingCard.scss"
 import { useContext, useEffect, useState } from "react";
-import { TeacherApiContext } from "../../../app/layout/app/App";
+import { ApisContext } from "../../../app/layout/app/App";
 
 type TeacherRatingCardProps = {
     id?: number
@@ -14,7 +14,7 @@ export default function TeacherRatingCard(props: TeacherRatingCardProps){
     const [highlight, setHighlight] = useState(false);
     const [globalRank, setGlobalRank] = useState<NumberWrapper>({ value: -1});
     const [departmentRank, setDepartmentRank] = useState<NumberWrapper>({ value: -1});
-    const teacherApi = useContext(TeacherApiContext);
+    const { teacherApi } = useContext(ApisContext);
 
     const getGlobalRank = () => 
         teacherApi.getGlobalRank(props?.id ?? 0)

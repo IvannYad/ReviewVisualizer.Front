@@ -1,10 +1,10 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import "./GradesChart.scss"
 import { Chart, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement, LineElement } from 'chart.js';
-import { DepartmentApiContext, TeacherApiContext } from "../../../layout/app/App";
 import { Line } from "react-chartjs-2";
 import { GradeCatetory } from "../../../../api/ITeachersApi";
-import { LoadingOutlined, StarOutlined } from "@ant-design/icons";
+import { StarOutlined } from "@ant-design/icons";
+import { ApisContext } from "../../../layout/app/App";
 
 type GradesChartProps = {
     entityId: number; 
@@ -28,8 +28,7 @@ type StateType = {
     ]
 }
 export default function GradesChart(props: GradesChartProps){
-    const departmentApi = useContext(DepartmentApiContext);
-    const teacherApi = useContext(TeacherApiContext);
+    const { departmentApi, teacherApi } = useContext(ApisContext);
     const maxPoints = 20; // Maximum number of points to display
     const chartRef = useRef(null);
     const [data, setData] = useState<StateType>({

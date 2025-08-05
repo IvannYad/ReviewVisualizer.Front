@@ -2,7 +2,7 @@ import { Button, Form, GetProp, Input, message, Modal, Select, Upload, UploadPro
 import "./AddTeacherModal.scss"
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { useContext, useState } from "react";
-import { TeacherApiContext } from "../../../layout/app/App";
+import { ApisContext } from "../../../layout/app/App";
 import { AcademicDegree, AcademicRank, TeacherCreate } from "../../../../models/Teacher";
 type AddDepartmentModalProps = {
     departmentId: number;
@@ -19,7 +19,7 @@ export default function AddTeacherModal(props: AddDepartmentModalProps){
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState<string>();
     const [teacher, setTeacher] = useState<TeacherCreate>(defaultTeacher);
-    const api = useContext(TeacherApiContext);
+    const { teacherApi } = useContext(ApisContext);
     const [form] = Form.useForm();
     
     if(!props.isOpen) return null;
@@ -47,10 +47,10 @@ export default function AddTeacherModal(props: AddDepartmentModalProps){
         }
 
         if (teacher?.photoUrl) {
-            await api.unloadIcon(teacher?.photoUrl);
+            await teacherApi.unloadIcon(teacher?.photoUrl);
         }
 
-        await api.uploadIcon(uploadName, file)
+        await teacherApi.uploadIcon(uploadName, file)
             .then(res => {
                 console.log("Upload: " + res);
                 if (!res) return;
@@ -98,7 +98,7 @@ export default function AddTeacherModal(props: AddDepartmentModalProps){
 
         console.log(teacher);
 
-        await api.create(teacherCreate);
+        await teacherApi.create(teacherCreate);
         cancel();
     }
 
@@ -219,7 +219,7 @@ export default function AddTeacherModal(props: AddDepartmentModalProps){
                     <Button className="button cancel-button" onClick={async (e) => {
                         e.preventDefault();
                         if(teacher?.photoUrl)
-                            await api.unloadIcon(teacher?.photoUrl);
+                            await teacherApi.unloadIcon(teacher?.photoUrl);
                         cancel();
                     }}>Cancel</Button>
                 </div>

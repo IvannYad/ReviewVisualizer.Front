@@ -3,7 +3,7 @@ import ReviewerListElement from "../../app/common/components/reviewer-list-eleme
 import AddReviewerModal from "../../app/common/modals/add-reviewer-modal/AddReviewerModal"
 import "./GeneratorPage.scss"
 import AddReviewerButton from "./add-reviewer-button/AddReviewerButton";
-import { ReviewerApiContext } from "../../app/layout/app/App";
+import { ApisContext } from "../../app/layout/app/App";
 import { Reviewer } from "../../models/Reviewer";
 import { LoadingOutlined } from "@ant-design/icons";
 import ChooseTeachersForReviewModal from "../../app/common/modals/choose-teachers-for-review-modal/ChooseTeachersForReviewModal";
@@ -12,7 +12,7 @@ import ChooseTeachersForReviewModal from "../../app/common/modals/choose-teacher
 export default function GeneratorPage(){
     const [isAddReviewerModalOpen, setAddReviewerModalOpen] = useState(false);
     const [reviewers, setReviewers] = useState<Reviewer[] | null>(null);
-    const reviewerApi = useContext(ReviewerApiContext);
+    const { reviewerApi } = useContext(ApisContext);
 
     useEffect(() => {
         if (!isAddReviewerModalOpen){

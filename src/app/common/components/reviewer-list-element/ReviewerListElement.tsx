@@ -2,7 +2,7 @@ import "./ReviewerListElement.scss"
 import { Button, Input, notification, Slider, TimePicker } from "antd";
 import { DeleteOutlined, EditOutlined, SendOutlined } from "@ant-design/icons";
 import { Reviewer } from "../../../../models/Reviewer";
-import { ReviewerApiContext } from "../../../layout/app/App";
+import { ApisContext } from "../../../layout/app/App";
 import { MouseEventHandler, useContext, useState } from "react";
 import { Teacher } from "../../../../models/Teacher";
 import ChooseTeachersForReviewModal from "../../modals/choose-teachers-for-review-modal/ChooseTeachersForReviewModal";
@@ -50,7 +50,7 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
     const teachingQualityRange = [props.reviewer.teachingQualityMinGrage, props.reviewer.teachingQualityMaxGrage];
     const studentSupportRange = [props.reviewer.studentsSupportMinGrage, props.reviewer.studentsSupportMaxGrage];
     const communicationRange = [props.reviewer.communicationMinGrage, props.reviewer.communicationMaxGrage];
-    const reviewerApi = useContext(ReviewerApiContext);
+    const { reviewerApi } = useContext(ApisContext);
      const [api, contextHolder] = notification.useNotification();
 
     const deleteTeacher = (id: number) => {

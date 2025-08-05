@@ -25,13 +25,4 @@ export default class AnalystApi implements IAnalystApi{
     getQueueSize(): Promise<number | void> {
         throw new Error("Method not implemented.");
     }
-
-    tryAccess(): Promise<void> {
-        const promise = axios.get(`${this.url}/try-access`, {
-            withCredentials: true
-        })
-        .then(() => {});
-
-        return promise;
-    }
 }

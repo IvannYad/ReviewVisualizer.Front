@@ -1,66 +1,39 @@
 import { Link, useNavigate } from "react-router-dom"
 import FRONTEND_ROUTES from "../../common/constants/frontend-routes.constants"
 import "./Header.scss"
-import { useContext } from "react";
-import { AnalystApiContext, ReviewerApiContext, UserContext } from "../app/App";
+import { useContext, useEffect } from "react";
+import { ApisContext, UserContext } from "../app/App";
 import { notification } from "antd";
+import Cookies from 'js-cookie';
 
 export default function MainHeader(){
     const [api, contextHolder] = notification.useNotification();
     const navigate = useNavigate();
     const userCtx = useContext(UserContext);
-    const reviewersApi = useContext(ReviewerApiContext);
-    const analystsApi = useContext(AnalystApiContext);
+    const { authApi } = useContext(ApisContext);
 
-    const handleDepartmentsNavigate: React.MouseEventHandler<HTMLAnchorElement> | undefined = async (e) => {
+    const handleLogoff: React.MouseEventHandler<HTMLAnchorElement> | undefined = async (e) => {
         e.preventDefault();
+        if (!userCtx?.user) return;
 
-        await analystsApi.tryAccess()
-            .then(() => navigate(FRONTEND_ROUTES.PAGES.DEPARTMENTS))
-            .catch(e => {
-                if (e.status === 401){
-                    navigate("login");
-                    return;
-                } else if (e.status === 403){
-                    api["error"]({
-                        message: "You have no access to Departments page",
-                        className: "error-notification-box"
-                    });
-
-                    return;
-                }
-
+        await authApi.logoffAsync({ username: userCtx!.user!.userName })
+            .then(() => {
+                userCtx.setUser(null);
+            })
+            .catch((e) => {
                 api["error"]({
-                        message: "Unexpected error ocurred while verifying access to the Departments page",
+                        message: `Error while logging off`,
                         className: "error-notification-box"
                     });
             });
-    };
+    }
 
-    const handleGeneratorNavigate: React.MouseEventHandler<HTMLAnchorElement> | undefined = async (e) => {
-        e.preventDefault();
-
-        await reviewersApi.tryAccess()
-            .then(() => navigate(FRONTEND_ROUTES.PAGES.GENERATOR))
-            .catch(e => {
-                if (e.status === 401){
-                    navigate("login");
-                    return;
-                } else if (e.status === 403){
-                    api["error"]({
-                        message: "You have no access to Generator page",
-                        className: "error-notification-box"
-                    });
-
-                    return;
-                }
-
-                api["error"]({
-                        message: "Unexpected error ocurred while verifying access to the Generators page",
-                        className: "error-notification-box"
-                    });
-            });
-    };
+    useEffect(() => {
+        const userName = Cookies.get('UserName');
+        console.log(userName);
+        if (userName && userCtx)
+            userCtx.setUser({ userName })
+    }, [])
     
     return (
         <header>
@@ -70,9 +43,10 @@ export default function MainHeader(){
                 {
                     userCtx?.user ? (
                         <>
-                            <Link to={FRONTEND_ROUTES.PAGES.DEPARTMENTS} onClick={handleDepartmentsNavigate}>Departments</Link>
-                            <Link to={FRONTEND_ROUTES.PAGES.GENERATOR} onClick={handleGeneratorNavigate}>Generator</Link>
-                            <a href={"https://localhost:5002/hangfire"} target="_blank" rel="noreferrer">Processor</a>
+                            <Link to={FRONTEND_ROUTES.PAGES.DEPARTMENTS} >Departments</Link>
+                            <Link to={FRONTEND_ROUTES.PAGES.GENERATOR} >Generator</Link>
+                            <Link to={FRONTEND_ROUTES.PAGES.PROCESSOR} >Processor</Link>
+                            <Link to={FRONTEND_ROUTES.PAGES.OWNER} >Owner</Link>
                         </>
                     ) : (
                         <></>
@@ -84,7 +58,7 @@ export default function MainHeader(){
                     userCtx?.user ? (
                         <>
                             <div>Hello, {userCtx.user.userName}</div>
-                            <a href="">Logout</a>
+                            <a onClick={handleLogoff}>Logout</a>
                         </>
                     ) : (
                         <>

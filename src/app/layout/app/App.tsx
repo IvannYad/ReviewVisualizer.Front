@@ -16,48 +16,66 @@ import AnalystApi from '../../../api/AnalystApi';
 import IAuthApi from '../../../api/IAuthApi';
 import AuthApi from '../../../api/AuthApi';
 import { User } from '../../../models/AuthModels';
+import { notification } from 'antd';
+import { NotificationInstance } from 'antd/es/notification/interface';
+import IUserAPi from '../../../api/IUserApi';
+import UserApi from '../../../api/UserAPi';
 
 export type AuthContextType = {
   user: User | null;
   setUser: (user: User | null) => void;
 }
 
-export const DepartmentApiContext = React.createContext<IDepartmentApi>(new DepartmentApi(""));
-export const TeacherApiContext = React.createContext<ITeacherApi>(new TeacherApi(""));
-export const ReviewerApiContext = React.createContext<IReviewerApi>(new ReviewerApi(""));
-export const AnalystApiContext = React.createContext<IAnalystApi>(new AnalystApi(""));
-export const AuthApiContext = React.createContext<IAuthApi>(new AuthApi(""));
+export type Apis = {
+    departmentApi: IDepartmentApi;
+    teacherApi: ITeacherApi;
+    reviewerApi: IReviewerApi;
+    analystApi: IAnalystApi;
+    authApi: IAuthApi;
+    userApi: IUserAPi;
+}
+
+export const ApisContext = React.createContext<Apis>({
+    departmentApi: new DepartmentApi(""),
+    teacherApi: new TeacherApi(""),
+    reviewerApi: new ReviewerApi(""),
+    analystApi: new AnalystApi(""),
+    authApi: new AuthApi(""),
+    userApi: new UserApi(""),
+});
+
 export const UserContext = React.createContext<AuthContextType | undefined>(undefined);
+export const NotificationApiContext = React.createContext<NotificationInstance | undefined>(undefined);
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
-  const departmentApi: IDepartmentApi = new DepartmentApi(`${process.env.REACT_APP_API_URL}/departments`);
-  const teacherApi: ITeacherApi = new TeacherApi(`${process.env.REACT_APP_API_URL}/teachers`);
-  const reviewerApi: IReviewerApi = new ReviewerApi(`${process.env.REACT_APP_GENERATOR_URL}/reviewers`);
-  const analystApi: IAnalystApi = new AnalystApi(`${process.env.REACT_APP_API_URL}/analysts`);
-  const authApi: IAuthApi = new AuthApi(`${process.env.REACT_APP_API_URL}/auth`);
+  const apis: Apis = {
+    departmentApi: new DepartmentApi(`${process.env.REACT_APP_API_URL}/departments`),
+    teacherApi: new TeacherApi(`${process.env.REACT_APP_API_URL}/teachers`),
+    reviewerApi: new ReviewerApi(`${process.env.REACT_APP_GENERATOR_URL}/reviewers`),
+    analystApi: new AnalystApi(`${process.env.REACT_APP_API_URL}/analysts`),
+    authApi: new AuthApi(`${process.env.REACT_APP_API_URL}/auth`),
+    userApi: new UserApi(`${process.env.REACT_APP_API_URL}/user`),
+  }
+
   const { pathname } = useLocation();
+  const [api, contextHolder] = notification.useNotification();
+
 
   return (
-    <UserContext.Provider value={{user, setUser}}>
-        <AuthApiContext.Provider value={authApi}>
-            <DepartmentApiContext.Provider value={departmentApi}>
-                <TeacherApiContext.Provider value={teacherApi}>
-                    <ReviewerApiContext.Provider value={reviewerApi}>
-                        <AnalystApiContext.Provider value={analystApi}>
-                            <div>
-                                <Header />
-                                {(pathname !== FRONTEND_ROUTES.BASE) && (<Outlet />)}
-                                {(pathname === FRONTEND_ROUTES.BASE) && (<MainPage />)}
-                                <Footer />
-                            </div>
-                        </AnalystApiContext.Provider>
-                    </ReviewerApiContext.Provider>
-                </TeacherApiContext.Provider>
-            </DepartmentApiContext.Provider>
-        </AuthApiContext.Provider>
-    </UserContext.Provider>
-    
+    <ApisContext.Provider value={apis}>
+        <NotificationApiContext.Provider value={api}>
+            <UserContext.Provider value={{user, setUser}}>
+                <div>
+                    <Header />
+                    {contextHolder}
+                    {(pathname !== FRONTEND_ROUTES.BASE) && (<Outlet />)}
+                    {(pathname === FRONTEND_ROUTES.BASE) && (<MainPage />)}
+                    <Footer />
+                </div>
+        </UserContext.Provider>
+        </NotificationApiContext.Provider>
+    </ApisContext.Provider>
   )
 }
 

@@ -2,7 +2,7 @@ import { Button, Form, GetProp, Input, message, Modal, Upload, UploadProps } fro
 import "./AddDepartmentModal.scss"
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { useContext, useState } from "react";
-import { DepartmentApiContext } from "../../../layout/app/App";
+import { ApisContext } from "../../../layout/app/App";
 import { DepartmentCreate } from "../../../../models/Department";
 
 type AddDepartmentModalProps = {
@@ -16,7 +16,7 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
     const [imageUrl, setImageUrl] = useState<string>();
     const [imageName, setImageName] = useState<string>();
     const [deptName, setDeptName] = useState<string>();
-    const api = useContext(DepartmentApiContext);
+    const { departmentApi } = useContext(ApisContext);
     const [form] = Form.useForm();
     
     if(!props.isOpen) return null;
@@ -44,10 +44,10 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
         }
 
         if (imageName) {
-            await api.unloadIcon(imageName);
+            await departmentApi.unloadIcon(imageName);
         }
 
-        await api.uploadIcon(uploadName, file)
+        await departmentApi.uploadIcon(uploadName, file)
             .then(res => {
                 console.log("Upload: " + res);
                 if (!res) return;
@@ -83,7 +83,7 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
             name: deptName!,
         }
 
-        await api.create(departmentCreate);
+        await departmentApi.create(departmentCreate);
         cancel();
     }
 
@@ -148,7 +148,7 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
                     <Button className="button cancel-button" onClick={async (e) => {
                         e.preventDefault();
                         if(imageName)
-                            await api.unloadIcon(imageName);
+                            await departmentApi.unloadIcon(imageName);
                         cancel();
                     }}>Cancel</Button>
                 </div>

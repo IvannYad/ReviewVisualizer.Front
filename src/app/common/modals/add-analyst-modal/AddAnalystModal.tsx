@@ -1,8 +1,8 @@
 import "./AddAnalystModal.scss";
 import { useContext, useState } from "react";
 import { Button, Form, Input, InputNumber, Modal } from "antd";
-import { AnalystApiContext } from "../../../layout/app/App";
-import { Analyst, AnalystCreate } from "../../../../models/Analyst";
+import { AnalystCreate } from "../../../../models/Analyst";
+import { ApisContext } from "../../../layout/app/App";
 
 type AddAnalystModalProps = {
     isOpen: boolean;
@@ -16,7 +16,7 @@ const defaultAnalyst: AnalystCreate = {
 };
 
 export default function AddAnalystModal(props: AddAnalystModalProps){
-    const api = useContext(AnalystApiContext);
+    const { analystApi } = useContext(ApisContext);
     const [intervalValue, setIntervalValue] = useState(1000); 
     const [form] = Form.useForm();
     
@@ -27,7 +27,6 @@ export default function AddAnalystModal(props: AddAnalystModalProps){
 
     const createAnalyst = async (values: any) => {
         console.log(values);
-        const isFormValid = () => form.getFieldsError().some((item) => item.errors.length > 0);
         
         var analyst: AnalystCreate = {
             name: values.name,
@@ -35,7 +34,7 @@ export default function AddAnalystModal(props: AddAnalystModalProps){
             isStopped: true
         }
 
-        await api.create(analyst)
+        await analystApi.create(analyst)
             .then(res => {
                 if (res)
                     cancel();

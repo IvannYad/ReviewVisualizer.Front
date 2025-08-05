@@ -5,12 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import FRONTEND_ROUTES from "../../../app/common/constants/frontend-routes.constants";
 import { LoginRequest } from "../../../models/AuthModels";
 import { useContext } from "react";
-import { AuthApiContext, UserContext } from "../../../app/layout/app/App";
+import { ApisContext, UserContext } from "../../../app/layout/app/App";
 
 export default function LoginForm(){
     const navigate = useNavigate();
     const [api, contextHolder] = notification.useNotification();
-    const authApi = useContext(AuthApiContext);
+    const { authApi } = useContext(ApisContext);
     const userCtx = useContext(UserContext);
     
     const openErrorNotification = (title:string, description: string) => {

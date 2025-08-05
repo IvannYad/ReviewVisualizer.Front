@@ -3,13 +3,13 @@ import "./RegisterForm.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { AuthApiContext } from "../../../app/layout/app/App";
+import { ApisContext } from "../../../app/layout/app/App";
 import { LoginRequest, RegisterRequest, RegisterResponse } from "../../../models/AuthModels";
 
 export default function RegisterForm(){
     const navigate = useNavigate();
     const [api, contextHolder] = notification.useNotification();
-    const authApi = useContext(AuthApiContext);
+    const { authApi } = useContext(ApisContext);
     
     const openErrorNotification = (title:string, description: string) => {
         api["error"]({

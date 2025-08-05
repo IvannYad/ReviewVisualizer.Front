@@ -4,13 +4,13 @@ import DepartmentListElement from "../../../app/common/components/department-lis
 import "./DepartmentsHolder.scss"
 import AddDepartmentModal from "../../../app/common/modals/add-department-modal/AddDepartmentModal";
 import { Department } from "../../../models/Department";
-import { DepartmentApiContext } from "../../../app/layout/app/App";
+import { ApisContext } from "../../../app/layout/app/App";
 import { LoadingOutlined } from "@ant-design/icons";
 
 export default function DepartmentHolder(){
     const [isAddDepartmentModalOpen, setAddDepartmentModalOpen] = useState(false);
     const [departments, setDepartments] = useState<Department[]>([]);
-    const api = useContext(DepartmentApiContext);
+    const { departmentApi } = useContext(ApisContext);
 
     const renderedDepartments = departments
         .map(d => {
@@ -22,7 +22,7 @@ export default function DepartmentHolder(){
     
     useEffect(() => {
        if (!isAddDepartmentModalOpen)
-        api.getAll(null)
+        departmentApi.getAll(null)
             .then(res => {
                 if (res)
                     setDepartments(res);

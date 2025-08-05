@@ -7,7 +7,8 @@ const FRONTEND_ROUTES = {
         GENERATOR: '/generator',
         PROCESSOR: '/processor',
         LOGIN: '/login',
-        REGISTER: '/register'
+        REGISTER: '/register',
+        OWNER: '/owner'
     },
 };
 

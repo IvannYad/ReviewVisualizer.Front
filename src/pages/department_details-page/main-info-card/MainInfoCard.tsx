@@ -1,8 +1,8 @@
 import "./MainInfoCard.scss";
 import { useContext, useEffect, useState } from "react";
-import { DepartmentApiContext } from "../../../app/layout/app/App";
 import { Department } from "../../../models/Department";
 import { LoadingOutlined, StarOutlined } from "@ant-design/icons";
+import { ApisContext } from "../../../app/layout/app/App";
 
 type MainInfoCardProps = {
     departmentId?: number
@@ -11,7 +11,7 @@ type MainInfoCardProps = {
 export default function MainInfoCard(props: MainInfoCardProps){
     const [highlight, setHighlight] = useState(false);
     const [department, setDepartment] = useState<Department>();
-    const departmentApi = useContext(DepartmentApiContext);
+    const { departmentApi } = useContext(ApisContext);
    
     const getDepartment = () => {
         departmentApi.get(props.departmentId!).then(res => {

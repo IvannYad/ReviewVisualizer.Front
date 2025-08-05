@@ -1,10 +1,9 @@
 import "./AddReviewerModal.scss";
 import { useContext, useState } from "react";
 import { ReviewerCreate } from "../../../../models/Reviewer";
-import { Button, Form, Input, InputNumber, Modal, Radio, Slider } from "antd";
-import { ReviewerApiContext } from "../../../layout/app/App";
+import { Button, Form, Input, Modal, Radio, Slider } from "antd";
+import { ApisContext } from "../../../layout/app/App";
 import { GeneratorType, generatorTypeLabels } from "../../../../models/GeneratorType";
-import FormItem from "antd/es/form/FormItem";
 
 type AddReviewerModalProps = {
     isOpen: boolean;
@@ -38,7 +37,7 @@ function getGradientColor(percentage: number) {
 
 export default function AddReviewerModal(props: AddReviewerModalProps){
     const [reviewer, setReviewer] = useState<ReviewerCreate>(defaultReviewer);
-    const api = useContext(ReviewerApiContext);
+    const { reviewerApi } = useContext(ApisContext);
     const [form] = Form.useForm();
 
     const cancel = async () => {
@@ -49,7 +48,7 @@ export default function AddReviewerModal(props: AddReviewerModalProps){
 
     const createReviewer = async (event: any) => {
         console.log(reviewer);
-        await api.create(reviewer)
+        await reviewerApi.create(reviewer)
             .then(res => {
                 if (res)
                     cancel();

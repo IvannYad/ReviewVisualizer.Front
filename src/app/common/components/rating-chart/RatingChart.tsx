@@ -4,7 +4,7 @@ import { Bar } from "react-chartjs-2";
 import { useContext, useEffect, useState } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import { RatingOptions } from "../../../../models/RatingOptions";
-import { DepartmentApiContext, TeacherApiContext } from "../../../layout/app/App";
+import { ApisContext } from "../../../layout/app/App";
 
 // Register the required components with Chart.js
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -32,8 +32,7 @@ type StateType = {
 
 
 export default function RatingChart(props: RatingChartProps){
-    const departmentApi = useContext(DepartmentApiContext);
-    const teacherApi = useContext(TeacherApiContext);
+    const { departmentApi, teacherApi } = useContext(ApisContext);
     const [chartData, setChartData] = useState<StateType>();
     const [entities, setEntities] = useState<{ name: string, rating: number}[]>([]);
     

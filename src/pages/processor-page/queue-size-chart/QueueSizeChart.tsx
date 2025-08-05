@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import "./QueueSizeChart.scss"
 import { Chart, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement, LineElement } from 'chart.js';
 import { Line } from "react-chartjs-2";
-import { AnalystApiContext } from "../../../app/layout/app/App";
+import { ApisContext } from "../../../app/layout/app/App";
 import { LoadingOutlined } from "@ant-design/icons";
 
 
@@ -24,7 +24,7 @@ type StateType = {
 export default function QueueSizeChart(){
     const maxPoints = 20; // Maximum number of points to display
     const chartRef = useRef(null);
-    const analystApi = useContext(AnalystApiContext);
+    const { analystApi } = useContext(ApisContext);
     const [data, setData] = useState<StateType>({
         labels: [''],
         datasets: [

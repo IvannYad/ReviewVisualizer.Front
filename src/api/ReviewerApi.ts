@@ -8,15 +8,6 @@ export default class ReviewerApi implements IReviewerApi{
         this.url = apiUrl;
     }
     
-    tryAccess(): Promise<void> {
-        const promise = axios.get(`${this.url}/try-access`, {
-            withCredentials: true
-        })
-        .then(() => {});
-
-        return promise;
-    }
-
     generateFireAndForget(reviewerId: number): Promise<void> {
         return axios.post(`${this.url}/generate-fire-and-forget?reviewerId=${reviewerId}`, {
             withCredentials: true

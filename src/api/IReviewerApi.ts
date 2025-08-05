@@ -13,6 +13,4 @@ export default interface IReviewerApi{
     
     addTeachers(reviewerId: number, teacherIds: number[]): Promise<void | Teacher[]>;
     removeTeachers(reviewerId: number, teacheIds: number[]): Promise<void | number[]>;
-
-    tryAccess(): Promise<void>;
 }

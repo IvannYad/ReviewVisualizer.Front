@@ -3,7 +3,7 @@ import "./ChooseTeachersForReviewModal.scss"
 import DepartmentInfoHolder from "./department-info-holder/DepartmentInfoHolder"
 import { useContext, useEffect, useState } from "react"
 import { Department } from "../../../../models/Department";
-import { DepartmentApiContext, ReviewerApiContext } from "../../../layout/app/App";
+import { ApisContext } from "../../../layout/app/App";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Teacher } from "../../../../models/Teacher";
 
@@ -18,8 +18,7 @@ type ChooseTeachersForReviewModalProps = {
 export default function ChooseTeachersForReviewModal(props: ChooseTeachersForReviewModalProps){
     const [selectedTeacherIds, setSelectedTeachersIds] = useState<number[]>([]);
     const [departments, setDepartments] = useState<Department[]>([]);
-    const departmentApi = useContext(DepartmentApiContext);
-    const reviewerApi = useContext(ReviewerApiContext);
+    const { departmentApi, reviewerApi } = useContext(ApisContext);
 
     useEffect(() => {
         departmentApi.getAll(null)

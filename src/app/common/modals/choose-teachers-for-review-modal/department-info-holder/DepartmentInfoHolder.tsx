@@ -3,8 +3,8 @@ import "./DepartmentInfoHolder.scss"
 import { useContext, useEffect, useState } from "react";
 import { Department } from "../../../../../models/Department";
 import { Teacher } from "../../../../../models/Teacher";
-import { TeacherApiContext } from "../../../../layout/app/App";
 import DepartmentInfoTeacherListElementWrapper from "./teacher-list-element-wrapper/DepartmentInfoTeacherListElementWrapper";
+import { ApisContext } from "../../../../layout/app/App";
 
 type DepartmentInfoHolderProps = {
     department: Department;
@@ -16,7 +16,7 @@ type DepartmentInfoHolderProps = {
 export default function DepartmentInfoHolder(props: DepartmentInfoHolderProps){
     const [isExpanded, setIsExpanded] = useState(false);
     const [teachers, setTeachers] = useState<Teacher[]>([]);
-    const teacherApi = useContext(TeacherApiContext);
+    const { teacherApi } = useContext(ApisContext);
 
     useEffect(() => {
         teacherApi.getAllForDepartment(props.department.id)

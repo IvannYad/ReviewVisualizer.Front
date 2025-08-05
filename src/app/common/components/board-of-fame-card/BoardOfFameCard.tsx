@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import "./BoardOfFameCard.scss"
-import { DepartmentApiContext, TeacherApiContext } from "../../../layout/app/App";
+import { ApisContext } from "../../../layout/app/App";
 import { LoadingOutlined, StarOutlined } from "@ant-design/icons";
 
 type BoardOfFameCardProps = {
@@ -14,8 +14,7 @@ type Entity = {
 }
 
 export default function BoardOfFameCard(props: BoardOfFameCardProps){
-    const departmentApi = useContext(DepartmentApiContext);
-    const teacherApi = useContext(TeacherApiContext);
+    const { departmentApi, teacherApi } = useContext(ApisContext);
     const [highlight, setHighlight] = useState(false);
     const [entity, setEntity] = useState<Entity>();
 

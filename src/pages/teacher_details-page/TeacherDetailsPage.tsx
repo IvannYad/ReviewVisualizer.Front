@@ -2,19 +2,19 @@ import { useContext, useEffect, useState } from "react";
 import { Teacher } from "../../models/Teacher";
 import "./TeacherDetailsPage.scss"
 import { useSearchParams } from "react-router-dom";
-import { TeacherApiContext } from "../../app/layout/app/App";
 import TeacherInfoCard from "./teacher-info-card/TeacherInfoCard";
 import TeacherRatingCard from "./teacher-rating-card/TeacherRatingCard";
 import GradesChart from "../../app/common/components/grades-chart/GradesChart";
 import { GradeCatetory } from "../../api/ITeachersApi";
 import { LoadingOutlined } from "@ant-design/icons";
 import DeleteButton from "../../app/common/components/delete-button/DeleteButton";
+import { ApisContext } from "../../app/layout/app/App";
 
 export default function TeacherDetailsPage(){
     const [searchParams, _] = useSearchParams();
     const [teacher, setTeacher] = useState<Teacher>();
     const [departmentId, setDepartmentId] = useState<number>();
-    const teacherApi = useContext(TeacherApiContext);
+    const { teacherApi } = useContext(ApisContext);
    
     useEffect(() => {
         const id = +(searchParams.get("id") ?? 0);

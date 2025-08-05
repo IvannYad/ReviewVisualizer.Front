@@ -1,7 +1,6 @@
 @import "../../assets/variables/colors.scss";
 
 .processor-page {
-    padding: 30px 80px 40px 80px;
     display: flex !important;
     align-items: center;
     justify-content: start;
@@ -26,4 +25,8 @@
         gap: 10%;
         flex-wrap: wrap; 
     }
+}
+
+ul.nav.navbar-right {
+    display: none !important;
 }

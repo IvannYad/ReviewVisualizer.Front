@@ -2,8 +2,8 @@ import { Button } from "antd";
 import "./AnalystListElement.scss"
 import { Analyst } from "../../../../models/Analyst";
 import { useContext, useState } from "react";
-import { CaretRightOutlined, DeleteOutlined, EditOutlined, PauseOutlined } from "@ant-design/icons";
-import { AnalystApiContext } from "../../../layout/app/App";
+import { CaretRightOutlined, DeleteOutlined, PauseOutlined } from "@ant-design/icons";
+import { ApisContext } from "../../../layout/app/App";
 
 type AnalystListElementProps = {
     analyst: Analyst;
@@ -12,7 +12,7 @@ type AnalystListElementProps = {
 
 export default function AnalystListElement(props: AnalystListElementProps){
     const [isStopped, setIsStopped] = useState(props.analyst.isStopped);
-    const analystApi = useContext(AnalystApiContext);
+    const { analystApi } = useContext(ApisContext);
 
     const startReviewer = () => {
         analystApi.startAnalyst(props.analyst.id)

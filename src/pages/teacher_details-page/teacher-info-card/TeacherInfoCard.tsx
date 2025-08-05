@@ -2,7 +2,7 @@ import "./TeacherInfoCard.scss"
 import { AcademicDegree, AcademicRank, Teacher } from "../../../models/Teacher";
 import { LoadingOutlined, StarOutlined } from "@ant-design/icons";
 import { useContext, useEffect, useState } from "react";
-import { TeacherApiContext } from "../../../app/layout/app/App";
+import { ApisContext } from "../../../app/layout/app/App";
 
 type TeacherInfoCardProps = {
     teacherId?: number
@@ -11,7 +11,7 @@ type TeacherInfoCardProps = {
 export default function TeacherInfoCard(props: TeacherInfoCardProps){
     const [highlight, setHighlight] = useState(false);
     const [teacher, setTeacher] = useState<Teacher>();
-    const teacherApi = useContext(TeacherApiContext);
+    const { teacherApi } = useContext(ApisContext);
    
     const getTeacher = () => {
         teacherApi.get(props.teacherId!).then(res => {
