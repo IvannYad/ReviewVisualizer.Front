@@ -1,37 +1,29 @@
 import { useContext, useEffect, useState } from "react";
-import { User } from "../../models/AuthModels";
 import "./OwnerPage.scss"
 import { ApisContext } from "../../app/layout/app/App";
-import { GeneratorModifications, SystemRoles } from "../../models/Enums";
 import UserItem from "./user-item/UserItem";
+import { User } from "../../models/User";
 
 export default function OwnerPage(){
     const [users, setUsers] = useState<User[]>([]);
     const { userApi } = useContext(ApisContext);
 
     useEffect(() => {
-        setUsers( [
-        {
-            userName: "test",
-            systemRoles: SystemRoles.GeneratorAdmin | SystemRoles.Analyst,
-            generatorModifications: GeneratorModifications.ModifyRecurring
-        },
-        {
-            userName: "test2",
-            systemRoles: SystemRoles.GeneratorAdmin,
-            generatorModifications: GeneratorModifications.ModifyRecurring | GeneratorModifications.ModifyRecurring
-        },
-        {
-            userName: "owner",
-            systemRoles: SystemRoles.Owner,
-            generatorModifications: GeneratorModifications.ModifyRecurring | GeneratorModifications.ModifyRecurring
-        }
-    ])
-
+        userApi.getAll()
+            .then((users) => {
+                setUsers(users ?? []);
+            });
     }, [])
 
+    const onUserRemoved = (userId?: number) => {
+        if (!userId) return;
+
+        const newUsers = users.filter(u => u.userId !== userId)
+        setUsers(newUsers);
+    }
+
     const renderedUsers = users && users.map(u => (
-        <UserItem user={u}/>
+        <UserItem user={u} onUserRemoved={onUserRemoved}/>
     ));
 
     return (

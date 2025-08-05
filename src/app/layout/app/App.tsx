@@ -15,11 +15,11 @@ import IAnalystApi from '../../../api/IAnalystApi';
 import AnalystApi from '../../../api/AnalystApi';
 import IAuthApi from '../../../api/IAuthApi';
 import AuthApi from '../../../api/AuthApi';
-import { User } from '../../../models/AuthModels';
 import { notification } from 'antd';
 import { NotificationInstance } from 'antd/es/notification/interface';
 import IUserAPi from '../../../api/IUserApi';
 import UserApi from '../../../api/UserAPi';
+import { User } from '../../../models/User';
 
 export type AuthContextType = {
   user: User | null;
@@ -55,7 +55,7 @@ function App() {
     reviewerApi: new ReviewerApi(`${process.env.REACT_APP_GENERATOR_URL}/reviewers`),
     analystApi: new AnalystApi(`${process.env.REACT_APP_API_URL}/analysts`),
     authApi: new AuthApi(`${process.env.REACT_APP_API_URL}/auth`),
-    userApi: new UserApi(`${process.env.REACT_APP_API_URL}/user`),
+    userApi: new UserApi(`${process.env.REACT_APP_API_URL}/users`),
   }
 
   const { pathname } = useLocation();

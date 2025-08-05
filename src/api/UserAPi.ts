@@ -1,6 +1,7 @@
-import { User } from "../models/AuthModels";
+import axios from "axios";
 import { SystemRoles, GeneratorModifications } from "../models/Enums";
 import IUserApi from "./IUserApi";
+import { User } from "../models/User";
 
 export default class UserApi implements IUserApi {
     private url: string;
@@ -9,18 +10,42 @@ export default class UserApi implements IUserApi {
     }
     
     getAll(): Promise<User[] | void> {
-        throw new Error("Method not implemented.");
+        let toReturn: User[];
+        const promise = axios.get(this.url, {
+            withCredentials: true
+        });
+        const dataPromise = promise
+            .then(response => {
+                toReturn = response.data;
+                return toReturn;
+            })
+            .catch(error => console.log(error))
+
+        return dataPromise;
     }
 
     remove(userId: number): Promise<boolean> {
-        throw new Error("Method not implemented.");
+        return axios.delete(`${this.url}?userId=${userId}`, {
+            withCredentials: true
+        })
+            .then(_ => {
+                return true;
+            })
+            .catch(error =>{
+                console.log(error);
+                return false;
+            })
     }
 
     setSystemRole(userId: number, roles: SystemRoles): Promise<void> {
-        throw new Error("Method not implemented.");
+        return axios.patch(`${this.url}/system-roles`, { userId, roles } , {
+            withCredentials: true
+        })
     }
 
     setGeneratorModification(userId: number, modifications: GeneratorModifications): Promise<void> {
-        throw new Error("Method not implemented.");
+        return axios.patch(`${this.url}/generator-modifications`, { userId, modifications } , {
+            withCredentials: true
+        })
     }
 }

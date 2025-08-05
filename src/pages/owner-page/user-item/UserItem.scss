@@ -57,12 +57,27 @@ tr {
             border: 0;
         }
 
-        .delete-button, .stopped-button{
+        .delete-button {
             background-color: $light-red;
             color: $light-red-font;
             height: 70%;
             border-radius: 3px;
             border: 0;
+            box-sizing: border-box;
+        }
+
+        .delete-button:hover {
+            background-color: $light-red !important;
+            color: $active-section-color !important;
+            border-radius: 3px;
+            border: 2px solid $light-red-font !important;
+        }
+
+        .send-button:hover {
+            background-color: $light-green !important;
+            color: $active-section-color !important;
+            border-radius: 3px;
+            border: 2px solid $light-green-font !important;
         }
 
         .button {

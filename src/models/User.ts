@@ -1,7 +1,8 @@
-export type Teacher = {
-    id: number,
-    userName: string,
-    isBlocked: boolean,
-    systemRole: number;
-    generatorModification: number;
+import { GeneratorModifications, SystemRoles } from "./Enums";
+
+export type User = {
+    userId?: number;
+    userName: string;
+    systemRoles?: SystemRoles;
+    generatorModifications?: GeneratorModifications;
 }

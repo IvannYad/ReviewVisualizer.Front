@@ -1,5 +1,5 @@
-import { User } from "../models/AuthModels";
 import { GeneratorModifications, SystemRoles } from "../models/Enums";
+import { User } from "../models/User";
 
 export default interface IUserAPi {
     getAll(): Promise<User[] | void>;
