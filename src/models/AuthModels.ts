@@ -1,3 +1,5 @@
+import { GeneratorModifications, SystemRoles } from "./Enums";
+
 export type LoginRequest = {
   username?: string;
   password?: string;
@@ -32,4 +34,6 @@ export type LogoffResponse = {
 
 export type User = {
   userName: string;
+  systemRoles?: SystemRoles;
+  generatorModifications?: GeneratorModifications;
 }

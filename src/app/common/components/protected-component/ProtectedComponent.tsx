@@ -19,15 +19,11 @@ export default function ProtectedComponent(props: ProtectedComponentProps){
         console.log(checkAccessMethod)
         await checkAccessMethod()
             .catch(e => {
-                if (props.pageRoute === FRONTEND_ROUTES.PAGES.PROCESSOR){
-                    window.close();
-                    return;
-                }
-
                 if (e.status === 401){
                     navigate("/login");
                     return;
                 } else if (e.status === 403){
+                    console.log("notification api: " + notificationAPi)
                     notificationAPi && notificationAPi["error"]({
                         message: `You have no access to ${pageName} page`,
                         className: "error-notification-box"
@@ -54,8 +50,14 @@ export default function ProtectedComponent(props: ProtectedComponentProps){
     useEffect(() => {
         console.log("asd");
         handleAccessCheckAsync(getApiAccessMethod(), props.pageRoute, props.pageName)
-            .then(() => setHasAccess(true))
-            .catch(() => setHasAccess(false))
+            .then(() => {
+                console.log("Have access");
+                setHasAccess(true)
+            })
+            .catch(() => {
+                console.log("Does not have access");
+                setHasAccess(false);
+            })
     }, [props]);
 
     return (
