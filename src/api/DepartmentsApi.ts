@@ -24,7 +24,6 @@ export default class DepartmentApi implements IDepartmentApi{
                 }
                 return departmentsToReturn;
             })
-            .catch(error => console.log(error))
 
         return dataPromise;
     }
@@ -34,35 +33,34 @@ export default class DepartmentApi implements IDepartmentApi{
                     .then(response => {
                         return response.data;
                     })
-                    .catch(error => console.log(error))
     }
 
     create(department: DepartmentCreate): Promise<void> {
         console.log(department);
-        return axios.post(this.url, department)
+        return axios.post(this.url, department, {
+            withCredentials: true
+        })
                     .then(res => {
                         console.log(res.data);
                     })
-                    .catch(error => {
-                        console.log(error);
-                    });
     }
 
     update(id: number, newTeacher: Department): Promise<void> {
         console.log(id, newTeacher);
-        return axios.put(`${this.url}/${id}`, newTeacher)
+        return axios.put(`${this.url}/${id}`, newTeacher, {
+            withCredentials: true
+        })
                     .then(res => {
                         console.log("MyRes" + res);
                     });
     }
     remove(id: number): Promise<void> {
-        return axios.delete(`${this.url}/${id}`)
+        return axios.delete(`${this.url}/${id}`, {
+            withCredentials: true
+        })
                     .then(res => {
                         console.log(res);
                         console.log(res.data);
-                    })
-                    .catch(error =>{
-                        console.log(error);
                     })
     }
 
@@ -73,21 +71,18 @@ export default class DepartmentApi implements IDepartmentApi{
         return axios.post(`${this.url}/upload-image`, form, {
                 headers: {
                     "Content-Type": "multipart/form-data"
-                }
+                },
+                withCredentials: true
             })
             .then(res => {
                 return res.data; 
             })
-            .catch(error =>{
-                console.log(error);
-            })
     }
 
     unloadIcon(name: string): Promise<AxiosResponse<any, any> | void> {
-        return axios.post(`${this.url}/delete-image?imgName=${name}`)
-            .catch(error =>{
-                console.log(error);
-            })
+        return axios.post(`${this.url}/delete-image?imgName=${name}`, {}, {
+            withCredentials: true
+        })
     }
 
     getGrade(departmentId: number, category: GradeCatetory): Promise<void | (null | number)> {
@@ -95,7 +90,6 @@ export default class DepartmentApi implements IDepartmentApi{
             .then(response => {
                 return response.data;
             })
-            .catch(error => console.log(error))
     }
 
     getTop10(): Promise<Department[] | void> {
@@ -106,7 +100,6 @@ export default class DepartmentApi implements IDepartmentApi{
                 departmentsToReturn = response.data;
                 return departmentsToReturn;
             })
-            .catch(error => console.log(error))
 
         return dataPromise;
     }
@@ -116,6 +109,5 @@ export default class DepartmentApi implements IDepartmentApi{
             .then(response => {
                 return response.data;
             })
-            .catch(error => console.log(error))
     }
 }

@@ -45,33 +45,31 @@ export default class TeacherApi implements ITeacherApi{
 
     create(teacher: TeacherCreate): Promise<void> {
         console.log(teacher);
-        return axios.post(this.url, teacher)
-                    .then(res => {
-                        console.log(res.data);
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
+        return axios.post(this.url, teacher, {
+            withCredentials: true
+        })
+            .then(res => {
+                console.log(res.data);
+            })
     }
 
     update(id: number, newTeacher: Teacher): Promise<void> {
         console.log(id, newTeacher);
-        return axios.put(`${this.url}/${id}`, newTeacher)
-                    .then(res => {
-                        console.log("MyRes" + res);
-                    });
+        return axios.put(`${this.url}/${id}`, newTeacher, {
+            withCredentials: true
+        })
+            .then(res => {
+                console.log("MyRes" + res);
+            });
     }
 
     remove(id: number): Promise<boolean> {
-        return axios.delete(`${this.url}?teacherId=${id}`)
-                    .then(res => {
-                        return true;
-                    })
-                    .catch(error =>{
-                        console.log(error);
-                        alert(error.response?.data ?? "Error while deleting the teacher");
-                        return false;
-                    })
+        return axios.delete(`${this.url}?teacherId=${id}`, {
+            withCredentials: true
+        })
+            .then(_ => {
+                return true;
+            })
     }
 
     uploadIcon(name: string, file: RcFile): Promise<string | void> {
@@ -81,23 +79,18 @@ export default class TeacherApi implements ITeacherApi{
         return axios.post(`${this.url}/upload-image`, form, {
                 headers: {
                     "Content-Type": "multipart/form-data"
-                }
+                },
+                withCredentials: true
             })
             .then(res => {
                 return res.data; 
             })
-            .catch(error =>{
-                console.log(error);
-                alert(error.response?.data ?? "Error uploading an image for the teacher");
-            })
     }
 
     unloadIcon(name: string): Promise<AxiosResponse<any, any> | void> {
-        return axios.post(`${this.url}/delete-image?imgName=${name}`)
-            .catch(error =>{
-                console.log(error);
-                alert(error.response?.data ?? "Error deleting an image for the teacher");
-            })
+        return axios.post(`${this.url}/delete-image?imgName=${name}`, {}, {
+            withCredentials: true
+        })
     }
 
     getDepartmentRank(id: number): Promise<number | void> {
@@ -105,7 +98,6 @@ export default class TeacherApi implements ITeacherApi{
             .then(response => {
                 return response.data;
             })
-            .catch(error => console.log(error))
     }
 
 
@@ -114,7 +106,6 @@ export default class TeacherApi implements ITeacherApi{
             .then(response => {
                 return response.data;
             })
-            .catch(error => console.log(error))
     }
 
     getGrade(teacherId: number, category: GradeCatetory): Promise<void | (null | number)> {
@@ -122,7 +113,6 @@ export default class TeacherApi implements ITeacherApi{
             .then(response => {
                 return response.data;
             })
-            .catch(error => console.log(error))
     }
 
     getTop10(): Promise<Teacher[] | void> {
@@ -133,7 +123,6 @@ export default class TeacherApi implements ITeacherApi{
                 teachersToReturn = response.data;
                 return teachersToReturn;
             })
-            .catch(error => console.log(error))
 
         return dataPromise;
     }
@@ -146,7 +135,6 @@ export default class TeacherApi implements ITeacherApi{
                 teachersToReturn = response.data;
                 return teachersToReturn;
             })
-            .catch(error => console.log(error))
 
         return dataPromise;
     }
@@ -156,6 +144,5 @@ export default class TeacherApi implements ITeacherApi{
             .then(response => {
                 return response.data;
             })
-            .catch(error => console.log(error))
     }
 }

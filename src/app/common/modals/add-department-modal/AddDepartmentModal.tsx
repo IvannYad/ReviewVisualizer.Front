@@ -2,8 +2,9 @@ import { Button, Form, GetProp, Input, message, Modal, Upload, UploadProps } fro
 import "./AddDepartmentModal.scss"
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { useContext, useState } from "react";
-import { ApisContext } from "../../../layout/app/App";
+import { ApisContext, NotificationApiContext } from "../../../layout/app/App";
 import { DepartmentCreate } from "../../../../models/Department";
+import { useNavigate } from "react-router";
 
 type AddDepartmentModalProps = {
     isOpen: boolean;
@@ -18,6 +19,8 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
     const [deptName, setDeptName] = useState<string>();
     const { departmentApi } = useContext(ApisContext);
     const [form] = Form.useForm();
+    const notificationAPi = useContext(NotificationApiContext)
+    const navigate = useNavigate();
     
     if(!props.isOpen) return null;
 
@@ -59,6 +62,24 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
                     setImageUrl(url);
                 });
             })
+            .catch(e => {
+                if (e.status === 401){
+                    navigate("/login");
+                    return;
+                } else if (e.status === 403){
+                    notificationAPi && notificationAPi["error"]({
+                        message: `You have no "Analyst" access to perform following operation`,
+                        className: "error-notification-box"
+                    });
+                    
+                    return;
+                }
+
+                notificationAPi && notificationAPi["error"]({
+                        message: `Unexpected error ocurred while uploading icon for Department`,
+                        className: "error-notification-box"
+                    });
+            });
 
         return false;
     };
@@ -83,7 +104,25 @@ export default function AddDepartmentModal(props: AddDepartmentModalProps){
             name: deptName!,
         }
 
-        await departmentApi.create(departmentCreate);
+        await departmentApi.create(departmentCreate)
+            .catch(e => {
+                    if (e.status === 401){
+                        navigate("/login");
+                        return;
+                    } else if (e.status === 403){
+                        notificationAPi && notificationAPi["error"]({
+                            message: `You have no "Analyst" access to perform following operation`,
+                            className: "error-notification-box"
+                        });
+                        
+                        return;
+                    }
+
+                    notificationAPi && notificationAPi["error"]({
+                            message: `Unexpected error ocurred while creating department`,
+                            className: "error-notification-box"
+                        });
+                });
         cancel();
     }
 

@@ -2,8 +2,9 @@ import { Button, Form, GetProp, Input, message, Modal, Select, Upload, UploadPro
 import "./AddTeacherModal.scss"
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { useContext, useState } from "react";
-import { ApisContext } from "../../../layout/app/App";
+import { ApisContext, NotificationApiContext } from "../../../layout/app/App";
 import { AcademicDegree, AcademicRank, TeacherCreate } from "../../../../models/Teacher";
+import { useNavigate } from "react-router";
 type AddDepartmentModalProps = {
     departmentId: number;
     isOpen: boolean;
@@ -21,6 +22,8 @@ export default function AddTeacherModal(props: AddDepartmentModalProps){
     const [teacher, setTeacher] = useState<TeacherCreate>(defaultTeacher);
     const { teacherApi } = useContext(ApisContext);
     const [form] = Form.useForm();
+    const notificationAPi = useContext(NotificationApiContext)
+    const navigate = useNavigate();
     
     if(!props.isOpen) return null;
 
@@ -62,6 +65,24 @@ export default function AddTeacherModal(props: AddDepartmentModalProps){
                     setImageUrl(url);
                 });
             })
+            .catch(e => {
+                if (e.status === 401){
+                    navigate("/login");
+                    return;
+                } else if (e.status === 403){
+                    notificationAPi && notificationAPi["error"]({
+                        message: `You have no "Analyst" access to perform following operation`,
+                        className: "error-notification-box"
+                    });
+                    
+                    return;
+                }
+
+                notificationAPi && notificationAPi["error"]({
+                        message: `Unexpected error ocurred while uploading icon for Teacher`,
+                        className: "error-notification-box"
+                    });
+            });
 
         return false;
     };
@@ -98,7 +119,25 @@ export default function AddTeacherModal(props: AddDepartmentModalProps){
 
         console.log(teacher);
 
-        await teacherApi.create(teacherCreate);
+        await teacherApi.create(teacherCreate)
+            .catch(e => {
+                if (e.status === 401){
+                    navigate("/login");
+                    return;
+                } else if (e.status === 403){
+                    notificationAPi && notificationAPi["error"]({
+                        message: `You have no "Analyst" access to perform following operation`,
+                        className: "error-notification-box"
+                    });
+                    
+                    return;
+                }
+
+                notificationAPi && notificationAPi["error"]({
+                    message: `Unexpected error ocurred while creating teacher`,
+                    className: "error-notification-box"
+                });
+            });
         cancel();
     }
 
