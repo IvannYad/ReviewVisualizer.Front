@@ -3,9 +3,11 @@ import "./ChooseTeachersForReviewModal.scss"
 import DepartmentInfoHolder from "./department-info-holder/DepartmentInfoHolder"
 import { useContext, useEffect, useState } from "react"
 import { Department } from "../../../../models/Department";
-import { ApisContext } from "../../../layout/app/App";
+import { ApisContext, NotificationApiContext } from "../../../layout/app/App";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Teacher } from "../../../../models/Teacher";
+import { useNavigate } from "react-router";
+import { GeneratorType, generatorTypeLabels } from "../../../../models/GeneratorType";
 
 type ChooseTeachersForReviewModalProps = {
     isOpen: boolean;
@@ -13,12 +15,16 @@ type ChooseTeachersForReviewModalProps = {
     setTeachers: React.Dispatch<React.SetStateAction<Teacher[]>>;
     teachersAlreadyUnderReview: Teacher[];
     reviewerId: number;
+    reviewerType: GeneratorType;
 }
 
 export default function ChooseTeachersForReviewModal(props: ChooseTeachersForReviewModalProps){
     const [selectedTeacherIds, setSelectedTeachersIds] = useState<number[]>([]);
     const [departments, setDepartments] = useState<Department[]>([]);
     const { departmentApi, reviewerApi } = useContext(ApisContext);
+    const notificationAPi = useContext(NotificationApiContext)
+    const navigate = useNavigate();
+    
 
     useEffect(() => {
         departmentApi.getAll(null)
@@ -38,13 +44,30 @@ export default function ChooseTeachersForReviewModal(props: ChooseTeachersForRev
         )
     })
 
-    const addTeachersToReviewer: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void = (e) => {
+    const addTeachersToReviewer: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void = async (e) => {
         e.preventDefault();
-        reviewerApi.addTeachers(props.reviewerId, selectedTeacherIds)
+        await reviewerApi.addTeachers(props.reviewerId, selectedTeacherIds)
             .then(res => {
                 if (res)
                     props.setTeachers([ ...props.teachersAlreadyUnderReview, ...res ]);
                 close();
+            })
+            .catch(error => {
+                if (error.status === 401){
+                    navigate("/login");
+                    return;
+                } else if (error.status === 403){
+                    notificationAPi && notificationAPi["error"]({
+                        message: `You have no access to add teacher to "${generatorTypeLabels[props.reviewerType]}" reviewer`,
+                        className: "error-notification-box"
+                    });
+                    return;
+                }
+
+                notificationAPi && notificationAPi["error"]({
+                    message: `Unexpected error ocurred while adding teacher to "${generatorTypeLabels[props.reviewerType]}" reviewer`,
+                    className: "error-notification-box"
+                });
             });
     }
 

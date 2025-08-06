@@ -19,6 +19,7 @@ export default function MainHeader(){
         await authApi.logoffAsync({ username: userCtx!.user!.userName })
             .then(() => {
                 userCtx.setUser(null);
+                navigate("/");
             })
             .catch((e) => {
                 api["error"]({

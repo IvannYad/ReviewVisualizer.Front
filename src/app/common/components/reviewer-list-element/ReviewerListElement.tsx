@@ -1,8 +1,8 @@
 import "./ReviewerListElement.scss"
-import { Button, Input, notification, Slider, TimePicker } from "antd";
+import { Button, Input, Slider, TimePicker } from "antd";
 import { DeleteOutlined, EditOutlined, SendOutlined } from "@ant-design/icons";
 import { Reviewer } from "../../../../models/Reviewer";
-import { ApisContext } from "../../../layout/app/App";
+import { ApisContext, NotificationApiContext } from "../../../layout/app/App";
 import { MouseEventHandler, useContext, useState } from "react";
 import { Teacher } from "../../../../models/Teacher";
 import ChooseTeachersForReviewModal from "../../modals/choose-teachers-for-review-modal/ChooseTeachersForReviewModal";
@@ -11,10 +11,11 @@ import TeacherListElementWrapper from "./teacher-list-element-wrapper/TeacherLis
 import { GeneratorType, generatorTypeLabels } from "../../../../models/GeneratorType";
 import dayjs from "dayjs";
 import cronValidate from "cron-validate"
+import { useNavigate } from "react-router";
 
 type ReviewerListElementProps = {
     reviewer: Reviewer
-    onDelete: (reviewerId: number) => void,
+    onDelete: (reviewerId: number, type: GeneratorType) => void,
 }
 
 function getGradientColor(percentage: number) {
@@ -51,10 +52,11 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
     const studentSupportRange = [props.reviewer.studentsSupportMinGrage, props.reviewer.studentsSupportMaxGrage];
     const communicationRange = [props.reviewer.communicationMinGrage, props.reviewer.communicationMaxGrage];
     const { reviewerApi } = useContext(ApisContext);
-     const [api, contextHolder] = notification.useNotification();
+    const notificationAPi = useContext(NotificationApiContext)
+    const navigate = useNavigate();
 
-    const deleteTeacher = (id: number) => {
-        reviewerApi.removeTeachers(props.reviewer.id, [id])
+    const deleteTeacher = async (id: number) => {
+        await reviewerApi.removeTeachers(props.reviewer.id, [id])
             .then((res) => {
                 if (res) {
                     // If there is no teachers assigned to the reviewer, stop the reviewer.
@@ -62,12 +64,28 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
                     setTeachers([ ...teachersWithoutDeleted ]);
                 }
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                if (error.status === 401){
+                    navigate("/login");
+                    return;
+                } else if (error.status === 403){
+                    notificationAPi && notificationAPi["error"]({
+                        message: `You have no access to delete teacher from "${generatorTypeLabels[props.reviewer.type]}" reviewer`,
+                        className: "error-notification-box"
+                    });
+                    return;
+                }
+
+                notificationAPi && notificationAPi["error"]({
+                    message: `Unexpected error ocurred while deleting teacher from "${generatorTypeLabels[props.reviewer.type]}" reviewer`,
+                    className: "error-notification-box"
+                });
+            });
     }
 
     const deleteReviewer = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         event.preventDefault();
-        props.onDelete(props.reviewer.id);
+        props.onDelete(props.reviewer.id, props.reviewer.type);
     };
 
     const onTimeChange = (_: dayjs.Dayjs, timeString: string | string[]) => {
@@ -81,16 +99,39 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
         setCronExpression(e.target.value);
     }
 
+    const handleErrorSendingReview = (error: any) => {
+        if (error.status === 401){
+            navigate("/login");
+            return;
+        } else if (error.status === 403){
+            notificationAPi && notificationAPi["error"]({
+                message: `You have no access to send "${generatorTypeLabels[props.reviewer.type]}" review`,
+                className: "error-notification-box"
+            });
+            return;
+        }
+
+        notificationAPi && notificationAPi["error"]({
+            message: `Unexpected error ocurred while sending "${generatorTypeLabels[props.reviewer.type]}" job for registration`,
+            className: "error-notification-box"
+        });
+    }
+
     const sendReviewGeneration: MouseEventHandler<HTMLElement> = async (e) => {
         e.preventDefault();
 
         if (props.reviewer.type === GeneratorType.FIRE_AND_FORGET){
-            await reviewerApi.generateFireAndForget(props.reviewer.id);
-            api.info({
-                message: "\"Fire And Forget\" job is sent for registration",
-                description: "",
-                placement: "topLeft"
-            });
+            await reviewerApi.generateFireAndForget(props.reviewer.id)
+                .then(() => {
+                    notificationAPi && notificationAPi.info({
+                        message: "\"Fire And Forget\" job is sent for registration",
+                        placement: "topLeft"
+                    });
+                })
+                .catch(error => {
+                    handleErrorSendingReview(error);
+                })
+            
             return;
         }
 
@@ -102,12 +143,17 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
             }
 
             setTimeCronErrorMessage(undefined);
-            await reviewerApi.generateDelayed(props.reviewer.id, delay);
-            api.info({
-                message: `"Delayed" job is sent for registration. Delay: ${delay}`,
-                description: "",
-                placement: "topLeft"
-            });
+            await reviewerApi.generateDelayed(props.reviewer.id, delay)
+                .then(() => {
+                    notificationAPi && notificationAPi.info({
+                        message: `"Delayed" job is sent for registration. Delay: ${delay}`,
+                        placement: "topLeft"
+                    });
+                })
+                .catch(error => {
+                    handleErrorSendingReview(error);
+                })
+            
             return;
         }
 
@@ -124,17 +170,21 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
         }
 
         setTimeCronErrorMessage(undefined);
-        await reviewerApi.generateRecurring(props.reviewer.id, cronExpression);
-        api.info({
-            message: `"Recurring" job is sent for registration. Cron expression: ${cronExpression}`,
-            description: "",
-            placement: "topLeft"
-        });
+        await reviewerApi.generateRecurring(props.reviewer.id, cronExpression)
+            .then(() => {
+                notificationAPi && notificationAPi.info({
+                    message: `"Recurring" job is sent for registration. Cron expression: ${cronExpression}`,
+                    placement: "topLeft"
+                });
+            })
+            .catch(error => {
+                handleErrorSendingReview(error);
+            })
+        
     }
 
     return (
         <div className="reviewer-list-element">
-            {contextHolder}
             <div className="info-holder-container">
                 <div className="name-period-holder">
                     <div className="reviewer-type">{generatorTypeLabels[props.reviewer.type]}</div>
@@ -234,7 +284,8 @@ export default function ReviewerListElement(props: ReviewerListElementProps){
                 closeHandler={() => setChooseTeacherModalOpen(false)}
                 setTeachers={setTeachers}
                 teachersAlreadyUnderReview={teachers}
-                reviewerId={props.reviewer.id}/>
+                reviewerId={props.reviewer.id}
+                reviewerType={props.reviewer.type}/>
         </div>
     )   
 }

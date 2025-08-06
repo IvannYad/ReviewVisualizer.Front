@@ -9,33 +9,24 @@ export default class ReviewerApi implements IReviewerApi{
     }
     
     generateFireAndForget(reviewerId: number): Promise<void> {
-        return axios.post(`${this.url}/generate-fire-and-forget?reviewerId=${reviewerId}`, {
+        return axios.post(`${this.url}/generate-fire-and-forget?reviewerId=${reviewerId}`, {} ,  {
             withCredentials: true
         })
             .then(res => res.data)
-            .catch(error => {
-                console.log(error);
-            });
     }
 
     generateDelayed(reviewerId: number, delay: string): Promise<void> {
-        return axios.post(`${this.url}/generate-delayed?reviewerId=${reviewerId}&delay=${encodeURIComponent(delay)}`, {
+        return axios.post(`${this.url}/generate-delayed?reviewerId=${reviewerId}&delay=${encodeURIComponent(delay)}`, {} , {
             withCredentials: true
         })
             .then(res => res.data)
-            .catch(error => {
-                console.log(error);
-            });
     }
 
     generateRecurring(reviewerId: number, cron: string): Promise<void> {
-        return axios.post(`${this.url}/generate-recurring?reviewerId=${reviewerId}&cron=${cron}`, {
+        return axios.post(`${this.url}/generate-recurring?reviewerId=${reviewerId}&cron=${cron}`, {} , {
             withCredentials: true
         })
             .then(res => res.data)
-            .catch(error => {
-                console.log(error);
-            });
     }
     
     getAll(): Promise<Reviewer[] | void> {
@@ -46,7 +37,6 @@ export default class ReviewerApi implements IReviewerApi{
             .then(response => {
                 return response.data;
             })
-            .catch(error => console.log(error))
 
         return dataPromise;
     }
@@ -55,36 +45,24 @@ export default class ReviewerApi implements IReviewerApi{
         return axios.post(this.url, reviewer, {
             withCredentials: true
         })
-                    .then(res => {
-                        return res.data;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
+        .then(res => {
+            return res.data;
+        })
     }
 
     remove(id: number): Promise<boolean> {
         return axios.delete(`${this.url}?reviewerId=${id}`, {
             withCredentials: true
         })
-                    .then(_ => {
-                        return true;
-                    })
-                    .catch(error =>{
-                        console.log(error);
-                        alert(error.response?.data ?? "Error while deleting the reviewer");
-                        return false;
-                    })
     }
 
     addTeachers(reviewerId: number, teacherIds: number[]): Promise<void | Teacher[]> {
         return axios.post(`${this.url}/add-teachers?reviewerId=${reviewerId}`, teacherIds, {
             withCredentials: true
         })
-            .then(res => {
-                return res.data;
-            })
-            .catch(error => console.log(error));
+        .then(res => {
+            return res.data;
+        })
     }
 
     removeTeachers(reviewerId: number, teacherIds: number[]): Promise<void | number[]> {
@@ -93,8 +71,7 @@ export default class ReviewerApi implements IReviewerApi{
         })
         .then(res => {
             return res.data;
-        })
-        .catch(error => console.log(error));
+        });
     }
 
 }

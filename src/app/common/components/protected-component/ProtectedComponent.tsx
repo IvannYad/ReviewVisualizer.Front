@@ -42,7 +42,7 @@ export default function ProtectedComponent(props: ProtectedComponentProps){
     const getApiAccessMethod = () => {
         if (props.pageRoute === FRONTEND_ROUTES.PAGES.GENERATOR) return () => authApi.tryGeneratorAccess();
         if (props.pageRoute === FRONTEND_ROUTES.PAGES.PROCESSOR) return () => authApi.tryGeneratorAccess();
-        if (props.pageRoute === FRONTEND_ROUTES.PAGES.OWNER) return () => authApi.tryVisitorAccess();
+        if (props.pageRoute === FRONTEND_ROUTES.PAGES.OWNER) return () => authApi.tryOwnerAccess();
 
         return () => authApi.tryVisitorAccess();
     }

@@ -2,8 +2,9 @@ import "./AddReviewerModal.scss";
 import { useContext, useState } from "react";
 import { ReviewerCreate } from "../../../../models/Reviewer";
 import { Button, Form, Input, Modal, Radio, Slider } from "antd";
-import { ApisContext } from "../../../layout/app/App";
+import { ApisContext, NotificationApiContext } from "../../../layout/app/App";
 import { GeneratorType, generatorTypeLabels } from "../../../../models/GeneratorType";
+import { useNavigate } from "react-router";
 
 type AddReviewerModalProps = {
     isOpen: boolean;
@@ -39,6 +40,9 @@ export default function AddReviewerModal(props: AddReviewerModalProps){
     const [reviewer, setReviewer] = useState<ReviewerCreate>(defaultReviewer);
     const { reviewerApi } = useContext(ApisContext);
     const [form] = Form.useForm();
+    const notificationAPi = useContext(NotificationApiContext)
+    const navigate = useNavigate();
+    
 
     const cancel = async () => {
         setReviewer(defaultReviewer);
@@ -54,6 +58,23 @@ export default function AddReviewerModal(props: AddReviewerModalProps){
                     cancel();
 
                 return;
+            })
+            .catch(error => {
+                if (error.status === 401){
+                    navigate("/login");
+                    return;
+                } else if (error.status === 403){
+                    notificationAPi && notificationAPi["error"]({
+                        message: `You have no access to create reviewer "${generatorTypeLabels[reviewer.type]}"`,
+                        className: "error-notification-box"
+                    });
+                    return;
+                }
+
+                notificationAPi && notificationAPi["error"]({
+                    message: `Unexpected error ocurred while creating reviewer "${generatorTypeLabels[reviewer.type]}"`,
+                    className: "error-notification-box"
+                });
             });
     }
 
