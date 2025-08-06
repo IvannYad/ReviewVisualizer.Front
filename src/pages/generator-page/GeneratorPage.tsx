@@ -6,7 +6,6 @@ import AddReviewerButton from "./add-reviewer-button/AddReviewerButton";
 import { ApisContext, NotificationApiContext } from "../../app/layout/app/App";
 import { Reviewer } from "../../models/Reviewer";
 import { LoadingOutlined } from "@ant-design/icons";
-import ChooseTeachersForReviewModal from "../../app/common/modals/choose-teachers-for-review-modal/ChooseTeachersForReviewModal";
 import { useNavigate } from "react-router";
 import { GeneratorType, generatorTypeLabels } from "../../models/GeneratorType";
 
@@ -29,6 +28,7 @@ export default function GeneratorPage(){
                     setReviewers(null)
                 };
             })
+            .catch(e => console.log(e))
         }
          
     }, [isAddReviewerModalOpen])

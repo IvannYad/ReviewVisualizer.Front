@@ -98,6 +98,7 @@ export default class TeacherApi implements ITeacherApi{
             .then(response => {
                 return response.data;
             })
+            .catch(e => console.log(e))
     }
 
 
@@ -106,6 +107,7 @@ export default class TeacherApi implements ITeacherApi{
             .then(response => {
                 return response.data;
             })
+            .catch(e => console.log(e))
     }
 
     getGrade(teacherId: number, category: GradeCatetory): Promise<void | (null | number)> {
@@ -113,6 +115,7 @@ export default class TeacherApi implements ITeacherApi{
             .then(response => {
                 return response.data;
             })
+            .catch(e => console.log(e))
     }
 
     getTop10(): Promise<Teacher[] | void> {
@@ -123,6 +126,7 @@ export default class TeacherApi implements ITeacherApi{
                 teachersToReturn = response.data;
                 return teachersToReturn;
             })
+            .catch(e => console.log(e))
 
         return dataPromise;
     }
@@ -135,6 +139,7 @@ export default class TeacherApi implements ITeacherApi{
                 teachersToReturn = response.data;
                 return teachersToReturn;
             })
+            .catch(e => console.log(e))
 
         return dataPromise;
     }
@@ -144,5 +149,6 @@ export default class TeacherApi implements ITeacherApi{
             .then(response => {
                 return response.data;
             })
+            .catch(e => console.log(e))
     }
 }

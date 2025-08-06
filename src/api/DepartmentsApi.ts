@@ -24,6 +24,7 @@ export default class DepartmentApi implements IDepartmentApi{
                 }
                 return departmentsToReturn;
             })
+            .catch(e => console.log(e))
 
         return dataPromise;
     }
@@ -90,6 +91,7 @@ export default class DepartmentApi implements IDepartmentApi{
             .then(response => {
                 return response.data;
             })
+            .catch(e => console.log(e))
     }
 
     getTop10(): Promise<Department[] | void> {
@@ -100,6 +102,7 @@ export default class DepartmentApi implements IDepartmentApi{
                 departmentsToReturn = response.data;
                 return departmentsToReturn;
             })
+            .catch(e => console.log(e))
 
         return dataPromise;
     }
@@ -109,5 +112,6 @@ export default class DepartmentApi implements IDepartmentApi{
             .then(response => {
                 return response.data;
             })
+            .catch(e => console.log(e))
     }
 }
