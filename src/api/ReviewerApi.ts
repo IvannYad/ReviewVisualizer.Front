@@ -2,6 +2,8 @@ import axios from "axios";
 import { Reviewer, ReviewerCreate } from "../models/Reviewer";
 import IReviewerApi from "./IReviewerApi";
 import { Teacher } from "../models/Teacher";
+import { GeneratorType } from "../models/GeneratorType";
+import { GenerateReviewRequest } from "../models/GenerateReviewRequest";
 export default class ReviewerApi implements IReviewerApi{
     private url: string;
     constructor(apiUrl: string){
@@ -9,21 +11,35 @@ export default class ReviewerApi implements IReviewerApi{
     }
     
     generateFireAndForget(reviewerId: number): Promise<void> {
-        return axios.post(`${this.url}/generate-fire-and-forget?reviewerId=${reviewerId}`, {} ,  {
+        const request: GenerateReviewRequest = {
+            reviewerId,
+            type: GeneratorType.FIRE_AND_FORGET
+        };
+        return axios.post(`${this.url}/generate-review`, request,  {
             withCredentials: true
         })
             .then(res => res.data)
     }
 
     generateDelayed(reviewerId: number, delay: string): Promise<void> {
-        return axios.post(`${this.url}/generate-delayed?reviewerId=${reviewerId}&delay=${encodeURIComponent(delay)}`, {} , {
+        const request: GenerateReviewRequest = {
+            reviewerId,
+            type: GeneratorType.DELAYED,
+            delay
+        };
+        return axios.post(`${this.url}/generate-review`, request, {
             withCredentials: true
         })
             .then(res => res.data)
     }
 
     generateRecurring(reviewerId: number, cron: string): Promise<void> {
-        return axios.post(`${this.url}/generate-recurring?reviewerId=${reviewerId}&cron=${cron}`, {} , {
+        const request: GenerateReviewRequest = {
+            reviewerId,
+            type: GeneratorType.RECURRING,
+            cron
+        };
+        return axios.post(`${this.url}/generate-review`, request, {
             withCredentials: true
         })
             .then(res => res.data)
