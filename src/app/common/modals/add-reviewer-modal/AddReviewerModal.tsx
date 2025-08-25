@@ -54,9 +54,8 @@ export default function AddReviewerModal(props: AddReviewerModalProps){
         console.log(reviewer);
         await reviewerApi.create(reviewer)
             .then(res => {
-                if (res)
+                if (res?.id)
                     cancel();
-
                 return;
             })
             .catch(error => {

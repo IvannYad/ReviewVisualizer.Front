@@ -1,0 +1,60 @@
+name: Build and Deploy React Frontend to Azure
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      AZURE_WEBAPP_NAME: Frontend-app
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Build React app
+        run: npm run build
+
+      - name: Set environment variables for app service
+        run: |
+          az webapp config appsettings set \
+          --name $AZURE_WEBAPP_NAME \
+          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+          --settings REACT_APP_API_URL=${{ vars.WEB_API_URL }} \
+          REACT_APP_GENERATOR_URL=${{ vars.GENERATOR_API_URL }}
+          REACT_APP_IMAGE_SERVER_URL=${{ vars.IMAGE_SERVER_URL }}
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./build
+
+      - name: Azure Logout
+        run: |
+          az logout

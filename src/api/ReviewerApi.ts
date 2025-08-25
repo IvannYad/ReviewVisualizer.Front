@@ -57,7 +57,7 @@ export default class ReviewerApi implements IReviewerApi{
         return dataPromise;
     }
 
-    create(reviewer: ReviewerCreate): Promise<void | boolean> {
+    create(reviewer: ReviewerCreate): Promise<void | Reviewer> {
         return axios.post(this.url, reviewer, {
             withCredentials: true
         })
