@@ -8,6 +8,7 @@ permissions:
   contents: read
 jobs:
   build-and-deploy:
+    environment: production
     runs-on: ubuntu-latest
     env:
       AZURE_WEBAPP_NAME: Frontend-app
