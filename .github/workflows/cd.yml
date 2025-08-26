@@ -34,7 +34,7 @@ jobs:
         run: npm ci
 
       - name: Build React app
-        run: CI=false npm run build
+        run: CI=false npm run deploy
 
       - name: Login to Azure
         uses: azure/login@v2
