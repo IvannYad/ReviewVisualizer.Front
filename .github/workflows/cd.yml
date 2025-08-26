@@ -38,7 +38,7 @@ jobs:
           --name $AZURE_WEBAPP_NAME \
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --settings REACT_APP_API_URL=${{ vars.WEB_API_URL }} \
-          REACT_APP_GENERATOR_URL=${{ vars.GENERATOR_API_URL }}
+          REACT_APP_GENERATOR_URL=${{ vars.GENERATOR_API_URL }} \
           REACT_APP_IMAGE_SERVER_URL=${{ vars.IMAGE_SERVER_URL }}
 
       - name: Login to Azure
