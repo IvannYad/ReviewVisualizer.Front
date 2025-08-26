@@ -58,6 +58,9 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: ./build
 
+      - name: LS
+        run: ls -R
+
       - name: Azure Logout
         run: |
           az logout
