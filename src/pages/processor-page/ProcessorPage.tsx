@@ -3,7 +3,7 @@ export default function ProcessorPage(){
     return (
         <main className="page processor-page">
             <iframe
-                src={"https://localhost:5002/hangfire"}
+                src={`${process.env.REACT_APP_GENERATOR_URL}/hangfire`}
                 style={{
                     width: '100vw',
                     height: '100vh',
