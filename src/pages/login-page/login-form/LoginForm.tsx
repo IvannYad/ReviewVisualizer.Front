@@ -33,10 +33,7 @@ export default function LoginForm(){
             if (axios.isAxiosError(error) && error.response) {
                 const notificationTitle = `Log in request returned ${error.response.status}`;
                 let notificationMessage = error.response.data.error;
-                if (error.response.status == 403) {
-                    notificationMessage = "You have no access to products!";
-                }
-
+                
                 openErrorNotification(notificationTitle, notificationMessage)
                 return;
             }

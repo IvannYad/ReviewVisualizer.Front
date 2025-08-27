@@ -42,9 +42,6 @@ export default class AuthApi implements IAuthApi{
             .then(res => {
                 return res.data;
             })
-            .catch(error => {
-                console.log(error);
-            });
     }
 
     registerAync(request: RegisterRequest): Promise<RegisterResponse | void> {
@@ -61,9 +58,6 @@ export default class AuthApi implements IAuthApi{
             .then(res => {
                 return res.data;
             })
-            .catch(error => {
-                console.log(error);
-            });
     }
 
     tryVisitorAccess(): Promise<void> {
