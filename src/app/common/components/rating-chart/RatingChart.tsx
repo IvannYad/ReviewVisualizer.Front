@@ -30,6 +30,7 @@ type StateType = {
     ]
 }
 
+let intervalId: NodeJS.Timeout | null = null;
 
 export default function RatingChart(props: RatingChartProps){
     const { departmentApi, teacherApi } = useContext(ApisContext);
@@ -37,14 +38,21 @@ export default function RatingChart(props: RatingChartProps){
     const [entities, setEntities] = useState<{ name: string, rating: number}[]>([]);
     
     const setEntitiesFromApi = () => {
+        const invokeNextInterval = (intvlId: NodeJS.Timeout | null) => {
+          if (intvlId)
+            clearInterval(intvlId);
+          
+          intervalId = setInterval(() => {
+            setEntitiesFromApi();
+          }, 3_000);
+        };
+        
         if (props.scope === RatingOptions.Department_Global){
             departmentApi.getTop10()
                 .then(res =>{
                     if(res) setEntities(res.map(ent => ({ name: ent.name, rating: ent.rating })));
 
-                    setInterval(() => {
-                      setEntitiesFromApi();
-                    }, 3_000);
+                    invokeNextInterval(intervalId);
                 });
             return;
         } 
@@ -59,6 +67,8 @@ export default function RatingChart(props: RatingChartProps){
                             lastName: `${t.lastName.toUpperCase().substring(0,1)}.`
                         }));
                         setEntities(res.map(ent => ({ name: `${ent.firstName} ${ent.lastName}`, rating: ent.rating })));
+
+                        invokeNextInterval(intervalId);
                     } 
                       
                 });
@@ -74,6 +84,8 @@ export default function RatingChart(props: RatingChartProps){
                             lastName: `${t.lastName.toUpperCase().substring(0,1)}.`
                         }));
                         setEntities(res.map(ent => ({ name: `${ent.firstName} ${ent.lastName}`, rating: ent.rating })));
+
+                        invokeNextInterval(intervalId);
                     } 
                       
                 });
