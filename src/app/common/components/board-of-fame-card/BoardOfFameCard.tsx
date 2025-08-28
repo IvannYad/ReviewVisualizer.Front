@@ -13,12 +13,23 @@ type Entity = {
     rating: number;
 }
 
+let intervalId: NodeJS.Timeout | null = null;
+
 export default function BoardOfFameCard(props: BoardOfFameCardProps){
     const { departmentApi, teacherApi } = useContext(ApisContext);
     const [highlight, setHighlight] = useState(false);
     const [entity, setEntity] = useState<Entity>();
 
     const getEntity = () => {
+        const invokeNextInterval = (intvlId: NodeJS.Timeout | null) => {
+          if (intvlId)
+            clearInterval(intvlId);
+          
+          intervalId = setInterval(() => {
+            getEntity();
+          }, 5_000);
+        };
+
         if (props.entity === 'department'){
             departmentApi.getBest()
                 .then(res => {
@@ -27,9 +38,7 @@ export default function BoardOfFameCard(props: BoardOfFameCardProps){
                         setEntity(entity);
                     }
 
-                    setInterval(() => {
-                        getEntity();
-                    }, 5000);
+                    invokeNextInterval(intervalId);
                 })
         } else{
             teacherApi.getBest()
@@ -39,9 +48,7 @@ export default function BoardOfFameCard(props: BoardOfFameCardProps){
                         setEntity(entity);
                     }
 
-                    setInterval(() => {
-                        getEntity();
-                    }, 5000);
+                    invokeNextInterval(intervalId);
                 })
         }
     };
