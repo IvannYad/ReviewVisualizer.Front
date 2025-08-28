@@ -14,7 +14,7 @@ export default function DepartmentHolder(){
 
     const renderedDepartments = departments
         .map(d => {
-            const imgUrl = `${process.env.REACT_APP_IMAGE_SERVER_URL!}/${d.logoUrl}`;
+            const imgUrl = `${process.env.REACT_APP_IMAGE_SERVER_URL!}/images/${d.logoUrl}`;
             return (
                 <DepartmentListElement key={d.id} id={d.id} name={d.name} logoUrl={imgUrl}/>
             )

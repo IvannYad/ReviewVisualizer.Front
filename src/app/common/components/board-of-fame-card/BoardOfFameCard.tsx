@@ -26,6 +26,10 @@ export default function BoardOfFameCard(props: BoardOfFameCardProps){
                         const entity: Entity = { name: res.name, photoUrl: res.logoUrl, rating: res.rating };
                         setEntity(entity);
                     }
+
+                    setInterval(() => {
+                        getEntity();
+                    }, 5000);
                 })
         } else{
             teacherApi.getBest()
@@ -34,20 +38,16 @@ export default function BoardOfFameCard(props: BoardOfFameCardProps){
                         const entity: Entity = { name: `${res.firstName} ${res.lastName}`, photoUrl: res.photoUrl, rating: res.rating };
                         setEntity(entity);
                     }
+
+                    setInterval(() => {
+                        getEntity();
+                    }, 5000);
                 })
         }
     };
 
     useEffect(() => {
         getEntity();
-
-        const intervalId = setInterval(() => {
-            getEntity();
-        }, 5000);
-
-        return () => {
-            clearInterval(intervalId);
-        }
     }, [props.entity])
 
     useEffect(() => {

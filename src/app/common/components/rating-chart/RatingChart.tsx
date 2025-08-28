@@ -41,6 +41,10 @@ export default function RatingChart(props: RatingChartProps){
             departmentApi.getTop10()
                 .then(res =>{
                     if(res) setEntities(res.map(ent => ({ name: ent.name, rating: ent.rating })));
+
+                    setInterval(() => {
+                      setEntitiesFromApi();
+                    }, 3_000);
                 });
             return;
         } 
@@ -77,11 +81,7 @@ export default function RatingChart(props: RatingChartProps){
 
     // Update the teacher ratings every 5 seconds
     useEffect(() => {
-      const interval = setInterval(() => {
-        setEntitiesFromApi();
-      }, 3_000);
-
-      return () => clearInterval(interval); // Clear the interval on component unmount
+      setEntitiesFromApi();
     }, []);
 
     // Update chartData based on the teachers' ratings
