@@ -3,13 +3,14 @@ import "./RegisterForm.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { ApisContext } from "../../../app/layout/app/App";
+import { ApisContext, UserContext } from "../../../app/layout/app/App";
 import { LoginRequest, RegisterRequest, RegisterResponse } from "../../../models/AuthModels";
 
 export default function RegisterForm(){
     const navigate = useNavigate();
     const [api, contextHolder] = notification.useNotification();
     const { authApi } = useContext(ApisContext);
+    const userCtx = useContext(UserContext);
     
     const openErrorNotification = (title:string, description: string) => {
         api["error"]({
@@ -33,7 +34,11 @@ export default function RegisterForm(){
                     }
 
                     await authApi.loginAsync(loginRequest)
-                        .then(() => {navigate('/')})
+                        .then(() => {
+                            if (!userCtx) return;
+                            userCtx.setUser({ userName: values.username! });
+                            navigate('/');
+                        })
                 });
 
         } catch (error) {
